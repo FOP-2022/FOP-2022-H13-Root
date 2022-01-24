@@ -7,11 +7,8 @@
 atlassian-ide-plugin.xml
 
 ### VS-Code ###
-.vscode/
+.vscode/*
 !.vscode/extensions.json
-!.vscode/tasks.json
-!.vscode/launch.json
-#!.vscode/settings.json
 .VSCodeCounter/
 
 ### Eclipse ###
