@@ -1,0 +1,18 @@
+{
+  "name": "FOP-2022-H13",
+  "assignmentIds": [
+    "h13"
+  ],
+  "sourceSets": [
+    {
+      "name": "grader",
+      "files": [
+      ]
+    },
+    {
+      "name": "solution",
+      "files": [
+      ]
+    }
+  ]
+}
