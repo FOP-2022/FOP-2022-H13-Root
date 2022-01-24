@@ -1,5 +1,6 @@
 plugins {
     java
+    application
     id("org.sourcegrade.style") version "1.2.0"
 }
 
@@ -12,6 +13,10 @@ tasks {
             from(sourceSets.test.get().allSource)
         }
     }
+}
+
+application {
+    mainClass.set("h13.Main")
 }
 
 allprojects {
