@@ -18,6 +18,7 @@ val grader: SourceSet by sourceSets.creating {
 
 dependencies {
     "graderImplementation"("org.sourcegrade:jagr-launcher:0.4.0-SNAPSHOT")
+    implementation("com.formdev:flatlaf:2.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
