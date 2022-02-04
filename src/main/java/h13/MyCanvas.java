@@ -29,11 +29,11 @@ public class MyCanvas extends java.awt.Canvas {
 
     // -- Getters and Setters --//
 
-    public double getTransparenty() {
+    public double getTransparency() {
         return this.transparency;
     }
 
-    public void setTransparenty(double transparency) {
+    public void setTransparency(double transparency) {
         if (transparency < 0d || transparency > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
@@ -216,18 +216,19 @@ public class MyCanvas extends java.awt.Canvas {
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.YELLOW, 0.5f),
                     Color.YELLOW,
-                    20,
+                    (int)(20* zoom),
                     new Rectangle2D.Double(),
                     0.8 * zoom,
                     0.8 * zoom);
         }
 
         if (displayBlueString) {
+            System.out.println("hi");
             // Blue String
             g.setColor(Color.BLUE);
             g.setFont(font);
             double fontWidth = g.getFontMetrics(font).getStringBounds(text, g2d).getWidth();
-            double fontSize = (bounds.width * zoom) / fontWidth * font.getSize();
+            double fontSize = Math.max((bounds.width * zoom) / fontWidth * font.getSize(), 1);
             var newFont = g.getFont().deriveFont((float) fontSize);
             g.setFont(newFont);
             var newFontMetrics = g.getFontMetrics(newFont);

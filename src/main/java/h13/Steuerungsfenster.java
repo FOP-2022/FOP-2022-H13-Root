@@ -19,7 +19,13 @@ public class Steuerungsfenster extends JFrame {
     private JButton removeElipseButton = new JButton("Remove ellipse");
     private JButton removeRectangleButton = new JButton("Remove rectangle");
     private JButton removeStringButton = new JButton("Remove string");
+    private JButton changeTransparencyButton = new JButton("Change transparency");
+    private JButton changeSaturationButton = new JButton("Change saturation");
+    private JButton changeBorderWidthButton = new JButton("Change border width");
+    private JButton changeFontButton = new JButton("Change font");
+    private JButton changeZoomButton = new JButton("Change zoom");
     private JButton exitButton = new JButton("Exit");
+    private PropertyChangeDialogue pcd = new PropertyChangeDialogue();
 
     public Steuerungsfenster(Zeichenfenster zf) {
         super("Steuerungsfenster");
@@ -28,15 +34,18 @@ public class Steuerungsfenster extends JFrame {
 
     public void init() {
 
-        setLayout(new GridLayout(3, 3));
+        setLayout(new GridLayout(4, 3));
         add(addElipseButton);
         add(addRectangleButton);
         add(addStringButton);
         add(removeElipseButton);
         add(removeRectangleButton);
         add(removeStringButton);
-        add(new JPanel());
-        add(new JPanel());
+        add(changeSaturationButton);
+        add(changeTransparencyButton);
+        add(changeBorderWidthButton);
+        add(changeFontButton);
+        add(changeZoomButton);
         add(exitButton);
 
         MyCanvas mc = zf.getCanvas();
@@ -84,6 +93,24 @@ public class Steuerungsfenster extends JFrame {
                 mc.repaint();
             }
         });
+        changeZoomButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pcd.init(
+                        "Change zoom",
+                        "Zoom (%)",
+                        1,
+                        151,
+                        (int) (mc.getZoom() * 100),
+                        true,
+                        10,
+                        50,
+                        (n) -> {
+                            mc.setZoom((double) n / 100);
+                            mc.repaint();
+                        });
+            }
+        });
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,8 +120,6 @@ public class Steuerungsfenster extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         pack();
-        repaint();
-        invalidate();
         setVisible(true);
         setFocusable(true);
         requestFocus();

@@ -2,7 +2,9 @@ package h13;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -24,7 +26,7 @@ public class Zeichenfenster extends JFrame {
 
     public void init() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
+        setMinimumSize(new Dimension(300, 300));
         setLayout(new BorderLayout());
         // var contentPanel = new JPanel(new BorderLayout());
         // add(contentPanel, BorderLayout.CENTER);
@@ -35,10 +37,15 @@ public class Zeichenfenster extends JFrame {
         pack();
         repaint();
         invalidate();
+        setLocationRelativeTo(null);
+
         setVisible(true);
         setFocusable(true);
         requestFocus();
-        setLocationRelativeTo(null);
+        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        // System.out.println(dim.toString());
+        // this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        // this.setLocation(1920,1080);
         System.out.println("zf:" + getBounds().toString());
         addKeyListener(new KeyAdapter() {
             @Override
