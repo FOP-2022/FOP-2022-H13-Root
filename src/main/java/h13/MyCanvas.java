@@ -23,6 +23,9 @@ public class MyCanvas extends java.awt.Canvas {
     private double zoom = 1d;
     private String text = "Tand ist das Gebilde von Menschenhand!";
     private Font font = new Font("Default", Font.PLAIN, 16);
+    private boolean displayGreenEllipse = true;
+    private boolean displayYellowRectangle = true;
+    private boolean displayBlueString = true;
 
     // -- Getters and Setters --//
 
@@ -80,28 +83,28 @@ public class MyCanvas extends java.awt.Canvas {
 
     // -- Other Methods--//
 
-    private void addGreenEllipse() {
-
+    public void addGreenEllipse() {
+        displayGreenEllipse = true;
     }
 
-    private void removeGreenEllipse() {
-
+    public void removeGreenEllipse() {
+        displayGreenEllipse = false;
     }
 
-    private void addYellowRectangle() {
-
+    public void addYellowRectangle() {
+        displayYellowRectangle = true;
     }
 
-    private void removeYellowRectangle() {
-
+    public void removeYellowRectangle() {
+        displayYellowRectangle = false;
     }
 
-    private void addBlueString() {
-
+    public void addBlueString() {
+        displayBlueString = true;
     }
 
-    private void removeBlueString() {
-
+    public void removeBlueString() {
+        displayBlueString = false;
     }
 
     /**
@@ -197,36 +200,43 @@ public class MyCanvas extends java.awt.Canvas {
                 RenderingHints.VALUE_ANTIALIAS_ON);
         // Paint all Three Figures to the Center of the Screen
         Rectangle bounds = getBounds();
-        // Green Ellipse
-        fillDrawCentered(g2d,
-                colorWithAlpha(Color.GREEN, 0.5f),
-                Color.GREEN,
-                20,
-                new Ellipse2D.Double(),
-                0.9 * zoom,
-                0.9 * zoom);
+        if (displayGreenEllipse) {
+            // Green Ellipse
+            fillDrawCentered(g2d,
+                    colorWithAlpha(Color.GREEN, 0.5f),
+                    Color.GREEN,
+                    20,
+                    new Ellipse2D.Double(),
+                    0.9 * zoom,
+                    0.9 * zoom);
+        }
 
-        // Yellow Rectangle
-        fillDrawCentered(g2d,
-                colorWithAlpha(Color.YELLOW, 0.5f),
-                Color.YELLOW,
-                20,
-                new Rectangle2D.Double(),
-                0.8 * zoom,
-                0.8 * zoom);
+        if (displayYellowRectangle) {
+            // Yellow Rectangle
+            fillDrawCentered(g2d,
+                    colorWithAlpha(Color.YELLOW, 0.5f),
+                    Color.YELLOW,
+                    20,
+                    new Rectangle2D.Double(),
+                    0.8 * zoom,
+                    0.8 * zoom);
+        }
 
-        // Blue String
-        g.setColor(Color.BLUE);
-        g.setFont(font);
-        int fontWidth = g.getFontMetrics(font).stringWidth(text);
-        var fontSize = (float) ((bounds.width * zoom) / fontWidth) * font.getSize();
-        var newFont = g.getFont().deriveFont(fontSize);
-        var newFontMetrics = g.getFontMetrics(font);
-        this.font = newFont;
-        // g2d.scale
-        g2d.drawString(
-                text,
-                (int) bounds.getCenterX() - newFontMetrics.stringWidth(text) / 2,
-                (int) bounds.getCenterY() + newFontMetrics.getHeight() / 2);
+        if (displayBlueString) {
+            // Blue String
+            g.setColor(Color.BLUE);
+            g.setFont(font);
+            double fontWidth = g.getFontMetrics(font).getStringBounds(text, g2d).getWidth();
+            double fontSize = (bounds.width * zoom) / fontWidth * font.getSize();
+            var newFont = g.getFont().deriveFont((float) fontSize);
+            g.setFont(newFont);
+            var newFontMetrics = g.getFontMetrics(newFont);
+            this.font = newFont;
+            // g2d.scale
+            g2d.drawString(
+                    text,
+                    (int) bounds.getCenterX() - (int) newFontMetrics.getStringBounds(text, g).getCenterX(),
+                    (int) bounds.getCenterY() + (int) newFontMetrics.getStringBounds(text, g).getCenterY());
+        }
     }
 }
