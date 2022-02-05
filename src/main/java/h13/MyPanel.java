@@ -24,7 +24,9 @@ import java.awt.geom.RectangularShape;
  */
 public class MyPanel extends javax.swing.JPanel {
 
+    // **************** //
     // -- Attributes -- //
+    // **************** //
 
     /**
      * The current Transparency of the Shapes
@@ -64,7 +66,9 @@ public class MyPanel extends javax.swing.JPanel {
      */
     private int borderWidth = 20;
 
+    // ****************** //
     // -- Constructors -- //
+    // ****************** //
 
     /**
      * Creates a new {@link MyPanel}
@@ -218,7 +222,9 @@ public class MyPanel extends javax.swing.JPanel {
         this.borderWidth = borderWidth;
     }
 
+    // ******************* //
     // -- Other Methods -- //
+    // ******************* //
 
     /**
      * Displays the green ellipse if it is not already displayed.
@@ -268,8 +274,61 @@ public class MyPanel extends javax.swing.JPanel {
         displayBlueString = false;
     }
 
+    // Drawing Methods and helpers
+
     /**
-     * Fills a Given Shape and also draws a border with the given Colors.
+     * Returns a Color generated from the original Color with the desired
+     * transparency (alpha).
+     *
+     * @param c     The Source color
+     * @param alpha the desired Alpha
+     * @return the generated Color
+     */
+    private Color colorWithAlpha(Color c, int alpha) {
+        return new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha);
+    }
+
+    /**
+     * Returns a Color generated from the original Color with the desired
+     * transparency (alpha).
+     *
+     * @param c     The Source color
+     * @param alpha the desired Alpha
+     * @return the generated Color
+     */
+    private Color colorWithAlpha(Color c, float alpha) {
+        return colorWithAlpha(c, (int) (alpha * 255 + 0.5));
+    }
+
+    /**
+     * Centers a rectangular Shape
+     *
+     * @param <T>         The Dynamic Type of the RectangularShape
+     * @param s           the RectangularShape
+     * @param scaleX      how much horizontal screen space the shape will take
+     *                    (1.0d -> full screen)
+     * @param scaleY      how much vertical screen space the shape will take
+     *                    (1.0d -> full screen)
+     * @param borderWidth the Border width to consider
+     * @return the centered Shape (for convenience)
+     */
+    private <T extends RectangularShape> T centerShape(T s, double scaleX, double scaleY, int borderWidth) {
+        // Get current size
+        Rectangle bounds = getBounds();
+        // Change the Position and scale of the shape
+        s.setFrameFromCenter(
+                // center
+                bounds.getCenterX(),
+                bounds.getCenterY(),
+                // top left corner
+                bounds.getCenterX() - bounds.getCenterX() * scaleX + borderWidth / 2,
+                bounds.getCenterY() - bounds.getCenterY() * scaleY + borderWidth / 2);
+        return s;
+    }
+
+    /**
+     * Fills a Given Shape and also draws a border with the given Colors saving and
+     * restoring the original stoke and color of g2d.
      *
      * @param g2d           the specified Graphics context
      * @param interiorColor the Color of the filled Area
@@ -278,13 +337,20 @@ public class MyPanel extends javax.swing.JPanel {
      * @param s             the Shape to draw
      */
     private void fillDraw(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth, Shape s) {
+        // Store current g2d Configuration
         var oldColor = g2d.getColor();
         var oldStroke = g2d.getStroke();
+
+        // Fill the shape
         g2d.setColor(interiorColor);
         g2d.fill(s);
+
+        // Draw a border on top
         g2d.setStroke(new BasicStroke(borderWidth));
         g2d.setColor(borderColor);
         g2d.draw(s);
+
+        // Restore g2d Configuration
         g2d.setStroke(oldStroke);
         g2d.setColor(oldColor);
     }
@@ -311,60 +377,71 @@ public class MyPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Centers a rectangular Shape
+     * Calculates the optimal Font Size for the desired width
      *
-     * @param <T>         The Dynamic Type of the RectangularShape
-     * @param s           the RectangularShape
-     * @param scaleX      how much horizontal screen space the shape will take
-     *                    (1.0d -> full screen)
-     * @param scaleY      how much vertical screen space the shape will take
-     *                    (1.0d -> full screen)
-     * @param borderWidth the Border width to consider
-     * @return the centered Shape
+     * @param g2d   the specified Graphics context to draw the font with
+     * @param width the desired text width
+     * @param text  the string to display
+     * @return the optimal calculated font width
      */
-    private <T extends RectangularShape> void centerShape(T s, double scaleX, double scaleY, int borderWidth) {
+    private double getOptimalFontSize(Graphics2D g2d, double width, String text, Font f) {
+        double fontWidth = g2d.getFontMetrics(f).getStringBounds(text, g2d).getWidth();
+        return Math.max((width / fontWidth) * f.getSize(), 1);
+    }
+
+    /**
+     * Draws a given String with the given Color to the center of the Panel.
+     *
+     * @param g2d   the specified Graphics context
+     * @param width the desired text width
+     * @param c     the text color
+     * @param text  the text to display
+     * @param f     the font to use
+     */
+    private void drawColoredString(Graphics2D g2d, double width, Color c, String text, Font f) {
+        // Get current size
         Rectangle bounds = getBounds();
-        s.setFrameFromCenter(
-                bounds.getCenterX(),
-                bounds.getCenterY(),
-                bounds.getCenterX() - bounds.getCenterX() * scaleX + borderWidth / 2,
-                bounds.getCenterY() - bounds.getCenterY() * scaleY + borderWidth / 2);
-    }
 
-    /**
-     * Returns a Color generated from the original Color with the desired
-     * transparency (alpha).
-     *
-     * @param c     The Source color
-     * @param alpha the desired Alpha
-     * @return the generated Color
-     */
-    private Color colorWithAlpha(Color c, int alpha) {
-        return new Color(c.getRed(), c.getGreen(), c.getBlue(), alpha);
-    }
+        // save g2d configuration
+        var oldColor = g2d.getColor();
+        var oldFont = g2d.getFont();
 
-    /**
-     * Returns a Color generated from the original Color with the desired
-     * transparency (alpha).
-     *
-     * @param c     The Source color
-     * @param alpha the desired Alpha
-     * @return the generated Color
-     */
-    private Color colorWithAlpha(Color c, float alpha) {
-        return colorWithAlpha(c, (int) (alpha * 255 + 0.5));
+        // Calculate optimal Font
+        var newFont = f.deriveFont((float) getOptimalFontSize(g2d, width, text, f));
+        var newFontMetrics = g2d.getFontMetrics(newFont);
+
+        // g2d Configuration
+        g2d.setColor(c);
+        g2d.setFont(f);
+        g2d.setFont(newFont);
+
+        // Draw the String using g2d
+        g2d.drawString(
+                text,
+                (int) bounds.getCenterX() - (int) newFontMetrics.getStringBounds(text, g2d).getCenterX(),
+                (int) bounds.getCenterY() + (int) newFontMetrics.getStringBounds(text, g2d).getCenterY());
+
+        // Restore g2d Configuration
+        g2d.setColor(oldColor);
+        g2d.setFont(oldFont);
     }
 
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+
+        // Convert to g2d
         Graphics2D g2d = (Graphics2D) g;
+
+        // Antialiasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
+
         // Paint all Three Figures to the Center of the Screen
         Rectangle bounds = getBounds();
+
+        // Green Ellipse
         if (displayGreenEllipse) {
-            // Green Ellipse
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.GREEN, 0.5f),
                     Color.GREEN,
@@ -374,8 +451,8 @@ public class MyPanel extends javax.swing.JPanel {
                     0.9 * zoom);
         }
 
+        // Yellow Rectangle
         if (displayYellowRectangle) {
-            // Yellow Rectangle
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.YELLOW, 0.5f),
                     Color.YELLOW,
@@ -385,21 +462,9 @@ public class MyPanel extends javax.swing.JPanel {
                     0.8 * zoom);
         }
 
+        // Blue String
         if (displayBlueString) {
-            // Blue String
-            g.setColor(Color.BLUE);
-            g.setFont(font);
-            double fontWidth = g.getFontMetrics(font).getStringBounds(text, g2d).getWidth();
-            double fontSize = Math.max((bounds.width * zoom) / fontWidth * font.getSize(), 1);
-            var newFont = g.getFont().deriveFont((float) fontSize);
-            g.setFont(newFont);
-            var newFontMetrics = g.getFontMetrics(newFont);
-            this.font = newFont;
-            // g2d.scale
-            g2d.drawString(
-                    text,
-                    (int) bounds.getCenterX() - (int) newFontMetrics.getStringBounds(text, g).getCenterX(),
-                    (int) bounds.getCenterY() + (int) newFontMetrics.getStringBounds(text, g).getCenterY());
+            drawColoredString(g2d, bounds.width * zoom, Color.BLUE, text, font);
         }
     }
 }
