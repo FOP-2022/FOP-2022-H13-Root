@@ -11,6 +11,9 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * A JPanel to display the following three shapes:
@@ -27,6 +30,32 @@ public class MyPanel extends javax.swing.JPanel {
     // **************** //
     // -- Attributes -- //
     // **************** //
+
+    /**
+     * The possible Figures to display
+     */
+    private enum Figure {
+        /**
+         * A green ellipse
+         */
+        GREEN_ELLIPSE,
+        /**
+         * A yellow rectangle
+         */
+        YELLOW_RECTANGLE,
+        /**
+         * A blue string
+         */
+        BLUE_STRING,
+    }
+
+    /**
+     * The figures to display ()
+     */
+    private List<Figure> figuresToDisplay = new ArrayList<>(List.of(
+            Figure.BLUE_STRING,
+            Figure.YELLOW_RECTANGLE,
+            Figure.GREEN_ELLIPSE));
 
     /**
      * The current Transparency of the Shapes
@@ -49,18 +78,7 @@ public class MyPanel extends javax.swing.JPanel {
      * The Font for the blue string
      */
     private Font font = new Font("Default", Font.PLAIN, 16);
-    /**
-     * Whether or not to display the green ellipse
-     */
-    private boolean displayGreenEllipse = true;
-    /**
-     * Whether or not to display the yellow ellipse
-     */
-    private boolean displayYellowRectangle = true;
-    /**
-     * Whether or not to display the blue string
-     */
-    private boolean displayBlueString = true;
+
     /**
      * The Border width of the green ellipse and the yellow rectangle
      */
@@ -228,10 +246,11 @@ public class MyPanel extends javax.swing.JPanel {
 
     /**
      * Displays the green ellipse if it is not already displayed.
-     * If it is already displayed, the method will do nothing.
+     * If it is already displayed, it will be moved to the end.
      */
     public void addGreenEllipse() {
-        displayGreenEllipse = true;
+        figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
+        figuresToDisplay.add(Figure.GREEN_ELLIPSE);
     }
 
     /**
@@ -239,15 +258,16 @@ public class MyPanel extends javax.swing.JPanel {
      * If it is already hidden, the method will do nothing.
      */
     public void removeGreenEllipse() {
-        displayGreenEllipse = false;
+        figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
     }
 
     /**
      * Displays the yellow rectangle if it is not already displayed.
-     * If it is already displayed, the method will do nothing.
+     * If it is already displayed, it will be moved to the end.
      */
     public void addYellowRectangle() {
-        displayYellowRectangle = true;
+        figuresToDisplay.remove(Figure.YELLOW_RECTANGLE);
+        figuresToDisplay.add(Figure.YELLOW_RECTANGLE);
     }
 
     /**
@@ -255,15 +275,16 @@ public class MyPanel extends javax.swing.JPanel {
      * If it is already hidden, the method will do nothing.
      */
     public void removeYellowRectangle() {
-        displayYellowRectangle = false;
+        figuresToDisplay.remove(Figure.YELLOW_RECTANGLE);
     }
 
     /**
      * Displays the blue string if it is not already displayed.
-     * If it is already displayed, the method will do nothing.
+     * If it is already displayed, it will be moved to the end.
      */
     public void addBlueString() {
-        displayBlueString = true;
+        figuresToDisplay.remove(Figure.BLUE_STRING);
+        figuresToDisplay.add(Figure.BLUE_STRING);
     }
 
     /**
@@ -271,7 +292,8 @@ public class MyPanel extends javax.swing.JPanel {
      * If it is already hidden, the method will do nothing.
      */
     public void removeBlueString() {
-        displayBlueString = false;
+        figuresToDisplay.remove(Figure.BLUE_STRING);
+
     }
 
     // Drawing Methods and helpers
@@ -437,34 +459,42 @@ public class MyPanel extends javax.swing.JPanel {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Paint all Three Figures to the Center of the Screen
         Rectangle bounds = getBounds();
 
-        // Green Ellipse
-        if (displayGreenEllipse) {
-            fillDrawCentered(g2d,
-                    colorWithAlpha(Color.GREEN, 0.5f),
-                    Color.GREEN,
-                    borderWidth,
-                    new Ellipse2D.Double(),
-                    0.9 * zoom,
-                    0.9 * zoom);
-        }
+        // Paint the desired Figures to the Center of the Screen
+        // STRIIIIIIIIIIIIIIIIIIIIIIEHMMMMMMZ
+        IntStream
+                .range(0, figuresToDisplay.size())
+                .mapToObj(x -> figuresToDisplay.get(figuresToDisplay.size() - x - 1))
+                .forEach(f -> {
+                    switch (f) {
+                        // Green Ellipse
+                        case GREEN_ELLIPSE:
+                            fillDrawCentered(g2d,
+                                    colorWithAlpha(Color.GREEN, 0.5f),
+                                    Color.GREEN,
+                                    borderWidth,
+                                    new Ellipse2D.Double(),
+                                    0.9 * zoom,
+                                    0.9 * zoom);
+                            break;
 
-        // Yellow Rectangle
-        if (displayYellowRectangle) {
-            fillDrawCentered(g2d,
-                    colorWithAlpha(Color.YELLOW, 0.5f),
-                    Color.YELLOW,
-                    borderWidth,
-                    new Rectangle2D.Double(),
-                    0.8 * zoom,
-                    0.8 * zoom);
-        }
+                        // Yellow Rectangle
+                        case YELLOW_RECTANGLE:
+                            fillDrawCentered(g2d,
+                                    colorWithAlpha(Color.YELLOW, 0.5f),
+                                    Color.YELLOW,
+                                    borderWidth,
+                                    new Rectangle2D.Double(),
+                                    0.8 * zoom,
+                                    0.8 * zoom);
+                            break;
 
-        // Blue String
-        if (displayBlueString) {
-            drawColoredString(g2d, bounds.width * zoom, Color.BLUE, text, font);
-        }
+                        case BLUE_STRING:
+                            // Blue String
+                            drawColoredString(g2d, bounds.width * zoom, Color.BLUE, text, font);
+                            break;
+                    }
+                });
     }
 }
