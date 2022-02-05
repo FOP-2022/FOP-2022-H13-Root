@@ -11,27 +11,22 @@ import javax.swing.JFrame;
 /**
  * @author Ruben Deisenroth
  */
-public class Zeichenfenster extends JFrame {
-    private final MyPanel canvas = new MyPanel();
+public class MainFrame extends JFrame {
+    private final MyPanel panel = new MyPanel();
 
-    public Zeichenfenster() {
+    public MainFrame() {
         super("H13");
     }
 
-    public MyPanel getCanvas() {
-        return canvas;
+    public MyPanel getPanel() {
+        return panel;
     }
 
     public void init() {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 300));
         setLayout(new BorderLayout());
-        // var contentPanel = new JPanel(new BorderLayout());
-        // add(contentPanel, BorderLayout.CENTER);
-        // canvas.setBackground(new Color(0f, 0f, 0f, 0f));
-        // contentPanel.add(canvas);
-        add(canvas, BorderLayout.CENTER);
-        // add(new JButton("test"), BorderLayout.CENTER);
+        add(panel, BorderLayout.CENTER);
         pack();
         repaint();
         invalidate();
@@ -40,10 +35,7 @@ public class Zeichenfenster extends JFrame {
         setVisible(true);
         setFocusable(true);
         requestFocus();
-        // Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        // System.out.println(dim.toString());
-        // this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
-        // this.setLocation(1920,1080);
+
         System.out.println("zf:" + getBounds().toString());
         addKeyListener(new KeyAdapter() {
             @Override
@@ -54,12 +46,12 @@ public class Zeichenfenster extends JFrame {
                                     : Frame.MAXIMIZED_BOTH);
                 else if (e.getKeyCode() == KeyEvent.VK_PLUS) {
                     System.out.println("plus");
-                    canvas.setZoom(Math.min(canvas.getZoom() + 0.2, 1));
-                    canvas.repaint();
+                    panel.setZoom(Math.min(panel.getZoom() + 0.2, 1));
+                    panel.repaint();
                 } else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
                     System.out.println("minus");
-                    canvas.setZoom(Math.max(canvas.getZoom() - 0.2, 0.2));
-                    canvas.repaint();
+                    panel.setZoom(Math.max(panel.getZoom() - 0.2, 0.2));
+                    panel.repaint();
                 }
             }
         });

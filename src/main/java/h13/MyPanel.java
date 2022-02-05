@@ -41,7 +41,8 @@ public class MyPanel extends javax.swing.JPanel {
     /**
      * The Text of the blue string
      */
-    private String text = "Tand ist das Gebilde von Menschenhand!";
+    // private String text = "Tand ist das Gebilde von Menschenhand!";
+    private String text = "Hallo, Glaser mein Name. Ich wollte mal fragen, ob ihre Öfen ausgelastet sind??";
     /**
      * The Font for the blue string
      */
@@ -58,6 +59,10 @@ public class MyPanel extends javax.swing.JPanel {
      * Whether or not to display the blue string
      */
     private boolean displayBlueString = true;
+    /**
+     * The Border width of the green ellipse and the yellow rectangle
+     */
+    private int borderWidth = 20;
 
     // -- Constructors -- //
 
@@ -189,6 +194,30 @@ public class MyPanel extends javax.swing.JPanel {
         this.font = font;
     }
 
+    /**
+     * Getter-Method for the {@link #borderWidth}-Field
+     *
+     * @return the value of the {@link #borderWidth}-Field
+     */
+    public int getBorderWidth() {
+        return borderWidth;
+    }
+
+    /**
+     * Setter-Method for the {@link #borderWidth}-Field.
+     * <br>
+     * </br>
+     * Only values in [1,100] are permitted.
+     *
+     * @param font the new Value of the {@link #borderWidth}-Field
+     */
+    public void setBorderWidth(int borderWidth) {
+        if (saturation < 1 || saturation > 100) {
+            throw new IllegalArgumentException("Saturation must be in range [0..1]");
+        }
+        this.borderWidth = borderWidth;
+    }
+
     // -- Other Methods -- //
 
     /**
@@ -249,13 +278,15 @@ public class MyPanel extends javax.swing.JPanel {
      * @param s             the Shape to draw
      */
     private void fillDraw(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth, Shape s) {
+        var oldColor = g2d.getColor();
+        var oldStroke = g2d.getStroke();
         g2d.setColor(interiorColor);
         g2d.fill(s);
-        var oldStroke = g2d.getStroke();
         g2d.setStroke(new BasicStroke(borderWidth));
         g2d.setColor(borderColor);
         g2d.draw(s);
         g2d.setStroke(oldStroke);
+        g2d.setColor(oldColor);
     }
 
     /**
@@ -337,7 +368,7 @@ public class MyPanel extends javax.swing.JPanel {
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.GREEN, 0.5f),
                     Color.GREEN,
-                    20,
+                    borderWidth,
                     new Ellipse2D.Double(),
                     0.9 * zoom,
                     0.9 * zoom);
@@ -348,15 +379,13 @@ public class MyPanel extends javax.swing.JPanel {
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.YELLOW, 0.5f),
                     Color.YELLOW,
-                    // (int) (20 * zoom),
-                    20,
+                    borderWidth,
                     new Rectangle2D.Double(),
                     0.8 * zoom,
                     0.8 * zoom);
         }
 
         if (displayBlueString) {
-            System.out.println("hi");
             // Blue String
             g.setColor(Color.BLUE);
             g.setFont(font);

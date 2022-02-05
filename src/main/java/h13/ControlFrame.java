@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 /**
  * @author Ruben Deisenroth
  */
-public class Steuerungsfenster extends JFrame {
-    private Zeichenfenster zf;
+public class ControlFrame extends JFrame {
+    private MainFrame zf;
     private JButton addElipseButton = new JButton("Add ellipse");
     private JButton addRectangleButton = new JButton("Add rectangle");
     private JButton addStringButton = new JButton("Add string");
@@ -24,9 +24,9 @@ public class Steuerungsfenster extends JFrame {
     private JButton changeFontButton = new JButton("Change font");
     private JButton changeZoomButton = new JButton("Change zoom");
     private JButton exitButton = new JButton("Exit");
-    private PropertyChangeDialogue pcd = new PropertyChangeDialogue();
+    private final PropertyChangeDialogue pcd = new PropertyChangeDialogue();
 
-    public Steuerungsfenster(Zeichenfenster zf) {
+    public ControlFrame(MainFrame zf) {
         super("Steuerungsfenster");
         this.zf = zf;
     }
@@ -47,49 +47,49 @@ public class Steuerungsfenster extends JFrame {
         add(changeZoomButton);
         add(exitButton);
 
-        MyPanel mc = zf.getCanvas();
+        MyPanel mp = zf.getPanel();
 
         // Listeners
         addElipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.addGreenEllipse();
-                mc.repaint();
+                mp.addGreenEllipse();
+                mp.repaint();
             }
         });
         addRectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.addYellowRectangle();
-                mc.repaint();
+                mp.addYellowRectangle();
+                mp.repaint();
             }
         });
         addStringButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.addBlueString();
-                mc.repaint();
+                mp.addBlueString();
+                mp.repaint();
             }
         });
         removeElipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.removeGreenEllipse();
-                mc.repaint();
+                mp.removeGreenEllipse();
+                mp.repaint();
             }
         });
         removeRectangleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.removeYellowRectangle();
-                mc.repaint();
+                mp.removeYellowRectangle();
+                mp.repaint();
             }
         });
         removeStringButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mc.removeBlueString();
-                mc.repaint();
+                mp.removeBlueString();
+                mp.repaint();
             }
         });
         changeSaturationButton.addActionListener(new ActionListener() {
@@ -100,13 +100,13 @@ public class Steuerungsfenster extends JFrame {
                         "Saturation (0-255)",
                         0,
                         1,
-                        (int) (mc.getZoom() * 100),
+                        (int) (mp.getZoom() * 100),
                         true,
                         10,
                         50,
                         (n) -> {
-                            mc.setZoom((double) n / 100);
-                            mc.repaint();
+                            mp.setZoom((double) n / 100);
+                            mp.repaint();
                         });
             }
         });
@@ -118,13 +118,13 @@ public class Steuerungsfenster extends JFrame {
                         "Zoom (%)",
                         1,
                         151,
-                        (int) (mc.getZoom() * 100),
+                        (int) (mp.getZoom() * 100),
                         true,
                         10,
                         50,
                         (n) -> {
-                            mc.setZoom((double) n / 100);
-                            mc.repaint();
+                            mp.setZoom((double) n / 100);
+                            mp.repaint();
                         });
             }
         });
@@ -136,13 +136,13 @@ public class Steuerungsfenster extends JFrame {
                         "Zoom (%)",
                         1,
                         151,
-                        (int) (mc.getZoom() * 100),
+                        (int) (mp.getZoom() * 100),
                         true,
                         10,
                         50,
                         (n) -> {
-                            mc.setZoom((double) n / 100);
-                            mc.repaint();
+                            mp.setZoom((double) n / 100);
+                            mp.repaint();
                         });
             }
         });
