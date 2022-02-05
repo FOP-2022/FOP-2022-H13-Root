@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * @author Ruben Deisenroth
@@ -48,7 +47,7 @@ public class Steuerungsfenster extends JFrame {
         add(changeZoomButton);
         add(exitButton);
 
-        MyCanvas mc = zf.getCanvas();
+        MyPanel mc = zf.getCanvas();
 
         // Listeners
         addElipseButton.addActionListener(new ActionListener() {
@@ -91,6 +90,42 @@ public class Steuerungsfenster extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 mc.removeBlueString();
                 mc.repaint();
+            }
+        });
+        changeSaturationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pcd.init(
+                        "Change saturation",
+                        "Saturation (0-255)",
+                        0,
+                        1,
+                        (int) (mc.getZoom() * 100),
+                        true,
+                        10,
+                        50,
+                        (n) -> {
+                            mc.setZoom((double) n / 100);
+                            mc.repaint();
+                        });
+            }
+        });
+        changeFontButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pcd.init(
+                        "Change zoom",
+                        "Zoom (%)",
+                        1,
+                        151,
+                        (int) (mc.getZoom() * 100),
+                        true,
+                        10,
+                        50,
+                        (n) -> {
+                            mc.setZoom((double) n / 100);
+                            mc.repaint();
+                        });
             }
         });
         changeZoomButton.addActionListener(new ActionListener() {

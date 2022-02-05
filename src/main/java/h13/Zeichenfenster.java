@@ -1,10 +1,8 @@
 package h13;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -14,13 +12,13 @@ import javax.swing.JFrame;
  * @author Ruben Deisenroth
  */
 public class Zeichenfenster extends JFrame {
-    private final MyCanvas canvas = new MyCanvas();
+    private final MyPanel canvas = new MyPanel();
 
     public Zeichenfenster() {
         super("H13");
     }
 
-    public MyCanvas getCanvas() {
+    public MyPanel getCanvas() {
         return canvas;
     }
 
@@ -30,7 +28,7 @@ public class Zeichenfenster extends JFrame {
         setLayout(new BorderLayout());
         // var contentPanel = new JPanel(new BorderLayout());
         // add(contentPanel, BorderLayout.CENTER);
-        canvas.setBackground(new Color(0f, 0f, 0f, 0f));
+        // canvas.setBackground(new Color(0f, 0f, 0f, 0f));
         // contentPanel.add(canvas);
         add(canvas, BorderLayout.CENTER);
         // add(new JButton("test"), BorderLayout.CENTER);

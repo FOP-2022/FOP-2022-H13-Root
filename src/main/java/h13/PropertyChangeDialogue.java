@@ -5,9 +5,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.IntPredicate;
-import java.util.function.Predicate;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +14,10 @@ import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+/**
+ *
+ * @author Ruben Deisenroth
+ */
 public class PropertyChangeDialogue extends JDialog {
     JLabel propertyJLabel = new JLabel("NaN");
     JSlider valueControlJSlider = new JSlider();

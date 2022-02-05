@@ -9,30 +9,86 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
 
 /**
+ * A JPanel to display the following three shapes:
+ * <ul>
+ * <li>Green ellipse</li>
+ * <li>Yellow triangle</li>
+ * <li>Blue string</li>
+ * </ul>
  *
  * @author Ruben Deisenroth
  */
-public class MyCanvas extends java.awt.Canvas {
+public class MyPanel extends javax.swing.JPanel {
+
+    // -- Attributes -- //
+
+    /**
+     * The current Transparency of the Shapes
+     */
     private double transparency = 0.2d;
+    /**
+     * The Saturation of the Shapes
+     */
     private double saturation = 0.5d;
+    /**
+     * The Zoom of the Shapes
+     */
     private double zoom = 1d;
+    /**
+     * The Text of the blue string
+     */
     private String text = "Tand ist das Gebilde von Menschenhand!";
+    /**
+     * The Font for the blue string
+     */
     private Font font = new Font("Default", Font.PLAIN, 16);
+    /**
+     * Whether or not to display the green ellipse
+     */
     private boolean displayGreenEllipse = true;
+    /**
+     * Whether or not to display the yellow ellipse
+     */
     private boolean displayYellowRectangle = true;
+    /**
+     * Whether or not to display the blue string
+     */
     private boolean displayBlueString = true;
 
-    // -- Getters and Setters --//
+    // -- Constructors -- //
 
+    /**
+     * Creates a new {@link MyPanel}
+     */
+    public MyPanel() {
+        super();
+        setOpaque(true);
+        setBackground(Color.BLACK);
+    }
+
+    // -- Getters and Setters -- //
+
+    /**
+     * Getter-Method for the {@link #transparency}-Field
+     *
+     * @return the value of the {@link #transparency}-Field
+     */
     public double getTransparency() {
         return this.transparency;
     }
 
+    /**
+     * Setter-Method for the {@link #transparency}-Field.
+     * <br>
+     * </br>
+     * Only values in [0d,1d] are permitted.
+     *
+     * @param transparency the new Value of the {@link #transparency}-Field
+     */
     public void setTransparency(double transparency) {
         if (transparency < 0d || transparency > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
@@ -40,10 +96,23 @@ public class MyCanvas extends java.awt.Canvas {
         this.transparency = transparency;
     }
 
+    /**
+     * Getter-Method for the {@link #saturation}-Field
+     *
+     * @return the value of the {@link #saturation}-Field
+     */
     public double getSaturation() {
         return this.saturation;
     }
 
+    /**
+     * Setter-Method for the {@link #saturation}-Field.
+     * <br>
+     * </br>
+     * Only values in [0d,1d] are permitted.
+     *
+     * @param saturation the new Value of the {@link #saturation}-Field
+     */
     public void setSaturation(double saturation) {
         if (saturation < 0d || saturation > 1d) {
             throw new IllegalArgumentException("Saturation must be in range [0..1]");
@@ -51,10 +120,23 @@ public class MyCanvas extends java.awt.Canvas {
         this.saturation = saturation;
     }
 
+    /**
+     * Getter-Method for the {@link #zoom}-Field
+     *
+     * @return the value of the {@link #zoom}-Field
+     */
     public double getZoom() {
         return this.zoom;
     }
 
+    /**
+     * Setter-Method for the {@link #zoom}-Field.
+     * <br>
+     * </br>
+     * Only positive values are permitted.
+     *
+     * @param zoom the new Value of the {@link #zoom}-Field
+     */
     public void setZoom(double zoom) {
         if (zoom <= 0d) {
             throw new IllegalArgumentException("Zoom must be positive.");
@@ -62,10 +144,23 @@ public class MyCanvas extends java.awt.Canvas {
         this.zoom = zoom;
     }
 
+    /**
+     * Getter-Method for the {@link #text}-Field
+     *
+     * @return the value of the {@link #text}-Field
+     */
     public String getText() {
         return this.text;
     }
 
+    /**
+     * Setter-Method for the {@link #zoom}-Field.
+     * <br>
+     * </br>
+     * Only positive values are permitted.
+     *
+     * @param zoom the new Value of the {@link #zoom}-Field
+     */
     public void setText(String text) throws IllegalArgumentException {
         if (text == null || text == "") {
             throw new IllegalArgumentException("IInvalid Text.");
@@ -73,36 +168,73 @@ public class MyCanvas extends java.awt.Canvas {
         this.text = text;
     }
 
+    /**
+     * Getter-Method for the {@link #font}-Field
+     *
+     * @return the value of the {@link #font}-Field
+     */
     public Font getFont() {
         return this.font;
     }
 
+    /**
+     * Setter-Method for the {@link #font}-Field.
+     * <br>
+     * </br>
+     * Only default java-Fonts are permitted.
+     *
+     * @param font the new Value of the {@link #font}-Field
+     */
     public void setFont(Font font) throws IllegalArgumentException {
         this.font = font;
     }
 
-    // -- Other Methods--//
+    // -- Other Methods -- //
 
+    /**
+     * Displays the green ellipse if it is not already displayed.
+     * If it is already displayed, the method will do nothing.
+     */
     public void addGreenEllipse() {
         displayGreenEllipse = true;
     }
 
+    /**
+     * Removes the green ellipse from the Panel.
+     * If it is already hidden, the method will do nothing.
+     */
     public void removeGreenEllipse() {
         displayGreenEllipse = false;
     }
 
+    /**
+     * Displays the yellow rectangle if it is not already displayed.
+     * If it is already displayed, the method will do nothing.
+     */
     public void addYellowRectangle() {
         displayYellowRectangle = true;
     }
 
+    /**
+     * Removes the yellow rectangle from the Panel.
+     * If it is already hidden, the method will do nothing.
+     */
     public void removeYellowRectangle() {
         displayYellowRectangle = false;
     }
 
+    /**
+     * Displays the blue string if it is not already displayed.
+     * If it is already displayed, the method will do nothing.
+     */
     public void addBlueString() {
         displayBlueString = true;
     }
 
+    /**
+     * Removes the blue string from the Panel.
+     * If it is already hidden, the method will do nothing.
+     */
     public void removeBlueString() {
         displayBlueString = false;
     }
@@ -216,7 +348,8 @@ public class MyCanvas extends java.awt.Canvas {
             fillDrawCentered(g2d,
                     colorWithAlpha(Color.YELLOW, 0.5f),
                     Color.YELLOW,
-                    (int)(20* zoom),
+                    // (int) (20 * zoom),
+                    20,
                     new Rectangle2D.Double(),
                     0.8 * zoom,
                     0.8 * zoom);
