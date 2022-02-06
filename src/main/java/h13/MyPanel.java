@@ -74,7 +74,7 @@ public class MyPanel extends javax.swing.JPanel {
      * The Text of the blue string
      */
     // private String text = "Tand ist das Gebilde von Menschenhand!";
-    private String text = "Hallo, Glaser mein Name. Ich wollte mal fragen, ob ihre Öfen ausgelastet sind??";
+    private String text = "Test String";
     /**
      * The Font for the blue string
      */
@@ -423,93 +423,42 @@ public class MyPanel extends javax.swing.JPanel {
      * @param text  the text to display
      * @param f     the font to use
      */
-    private void drawColoredString(Graphics2D g2d, double width, Color c, String text, Font f) {
+    private void drawColoredString(Graphics2D g2d, double width, int borderWidth, Color c, String text, Font f) {
         // Get current size
         Rectangle bounds = getBounds();
 
         // save g2d configuration
         var oldColor = g2d.getColor();
-        var oldFont = g2d.getFont();
+        var oldStroke = g2d.getStroke();
         var oldTransform = g2d.getTransform();
-
-        // Calculate optimal Font
-        var newFont = f.deriveFont((float) getOptimalFontSize(g2d, width, text, f));
-        System.out.println("NFS:" + newFont.getSize2D());
-        var newFontMetrics = g2d.getFontMetrics(newFont);
-
-        double scaleFactor = newFont.getSize2D() / oldFont.getSize2D();
 
         // g2d Configuration
         g2d.setColor(c);
-        g2d.setFont(f);
-        g2d.setFont(newFont);
 
-        double fontWidth = f.createGlyphVector(g2d.getFontRenderContext(), text).getLogicalBounds().getWidth();
-        double newFontWidth = newFont.createGlyphVector(g2d.getFontRenderContext(), text).getLogicalBounds().getWidth();
+        var tl = new TextLayout(text, f, g2d.getFontRenderContext());
 
-        System.out.println("desired WIDTH:" + bounds.width);
-        System.out.println("FW:" + fontWidth);
-        System.out.println("expectedFW:" + fontWidth * scaleFactor);
-        System.out.println("newFW:" + newFontWidth);
-
-        var tl = new TextLayout(text, newFont, g2d.getFontRenderContext());
-
-        var rect = newFont.createGlyphVector(g2d.getFontRenderContext(), text).getLogicalBounds();
+        var rect = f.createGlyphVector(g2d.getFontRenderContext(),
+        text).getLogicalBounds();
+        // var rect = g2d.getFontMetrics(f).getStringBounds(text,
+        //         g2d);
 
         // Transform
         var tf = g2d.getTransform();
-        var factor = rect.getWidth() / bounds.getWidth();
+        var factor = width / rect.getWidth();
+        System.out.println("f"+ factor);
         tf.scale(factor, factor);
-        tf.translate((bounds.getWidth()) / 2 - (rect.getWidth() * factor /
-                2),
-                (bounds.getHeight()) / 2 + (rect.getHeight() * factor / 2));
+        System.out.println(rect.getHeight()*factor);
+        System.out.println("TX:"+((bounds.getCenterX()/factor) - (rect.getCenterX())));
+        tf.translate((bounds.getCenterX()/factor) - (rect.getCenterX()),
+                (bounds.getCenterY() / factor) - (rect.getCenterY()));
         g2d.transform(tf);
-        // tl.getOutline(tx);
-        // tl.d
-
+        // var outline = tl.getOutline(tf);
+        g2d.setStroke(new BasicStroke((float)(borderWidth/factor)));
         var outline = tl.getOutline(null);
         g2d.draw(outline);
 
-        // var transform = g2d.getTransform();
-        // transform.translate((bounds.getWidth()) / 2 - (outline.getBounds().width /
-        // 2),
-        // (bounds.getHeight()) / 2 + (outline.getBounds().height / 2));
-        // g2d.transform(transform);
-
-        // g2d.setColor(colorWithAlpha(c, 0.5f));
-        // g2d.fill(outline);
-
-        // g2d.setColor(c);
-        // g2d.setStroke(new BasicStroke(borderWidth));
-        // g2d.draw(outline);
-
-        // tl.draw(g2, x, y);
-        // Draw the String using g2d
-        // g2d.drawString(
-        // text,
-        // (int) bounds.getCenterX() - (int) newFontMetrics.getStringBounds(text,
-        // g2d).getCenterX(),
-        // (int) bounds.getCenterY() + (int) newFontMetrics.getStringBounds(text,
-        // g2d).getCenterY());
-
-        // Draw the Outline
-        // var gv = newFont.createGlyphVector(g2d.getFontRenderContext(), text);
-        // var rect = gv.getLogicalBounds();
-        // var outline = gv.getOutline((float) (bounds.getCenterX() -
-        // rect.getCenterX()),
-        // (float) (bounds.getCenterY() - rect.getCenterY()));
-        // // System.out.println(bounds.getWidth());
-        // System.out.println("Actual width:" + rect.getWidth());
-        // g2d.draw(outline);
-        // g2d.draw(gv);
-        // new RectangularShape
-        // g2d.setStroke(new BasicStroke(borderWidth));
-        // centerShape(gv, 100, 80, borderWidth);
-        // g2d.draw(gvc);
-
         // Restore g2d Configuration
         g2d.setColor(oldColor);
-        g2d.setFont(oldFont);
         g2d.setTransform(oldTransform);
     }
 
@@ -557,7 +506,7 @@ public class MyPanel extends javax.swing.JPanel {
 
                         case BLUE_STRING:
                             // Blue String
-                            drawColoredString(g2d, bounds.width * zoom, Color.BLUE, text, font);
+                            drawColoredString(g2d, bounds.width * zoom, 3, Color.BLUE, text, font);
                             break;
                     }
                 });
