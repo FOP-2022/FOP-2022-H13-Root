@@ -61,11 +61,11 @@ public class MyPanel extends javax.swing.JPanel {
     /**
      * The current Transparency of the Shapes
      */
-    private double transparency = 0.2d;
+    private float transparency = 0.5f;
     /**
      * The Saturation of the Shapes
      */
-    private double saturation = 0.5d;
+    private float saturation = 1.0f;
     /**
      * The Zoom of the Shapes
      */
@@ -74,7 +74,7 @@ public class MyPanel extends javax.swing.JPanel {
      * The Text of the blue string
      */
     // private String text = "Tand ist das Gebilde von Menschenhand!";
-    private String text = "Test String";
+    private String text = "FOP-2022";
     /**
      * The Font for the blue string
      */
@@ -117,7 +117,7 @@ public class MyPanel extends javax.swing.JPanel {
      *
      * @param transparency the new Value of the {@link #transparency}-Field
      */
-    public void setTransparency(double transparency) {
+    public void setTransparency(float transparency) {
         if (transparency < 0d || transparency > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
@@ -141,7 +141,7 @@ public class MyPanel extends javax.swing.JPanel {
      *
      * @param saturation the new Value of the {@link #saturation}-Field
      */
-    public void setSaturation(double saturation) {
+    public void setSaturation(float saturation) {
         if (saturation < 0d || saturation > 1d) {
             throw new IllegalArgumentException("Saturation must be in range [0..1]");
         }
@@ -324,6 +324,20 @@ public class MyPanel extends javax.swing.JPanel {
     }
 
     /**
+     * Returns a Color generated from the original Color with the desired saturation
+     *
+     * @param c          The Source color
+     * @param saturation the desired Saturation
+     * @return the generated Color
+     */
+    private Color colorWithSaturation(Color c, float saturation) {
+        var alpha = c.getAlpha();
+        float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+        var colorWithBrightness = Color.getHSBColor(hsb[0], saturation, hsb[2]);
+        return colorWithAlpha(colorWithBrightness, alpha);
+    }
+
+    /**
      * Centers a rectangular Shape
      *
      * @param <T>         The Dynamic Type of the RectangularShape
@@ -459,31 +473,93 @@ public class MyPanel extends javax.swing.JPanel {
     /**
      * Draws a given String with the given Color to the center of the Panel.
      *
-     * @param g2d   the specified Graphics context
-     * @param width the desired text width
-     * @param c     the text color
-     * @param text  the text to display
-     * @param f     the font to use
+     * @param g2d           the specified Graphics context
+     * @param interiorColor the Color of the filled Area
+     * @param borderColor   the border Color
+     * @param borderWidth   the Width of the Border
+     * @param text          the text to display
+     * @param f             the font to use
+     * @param width         the desired text width
      */
-    private void drawColoredString(Graphics2D g2d, double width, float borderWidth, Color c, String text, Font f) {
+    private void drawColoredString(Graphics2D g2d, Color interiorColor, Color borderColor, float borderWidth,
+            String text, Font f, double width) {
         // save g2d configuration
         var oldColor = g2d.getColor();
+        var oldStroke = g2d.getStroke();
 
         // Get a drawable Shape of the Text
         var outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
 
         // g2d Configuration
-        g2d.setColor(colorWithAlpha(c, .5f));
+        g2d.setColor(interiorColor);
         g2d.setStroke(new BasicStroke(borderWidth));
 
         // Draw Shape
         g2d.fill(outline);
         // Draw border
-        g2d.setColor(c);
+        g2d.setColor(borderColor);
         g2d.draw(outline);
 
         // Restore g2d Configuration
         g2d.setColor(oldColor);
+        g2d.setStroke(oldStroke);
+    }
+
+    /**
+     * Draws a Grid to help With Positioning
+     *
+     * @param g2d the specified graphics context
+     */
+    @SuppressWarnings("unused")
+    private void drawGrid(Graphics2D g2d) {
+        // save g2d configuration
+        var oldColor = g2d.getColor();
+        var oldStroke = g2d.getStroke();
+
+        // Get current size
+        Rectangle bounds = getBounds();
+        double width = bounds.getWidth();
+        double height = bounds.getHeight();
+
+        // G2d Configuration
+        g2d.setColor(Color.GRAY);
+
+        float outerTicksWidth = Math.min(width, height) < 500 ? 4 : 6;
+        float tenTicksWidth = Math.min(width, height) < 500 ? 2 : 3;
+        float fiveTicksWidth = Math.min(width, height) < 500 ? 1 : 2;
+        float oneTicksWidth = Math.min(width, height) < 500 ? 0 : 1;
+
+        // Vertical Lines
+        for (double i = 0, x = 0; x < width; i++, x += width / 100d) {
+            float strokeWidth = i % 10 == 0 ? tenTicksWidth : i % 5 == 0 ? fiveTicksWidth : oneTicksWidth;
+            if (strokeWidth <= 0) {
+                continue;
+            }
+            g2d.setStroke(new BasicStroke(strokeWidth));
+            g2d.drawLine((int) x, 0, (int) x, (int) height);
+        }
+
+        // Horizontal Lines
+        for (double i = 0, y = 0; y < height; i++, y += height / 100d) {
+            float strokeWidth = i % 10 == 0 ? tenTicksWidth : i % 5 == 0 ? fiveTicksWidth : oneTicksWidth;
+            if (strokeWidth <= 0) {
+                continue;
+            }
+            g2d.setStroke(new BasicStroke(strokeWidth));
+            g2d.drawLine(0, (int) y, (int) width, (int) y);
+        }
+
+        // Border
+        g2d.setStroke(new BasicStroke(outerTicksWidth));
+        g2d.drawRect(
+                (int) (.5 * outerTicksWidth),
+                (int) (.5 * outerTicksWidth),
+                (int) (width - outerTicksWidth),
+                (int) (height - outerTicksWidth));
+
+        // Restore g2d Configuration
+        g2d.setColor(oldColor);
+        g2d.setStroke(oldStroke);
     }
 
     @Override
@@ -492,6 +568,10 @@ public class MyPanel extends javax.swing.JPanel {
 
         // Convert to g2d
         Graphics2D g2d = (Graphics2D) g;
+
+        // Optional: draw a grid that helps with positioning
+        // TODO: Remember to disable for submission
+        // drawGrid(g2d);
 
         // Antialiasing
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -510,7 +590,8 @@ public class MyPanel extends javax.swing.JPanel {
                         case GREEN_ELLIPSE:
                             fillDrawCentered(g2d,
                                     colorWithAlpha(Color.GREEN, 0.5f),
-                                    Color.GREEN,
+                                    colorWithSaturation(
+                                            Color.GREEN, (float) saturation),
                                     borderWidth,
                                     new Ellipse2D.Double(),
                                     0.9 * zoom,
@@ -521,7 +602,8 @@ public class MyPanel extends javax.swing.JPanel {
                         case YELLOW_RECTANGLE:
                             fillDrawCentered(g2d,
                                     colorWithAlpha(Color.YELLOW, 0.5f),
-                                    Color.YELLOW,
+                                    colorWithSaturation(
+                                            Color.YELLOW, (float) saturation),
                                     borderWidth,
                                     new Rectangle2D.Double(),
                                     0.8 * zoom,
@@ -530,7 +612,15 @@ public class MyPanel extends javax.swing.JPanel {
 
                         case BLUE_STRING:
                             // Blue String
-                            drawColoredString(g2d, bounds.width * zoom, 5, Color.BLUE, text, font);
+                            drawColoredString(g2d,
+                                    colorWithAlpha(
+                                            Color.BLUE, (float) transparency),
+                                    colorWithSaturation(
+                                            Color.BLUE, (float) saturation),
+                                    5,
+                                    text,
+                                    font,
+                                    bounds.width * zoom);
                             break;
                     }
                 });
