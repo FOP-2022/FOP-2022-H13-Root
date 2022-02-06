@@ -408,10 +408,52 @@ public class MyPanel extends javax.swing.JPanel {
      * @return the optimal calculated font width
      */
     private double getOptimalFontSize(Graphics2D g2d, double width, String text, Font f) {
-        // double fontWidth = g2d.getFontMetrics(f).getStringBounds(text,
-        // g2d).getWidth();
-        double fontWidth = f.createGlyphVector(g2d.getFontRenderContext(), text).getLogicalBounds().getWidth();
+        double fontWidth = f.createGlyphVector(g2d.getFontRenderContext(), text).getVisualBounds().getWidth();
         return Math.max((width / fontWidth) * f.getSize2D(), 1);
+    }
+
+    /**
+     * Create A shape with the desired Text and the desired width
+     *
+     * @param g2d         the specified Graphics context to draw the font with
+     * @param width       the desired text width
+     * @param borderWidth the border width to account for
+     * @param text        the string to display
+     * @param f           the font used for drawing the string
+     * @return The Shape of the outline
+     */
+    private Shape scaleTextToWidth(Graphics2D g2d, double width, float borderWidth, String text, Font f) {
+        // Get current size
+        Rectangle bounds = getBounds();
+
+        // Store current g2d Configuration
+        var oldFont = g2d.getFont();
+
+        // graphics configuration
+        g2d.setFont(f);
+
+        var tl = new TextLayout(text, f, g2d.getFontRenderContext());
+        var fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
+                text).getVisualBounds();
+        var factorNoBorder = width / fontBounds.getWidth();
+
+        // Account for border
+        var fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factorNoBorder) / 2,
+                fontBounds.getY() - (borderWidth / factorNoBorder) / 2,
+                fontBounds.getWidth() + (borderWidth / factorNoBorder),
+                fontBounds.getHeight() + (borderWidth / factorNoBorder));
+
+        // Transform
+        var tf = g2d.getTransform();
+        var factor = width / fontBoundsWithBorder.getWidth();
+        tf.scale(factor, factor);
+        tf.translate((bounds.getCenterX() / factor) - (fontBoundsWithBorder.getCenterX()),
+                (bounds.getCenterY() / factor) - (fontBoundsWithBorder.getCenterY()));
+        var outline = tl.getOutline(tf);
+
+        // Restore graphics configuration
+        g2d.setFont(oldFont);
+        return outline;
     }
 
     /**
@@ -423,43 +465,25 @@ public class MyPanel extends javax.swing.JPanel {
      * @param text  the text to display
      * @param f     the font to use
      */
-    private void drawColoredString(Graphics2D g2d, double width, int borderWidth, Color c, String text, Font f) {
-        // Get current size
-        Rectangle bounds = getBounds();
-
+    private void drawColoredString(Graphics2D g2d, double width, float borderWidth, Color c, String text, Font f) {
         // save g2d configuration
         var oldColor = g2d.getColor();
-        var oldStroke = g2d.getStroke();
-        var oldTransform = g2d.getTransform();
+
+        // Get a drawable Shape of the Text
+        var outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
 
         // g2d Configuration
+        g2d.setColor(colorWithAlpha(c, .5f));
+        g2d.setStroke(new BasicStroke(borderWidth));
+
+        // Draw Shape
+        g2d.fill(outline);
+        // Draw border
         g2d.setColor(c);
-
-        var tl = new TextLayout(text, f, g2d.getFontRenderContext());
-
-        var rect = f.createGlyphVector(g2d.getFontRenderContext(),
-        text).getLogicalBounds();
-        // var rect = g2d.getFontMetrics(f).getStringBounds(text,
-        //         g2d);
-
-        // Transform
-        var tf = g2d.getTransform();
-        var factor = width / rect.getWidth();
-        System.out.println("f"+ factor);
-        tf.scale(factor, factor);
-        System.out.println(rect.getHeight()*factor);
-        System.out.println("TX:"+((bounds.getCenterX()/factor) - (rect.getCenterX())));
-        tf.translate((bounds.getCenterX()/factor) - (rect.getCenterX()),
-                (bounds.getCenterY() / factor) - (rect.getCenterY()));
-        g2d.transform(tf);
-        // var outline = tl.getOutline(tf);
-        g2d.setStroke(new BasicStroke((float)(borderWidth/factor)));
-        var outline = tl.getOutline(null);
         g2d.draw(outline);
 
         // Restore g2d Configuration
         g2d.setColor(oldColor);
-        g2d.setTransform(oldTransform);
     }
 
     @Override
@@ -506,7 +530,7 @@ public class MyPanel extends javax.swing.JPanel {
 
                         case BLUE_STRING:
                             // Blue String
-                            drawColoredString(g2d, bounds.width * zoom, 3, Color.BLUE, text, font);
+                            drawColoredString(g2d, bounds.width * zoom, 5, Color.BLUE, text, font);
                             break;
                     }
                 });
