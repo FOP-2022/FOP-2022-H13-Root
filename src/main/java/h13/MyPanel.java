@@ -59,11 +59,14 @@ public class MyPanel extends javax.swing.JPanel {
             Figure.GREEN_ELLIPSE));
 
     /**
-     * The current Transparency of the Shapes
+     * The current Transparency of the inner color of the shapes
+     * <br>
+     * </br>
+     * - 0f => completely transparent, 1f => opaque
      */
-    private float transparency = 0.5f;
+    private float alpha = 0.5f;
     /**
-     * The Saturation of the Shapes
+     * The Saturation of the border color of the shapes
      */
     private float saturation = 1.0f;
     /**
@@ -101,27 +104,27 @@ public class MyPanel extends javax.swing.JPanel {
     // -- Getters and Setters -- //
 
     /**
-     * Getter-Method for the {@link #transparency}-Field
+     * Getter-Method for the {@link #alpha}-Field
      *
-     * @return the value of the {@link #transparency}-Field
+     * @return the value of the {@link #alpha}-Field
      */
     public double getTransparency() {
-        return this.transparency;
+        return this.alpha;
     }
 
     /**
-     * Setter-Method for the {@link #transparency}-Field.
+     * Setter-Method for the {@link #alpha}-Field.
      * <br>
      * </br>
      * Only values in [0d,1d] are permitted.
      *
-     * @param transparency the new Value of the {@link #transparency}-Field
+     * @param transparency the new Value of the {@link #alpha}-Field
      */
     public void setTransparency(float transparency) {
         if (transparency < 0d || transparency > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
-        this.transparency = transparency;
+        this.alpha = transparency;
     }
 
     /**
@@ -421,6 +424,7 @@ public class MyPanel extends javax.swing.JPanel {
      * @param text  the string to display
      * @return the optimal calculated font width
      */
+    @SuppressWarnings("unused")
     private double getOptimalFontSize(Graphics2D g2d, double width, String text, Font f) {
         double fontWidth = f.createGlyphVector(g2d.getFontRenderContext(), text).getVisualBounds().getWidth();
         return Math.max((width / fontWidth) * f.getSize2D(), 1);
@@ -614,7 +618,7 @@ public class MyPanel extends javax.swing.JPanel {
                             // Blue String
                             drawColoredString(g2d,
                                     colorWithAlpha(
-                                            Color.BLUE, (float) transparency),
+                                            Color.BLUE, (float) alpha),
                                     colorWithSaturation(
                                             Color.BLUE, (float) saturation),
                                     5,
