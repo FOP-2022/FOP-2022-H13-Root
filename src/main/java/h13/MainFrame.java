@@ -9,34 +9,46 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 /**
+ * The Main Drawing Frame for H13 containing a {@link MyPanel}
+ *
  * @author Ruben Deisenroth
  */
 public class MainFrame extends JFrame {
-    private final MyPanel panel = new MyPanel();
+    /**
+     * The {@link MyPanel}-Object that draws the shapes
+     */
+    private final MyPanel panel;
 
-    public MainFrame() {
+    /**
+     * Creates a new {@link MainFrame}
+     */
+    public MainFrame(MyPanel panel) {
         super("H13");
+        this.panel = panel;
     }
 
+    /**
+     * Getter-Method for the {@link #zoom}-Field
+     *
+     * @return the value of the {@link #zoom}-Field
+     */
     public MyPanel getPanel() {
         return panel;
     }
 
+    /**
+     * Initialize and Display the Frame
+     */
     public void init() {
+        // Frame Properties
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(300, 300));
         setLayout(new BorderLayout());
+
+        // Add Components
         add(panel, BorderLayout.CENTER);
-        pack();
-        repaint();
-        invalidate();
-        setLocationRelativeTo(null);
 
-        setVisible(true);
-        setFocusable(true);
-        requestFocus();
-
-        System.out.println("zf:" + getBounds().toString());
+        // Add Listeners
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -55,5 +67,19 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+
+        // Set Dimension and Position
+        pack();
+        repaint();
+        invalidate();
+        setLocationRelativeTo(null);
+
+        // Show Frame
+        setVisible(true);
+        setFocusable(true);
+        requestFocus();
+
+        System.out.println("zf:" + getBounds().toString());
+
     }
 }

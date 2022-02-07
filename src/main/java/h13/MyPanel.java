@@ -125,6 +125,7 @@ public class MyPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
         this.alpha = transparency;
+        this.repaint();
     }
 
     /**
@@ -149,6 +150,7 @@ public class MyPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException("Saturation must be in range [0..1]");
         }
         this.saturation = saturation;
+        this.repaint();
     }
 
     /**
@@ -173,6 +175,7 @@ public class MyPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException("Zoom must be positive.");
         }
         this.zoom = zoom;
+        this.repaint();
     }
 
     /**
@@ -188,7 +191,7 @@ public class MyPanel extends javax.swing.JPanel {
      * Setter-Method for the {@link #zoom}-Field.
      * <br>
      * </br>
-     * Only positive values are permitted.
+     * Only Strings with at least one and at most 30 characters are permitted.
      *
      * @param zoom the new Value of the {@link #zoom}-Field
      */
@@ -197,6 +200,7 @@ public class MyPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException("IInvalid Text.");
         }
         this.text = text;
+        this.repaint();
     }
 
     /**
@@ -217,7 +221,11 @@ public class MyPanel extends javax.swing.JPanel {
      * @param font the new Value of the {@link #font}-Field
      */
     public void setFont(Font font) throws IllegalArgumentException {
+        if (font == null) {
+            throw new IllegalArgumentException("Invalid Font.");
+        }
         this.font = font;
+        this.repaint();
     }
 
     /**
@@ -242,6 +250,7 @@ public class MyPanel extends javax.swing.JPanel {
             throw new IllegalArgumentException("Saturation must be in range [0..1]");
         }
         this.borderWidth = borderWidth;
+        this.repaint();
     }
 
     // ******************* //
@@ -255,6 +264,7 @@ public class MyPanel extends javax.swing.JPanel {
     public void addGreenEllipse() {
         figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
         figuresToDisplay.add(Figure.GREEN_ELLIPSE);
+        this.repaint();
     }
 
     /**
@@ -263,6 +273,7 @@ public class MyPanel extends javax.swing.JPanel {
      */
     public void removeGreenEllipse() {
         figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
+        this.repaint();
     }
 
     /**
@@ -272,6 +283,7 @@ public class MyPanel extends javax.swing.JPanel {
     public void addYellowRectangle() {
         figuresToDisplay.remove(Figure.YELLOW_RECTANGLE);
         figuresToDisplay.add(Figure.YELLOW_RECTANGLE);
+        this.repaint();
     }
 
     /**
@@ -280,6 +292,7 @@ public class MyPanel extends javax.swing.JPanel {
      */
     public void removeYellowRectangle() {
         figuresToDisplay.remove(Figure.YELLOW_RECTANGLE);
+        this.repaint();
     }
 
     /**
@@ -289,6 +302,7 @@ public class MyPanel extends javax.swing.JPanel {
     public void addBlueString() {
         figuresToDisplay.remove(Figure.BLUE_STRING);
         figuresToDisplay.add(Figure.BLUE_STRING);
+        this.repaint();
     }
 
     /**
@@ -297,7 +311,7 @@ public class MyPanel extends javax.swing.JPanel {
      */
     public void removeBlueString() {
         figuresToDisplay.remove(Figure.BLUE_STRING);
-
+        this.repaint();
     }
 
     // Drawing Methods and helpers
@@ -593,7 +607,8 @@ public class MyPanel extends javax.swing.JPanel {
                         // Green Ellipse
                         case GREEN_ELLIPSE:
                             fillDrawCentered(g2d,
-                                    colorWithAlpha(Color.GREEN, 0.5f),
+                                    colorWithAlpha(Color.GREEN,
+                                            (float) alpha),
                                     colorWithSaturation(
                                             Color.GREEN, (float) saturation),
                                     borderWidth,
@@ -605,7 +620,8 @@ public class MyPanel extends javax.swing.JPanel {
                         // Yellow Rectangle
                         case YELLOW_RECTANGLE:
                             fillDrawCentered(g2d,
-                                    colorWithAlpha(Color.YELLOW, 0.5f),
+                                    colorWithAlpha(Color.YELLOW,
+                                            (float) alpha),
                                     colorWithSaturation(
                                             Color.YELLOW, (float) saturation),
                                     borderWidth,

@@ -1,5 +1,6 @@
 package h13;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,32 +9,95 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 /**
+ * A Control Frame that contains all the necessary Control Elements for the Main
+ * Frame
+ *
  * @author Ruben Deisenroth
  */
 public class ControlFrame extends JFrame {
-    private MainFrame zf;
+    /**
+     * The Main Frame to control
+     */
+    private MainFrame mf;
+    /**
+     * A button that calls {@link MyPanel#addGreenEllipse()}
+     */
     private JButton addElipseButton = new JButton("Add ellipse");
+    /**
+     * A button that calls {@link MyPanel#addYellowRectangle()}
+     */
     private JButton addRectangleButton = new JButton("Add rectangle");
+    /**
+     * A button that calls {@link MyPanel#addBlueString()}
+     *
+     */
     private JButton addStringButton = new JButton("Add string");
+    /**
+     * A button that calls {@link MyPanel#removeGreenEllipse()}
+     */
     private JButton removeElipseButton = new JButton("Remove ellipse");
+    /**
+     * A button that calls {@link MyPanel#removeYellowRectangle()}
+     */
     private JButton removeRectangleButton = new JButton("Remove rectangle");
+    /**
+     * A button that calls {@link MyPanel#removeBlueString()}
+     */
     private JButton removeStringButton = new JButton("Remove string");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that controls the
+     * transparency via {@link MyPanel#setTransparency(float)}
+     */
     private JButton changeTransparencyButton = new JButton("Change transparency");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that controls the
+     * saturation via {@link MyPanel#setSaturation(float)}
+     */
     private JButton changeSaturationButton = new JButton("Change saturation");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that controls the
+     * saturation via {@link MyPanel#setBorderWidth(int)}
+     */
     private JButton changeBorderWidthButton = new JButton("Change border width");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that controls the
+     * font via {@link MyPanel#setFont(java.awt.Font)}
+     */
     private JButton changeFontButton = new JButton("Change font");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that controls the
+     * saturation via {@link MyPanel#setZoom(double)}
+     */
     private JButton changeZoomButton = new JButton("Change zoom");
+    /**
+     * A button that opens a {@link PropertyChangeDialogue} that exits the Program
+     */
     private JButton exitButton = new JButton("Exit");
+    /**
+     * The {@link PropertyChangeDialogue} that pops up when a Property needs to be
+     * changed and updates the property in real Time
+     */
     private final PropertyChangeDialogue pcd = new PropertyChangeDialogue();
 
-    public ControlFrame(MainFrame zf) {
+    /**
+     * Creates a new {@link ControlFrame}-Instance
+     *
+     * @param mf
+     */
+    public ControlFrame(MainFrame mf) {
         super("Steuerungsfenster");
-        this.zf = zf;
+        this.mf = mf;
     }
 
+    /**
+     * Initializes and shows the Frame
+     */
     public void init() {
-
+        // Frame Properties
         setLayout(new GridLayout(4, 3));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        // Add Components
         add(addElipseButton);
         add(addRectangleButton);
         add(addStringButton);
@@ -47,9 +111,9 @@ public class ControlFrame extends JFrame {
         add(changeZoomButton);
         add(exitButton);
 
-        MyPanel mp = zf.getPanel();
+        // Add Listeners
+        MyPanel mp = mf.getPanel();
 
-        // Listeners
         addElipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -95,43 +159,71 @@ public class ControlFrame extends JFrame {
         changeSaturationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pcd.init(
-                        "Change saturation",
-                        "Saturation (0-255)",
+                pcd.showNumberChangeDialog(
+                        "Change saturation (%)",
+                        "Saturation (0-100)",
                         0,
-                        1,
-                        (int) (mp.getZoom() * 100),
+                        100,
+                        (int) (mp.getSaturation() * 100),
                         true,
                         10,
                         50,
                         (n) -> {
-                            mp.setZoom((double) n / 100);
-                            mp.repaint();
+                            mp.setSaturation((float) n / 100);
+                        });
+            }
+        });
+        changeTransparencyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pcd.showNumberChangeDialog(
+                        "Change transparency (%)",
+                        "Transparency (0-100)",
+                        0,
+                        100,
+                        (int) (mp.getTransparency() * 100),
+                        true,
+                        10,
+                        50,
+                        (n) -> {
+                            mp.setTransparency((float) n / 100);
+                        });
+            }
+        });
+        changeBorderWidthButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pcd.showNumberChangeDialog(
+                        "Change Border Width",
+                        "Border Width (0-100)",
+                        0,
+                        100,
+                        mp.getBorderWidth(),
+                        true,
+                        10,
+                        50,
+                        (n) -> {
+                            mp.setBorderWidth(n);
                         });
             }
         });
         changeFontButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pcd.init(
-                        "Change zoom",
-                        "Zoom (%)",
-                        1,
-                        151,
-                        (int) (mp.getZoom() * 100),
-                        true,
-                        10,
-                        50,
+                pcd.showEnumChangeDialogue(
+                        "Change Font",
+                        "Font",
+                        0,
+                        new String[] { "Default", "Arial" },
                         (n) -> {
-                            mp.setZoom((double) n / 100);
-                            mp.repaint();
+                            mp.setFont(new Font(n, Font.PLAIN, 16));
                         });
             }
         });
         changeZoomButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                pcd.init(
+                pcd.showNumberChangeDialog(
                         "Change zoom",
                         "Zoom (%)",
                         1,
@@ -153,7 +245,9 @@ public class ControlFrame extends JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        // Set Dimension and Position
+
+        // Show Frame
         pack();
         setVisible(true);
         setFocusable(true);

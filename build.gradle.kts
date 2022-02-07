@@ -23,7 +23,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("h13.Main")
+    mainClass.set("h13.TwoSimpleWindows")
 }
 
 tasks {

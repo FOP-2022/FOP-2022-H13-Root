@@ -11,7 +11,7 @@ public class TwoSimpleWindows {
         FlatDarkLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                MainFrame zeichenfenster = new MainFrame();
+                MainFrame zeichenfenster = new MainFrame(new MyPanel());
                 ControlFrame steuerungsfenster = new ControlFrame(zeichenfenster);
                 zeichenfenster.init();
                 steuerungsfenster.init();
