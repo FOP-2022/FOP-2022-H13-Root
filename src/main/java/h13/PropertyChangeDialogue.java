@@ -76,12 +76,12 @@ public class PropertyChangeDialogue extends JDialog {
     /**
      * Initializes the Dialog for an Enum-Like property
      *
-     * @param title           the Dialog Title
-     * @param propertyNamethe Property Name
-     * @param current         the index currently selected Item
-     * @param options         the Options for the Combo Box
-     * @param updateValue     a consumer that is executed every time the value
-     *                        changes
+     * @param title        the Dialog Title
+     * @param propertyName the Property Name
+     * @param current      the index currently selected Item
+     * @param options      the Options for the Combo Box
+     * @param updateValue  a consumer that is executed every time the value
+     *                     changes
      */
     public void showEnumChangeDialogue(
             String title,

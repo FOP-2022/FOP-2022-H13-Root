@@ -20,57 +20,57 @@ public class ControlFrame extends JFrame {
      */
     private MainFrame mf;
     /**
-     * A button that calls {@link MyPanel#addGreenEllipse()}
+     * A button that calls {@link MyPanel#addGreenEllipse()} when clicked
      */
     private JButton addElipseButton = new JButton("Add ellipse");
     /**
-     * A button that calls {@link MyPanel#addYellowRectangle()}
+     * A button that calls {@link MyPanel#addYellowRectangle()} when clicked
      */
     private JButton addRectangleButton = new JButton("Add rectangle");
     /**
-     * A button that calls {@link MyPanel#addBlueString()}
+     * A button that calls {@link MyPanel#addBlueString()} when clicked
      *
      */
     private JButton addStringButton = new JButton("Add string");
     /**
-     * A button that calls {@link MyPanel#removeGreenEllipse()}
+     * A button that calls {@link MyPanel#removeGreenEllipse()} when clicked
      */
     private JButton removeElipseButton = new JButton("Remove ellipse");
     /**
-     * A button that calls {@link MyPanel#removeYellowRectangle()}
+     * A button that calls {@link MyPanel#removeYellowRectangle()} when clicked
      */
     private JButton removeRectangleButton = new JButton("Remove rectangle");
     /**
-     * A button that calls {@link MyPanel#removeBlueString()}
+     * A button that calls {@link MyPanel#removeBlueString()} when clicked
      */
     private JButton removeStringButton = new JButton("Remove string");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * transparency via {@link MyPanel#setTransparency(float)}
+     * transparency via {@link MyPanel#setTransparency(float)} when clicked
      */
     private JButton changeTransparencyButton = new JButton("Change transparency");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setSaturation(float)}
+     * saturation via {@link MyPanel#setSaturation(float)} when clicked
      */
     private JButton changeSaturationButton = new JButton("Change saturation");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setBorderWidth(int)}
+     * saturation via {@link MyPanel#setBorderWidth(int)} when clicked
      */
     private JButton changeBorderWidthButton = new JButton("Change border width");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * font via {@link MyPanel#setFont(java.awt.Font)}
+     * font via {@link MyPanel#setFont(java.awt.Font)} when clicked
      */
     private JButton changeFontButton = new JButton("Change font");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setZoom(double)}
+     * saturation via {@link MyPanel#setZoom(double)} when clicked
      */
     private JButton changeZoomButton = new JButton("Change zoom");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that exits the Program
+     * A button that opens a {@link PropertyChangeDialogue} that exits the Program when clicked
      */
     private JButton exitButton = new JButton("Exit");
     /**

@@ -188,12 +188,12 @@ public class MyPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Setter-Method for the {@link #zoom}-Field.
+     * Setter-Method for the {@link #text}-Field.
      * <br>
      * </br>
      * Only Strings with at least one and at most 30 characters are permitted.
      *
-     * @param zoom the new Value of the {@link #zoom}-Field
+     * @param text the new Value of the {@link #text}-Field
      */
     public void setText(String text) throws IllegalArgumentException {
         if (text == null || text == "") {
@@ -241,9 +241,9 @@ public class MyPanel extends javax.swing.JPanel {
      * Setter-Method for the {@link #borderWidth}-Field.
      * <br>
      * </br>
-     * Only values in [1,100] are permitted.
+     * Only values in [1,20] are permitted.
      *
-     * @param font the new Value of the {@link #borderWidth}-Field
+     * @param borderWidth the new Value of the {@link #borderWidth}-Field
      */
     public void setBorderWidth(int borderWidth) {
         if (saturation < 1 || saturation > 100) {
@@ -425,8 +425,8 @@ public class MyPanel extends javax.swing.JPanel {
      *                      (1.0d -> full screen)
      */
     private void fillDrawCentered(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth,
-            RectangularShape s, double scaleX, double ScaleY) {
-        centerShape(s, scaleX, ScaleY, borderWidth);
+            RectangularShape s, double scaleX, double scaleY) {
+        centerShape(s, scaleX, scaleY, borderWidth);
         fillDraw(g2d, interiorColor, borderColor, borderWidth, s);
     }
 
