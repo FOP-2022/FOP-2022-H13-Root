@@ -1,5 +1,7 @@
 package h13;
 
+import java.awt.EventQueue;
+
 import com.formdev.flatlaf.FlatDarkLaf;
 
 /**
@@ -9,7 +11,7 @@ public class TwoSimpleWindows {
 
     public static void main(String[] args) {
         FlatDarkLaf.setup();
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {
             public void run() {
                 MainFrame zeichenfenster = new MainFrame(new MyPanel());
                 ControlFrame steuerungsfenster = new ControlFrame(zeichenfenster);
