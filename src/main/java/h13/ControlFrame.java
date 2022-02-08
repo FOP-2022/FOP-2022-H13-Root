@@ -46,7 +46,7 @@ public class ControlFrame extends JFrame {
     private JButton removeStringButton = new JButton("Remove string");
     /**
      * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * transparency via {@link MyPanel#setTransparency(float)} when clicked
+     * transparency via {@link MyPanel#setAlpha(float)} when clicked
      */
     private JButton changeTransparencyButton = new JButton("Change transparency");
     /**
@@ -181,12 +181,12 @@ public class ControlFrame extends JFrame {
                         "Transparency (0-100)",
                         0,
                         100,
-                        (int) (mp.getTransparency() * 100),
+                        (int) (mp.getAlpha() * 100),
                         true,
                         10,
                         50,
                         (n) -> {
-                            mp.setTransparency((float) n / 100);
+                            mp.setAlpha((float) n / 100);
                         });
             }
         });
@@ -227,7 +227,7 @@ public class ControlFrame extends JFrame {
                         "Change zoom",
                         "Zoom (%)",
                         1,
-                        151,
+                        3551,
                         (int) (mp.getZoom() * 100),
                         true,
                         10,

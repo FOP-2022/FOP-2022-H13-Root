@@ -108,7 +108,7 @@ public class MyPanel extends javax.swing.JPanel {
      *
      * @return the value of the {@link #alpha}-Field
      */
-    public double getTransparency() {
+    public double getAlpha() {
         return this.alpha;
     }
 
@@ -120,7 +120,7 @@ public class MyPanel extends javax.swing.JPanel {
      *
      * @param transparency the new Value of the {@link #alpha}-Field
      */
-    public void setTransparency(float transparency) {
+    public void setAlpha(float transparency) {
         if (transparency < 0d || transparency > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
