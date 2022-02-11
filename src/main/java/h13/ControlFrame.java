@@ -2,6 +2,7 @@ package h13;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +23,7 @@ public class ControlFrame extends JFrame {
     /**
      * A button that calls {@link MyPanel#addGreenEllipse()} when clicked
      */
-    private JButton addElipseButton = new JButton("Add ellipse");
+    private JButton addEllipseButton = new JButton("Add ellipse");
     /**
      * A button that calls {@link MyPanel#addYellowRectangle()} when clicked
      */
@@ -35,7 +36,7 @@ public class ControlFrame extends JFrame {
     /**
      * A button that calls {@link MyPanel#removeGreenEllipse()} when clicked
      */
-    private JButton removeElipseButton = new JButton("Remove ellipse");
+    private JButton removeEllipseButton = new JButton("Remove ellipse");
     /**
      * A button that calls {@link MyPanel#removeYellowRectangle()} when clicked
      */
@@ -70,7 +71,8 @@ public class ControlFrame extends JFrame {
      */
     private JButton changeZoomButton = new JButton("Change zoom");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that exits the Program when clicked
+     * A button that opens a {@link PropertyChangeDialogue} that exits the Program
+     * when clicked
      */
     private JButton exitButton = new JButton("Exit");
     /**
@@ -82,7 +84,7 @@ public class ControlFrame extends JFrame {
     /**
      * Creates a new {@link ControlFrame}-Instance
      *
-     * @param mf
+     * @param mf The Main Drawing Frame
      */
     public ControlFrame(MainFrame mf) {
         super("Steuerungsfenster");
@@ -98,10 +100,10 @@ public class ControlFrame extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         // Add Components
-        add(addElipseButton);
+        add(addEllipseButton);
         add(addRectangleButton);
         add(addStringButton);
-        add(removeElipseButton);
+        add(removeEllipseButton);
         add(removeRectangleButton);
         add(removeStringButton);
         add(changeSaturationButton);
@@ -114,7 +116,7 @@ public class ControlFrame extends JFrame {
         // Add Listeners
         MyPanel mp = mf.getPanel();
 
-        addElipseButton.addActionListener(new ActionListener() {
+        addEllipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mp.addGreenEllipse();
@@ -135,7 +137,7 @@ public class ControlFrame extends JFrame {
                 mp.repaint();
             }
         });
-        removeElipseButton.addActionListener(new ActionListener() {
+        removeEllipseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 mp.removeGreenEllipse();
@@ -227,7 +229,7 @@ public class ControlFrame extends JFrame {
                         "Change zoom",
                         "Zoom (%)",
                         1,
-                        3551,
+                        200,
                         (int) (mp.getZoom() * 100),
                         true,
                         10,
@@ -241,17 +243,22 @@ public class ControlFrame extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
+                System.exit(0);
             }
         });
 
         // Set Dimension and Position
+        pack();
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var insets = getInsets();
+        setSize((int) screenSize.getWidth() / 2, (int) (screenSize.getHeight() / 2));
+        setLocation(0, (int) (screenSize.getHeight() / 2 + insets.top));
 
         // Show Frame
-        pack();
         setVisible(true);
         setFocusable(true);
         requestFocus();
-        setLocationRelativeTo(null);
+        // System.out.println(getInsets().toString());
+
     }
 }

@@ -2,6 +2,7 @@ package h13;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Consumer;
@@ -125,8 +126,13 @@ public class PropertyChangeDialogue extends JDialog {
         });
 
         setModal(true);
+        pack();
         setMinimumSize(new Dimension(300, 300));
-        setLocationRelativeTo(null);
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var insets = getInsets();
+        setSize((int) screenSize.getWidth() / 2, (int) (screenSize.getHeight() / 2));
+        setLocation((int) (screenSize.getWidth() / 2 + insets.left), (int) (screenSize.getHeight() / 2 + insets.top));
+        // setLocationRelativeTo(null);
         setVisible(true);
     }
 
@@ -209,12 +215,16 @@ public class PropertyChangeDialogue extends JDialog {
         });
 
         // Set Dimension and Position
-        setModal(true);
-        setMinimumSize(new Dimension(300, 300));
-        setLocationRelativeTo(null);
+        // setMinimumSize(new Dimension(300, 300));
+        // setLocationRelativeTo(null);
+        pack();
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        // var insets = getInsets();
+        setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
+        setLocation((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
 
         // Show Frame
-        pack();
+        setModal(true);
         setVisible(true);
     }
 }

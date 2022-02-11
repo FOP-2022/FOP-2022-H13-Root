@@ -3,6 +3,7 @@ package h13;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -28,9 +29,9 @@ public class MainFrame extends JFrame {
     }
 
     /**
-     * Getter-Method for the {@link #zoom}-Field
+     * Getter-Method for the {@link #panel}-Field
      *
-     * @return the value of the {@link #zoom}-Field
+     * @return the value of the {@link #panel}-Field
      */
     public MyPanel getPanel() {
         return panel;
@@ -70,9 +71,12 @@ public class MainFrame extends JFrame {
 
         // Set Dimension and Position
         pack();
-        repaint();
-        invalidate();
-        setLocationRelativeTo(null);
+        // setLocationRelativeTo(null);
+        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        var insets = getInsets();
+        System.out.println(insets.left);
+        setLocation(0, 0);
+        setSize((int) screenSize.getWidth(), (int) (screenSize.getHeight() / 2));
 
         // Show Frame
         setVisible(true);

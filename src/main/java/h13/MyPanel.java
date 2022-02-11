@@ -118,13 +118,13 @@ public class MyPanel extends javax.swing.JPanel {
      * </br>
      * Only values in [0d,1d] are permitted.
      *
-     * @param transparency the new Value of the {@link #alpha}-Field
+     * @param alpha the new Value of the {@link #alpha}-Field
      */
-    public void setAlpha(float transparency) {
-        if (transparency < 0d || transparency > 1d) {
+    public void setAlpha(float alpha) {
+        if (alpha < 0d || alpha > 1d) {
             throw new IllegalArgumentException("Transparency must be in range [0..1]");
         }
-        this.alpha = transparency;
+        this.alpha = alpha;
         this.repaint();
     }
 
@@ -499,28 +499,11 @@ public class MyPanel extends javax.swing.JPanel {
      * @param f             the font to use
      * @param width         the desired text width
      */
-    private void drawColoredString(Graphics2D g2d, Color interiorColor, Color borderColor, float borderWidth,
+    private void drawColoredString(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth,
             String text, Font f, double width) {
-        // save g2d configuration
-        var oldColor = g2d.getColor();
-        var oldStroke = g2d.getStroke();
-
         // Get a drawable Shape of the Text
         var outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
-
-        // g2d Configuration
-        g2d.setColor(interiorColor);
-        g2d.setStroke(new BasicStroke(borderWidth));
-
-        // Draw Shape
-        g2d.fill(outline);
-        // Draw border
-        g2d.setColor(borderColor);
-        g2d.draw(outline);
-
-        // Restore g2d Configuration
-        g2d.setColor(oldColor);
-        g2d.setStroke(oldStroke);
+        fillDraw(g2d, interiorColor, borderColor, borderWidth, outline);
     }
 
     /**
