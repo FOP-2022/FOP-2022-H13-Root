@@ -10,20 +10,20 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 
 /**
- * The Main Drawing Frame for H13 containing a {@link MyPanel}
+ * The Main Drawing Frame for H13 containing a {@link MyPanelTutor}
  *
  * @author Ruben Deisenroth
  */
-public class MainFrame extends JFrame {
+public class MainFrameTutor extends JFrame {
     /**
-     * The {@link MyPanel}-Object that draws the shapes
+     * The {@link MyPanelTutor}-Object that draws the shapes
      */
-    public final MyPanel panel;
+    public final MyPanelTutor panel;
 
     /**
-     * Creates a new {@link MainFrame}
+     * Creates a new {@link MainFrameTutor}
      */
-    public MainFrame(MyPanel panel) {
+    public MainFrameTutor(MyPanelTutor panel) {
         super("H13");
         this.panel = panel;
     }
@@ -33,7 +33,7 @@ public class MainFrame extends JFrame {
      *
      * @return the value of the {@link #panel}-Field
      */
-    public MyPanel getPanel() {
+    public MyPanelTutor getPanel() {
         return panel;
     }
 

@@ -26,7 +26,7 @@ import java.util.stream.IntStream;
  *
  * @author Ruben Deisenroth
  */
-public class MyPanel extends javax.swing.JPanel {
+public class MyPanelTutor extends javax.swing.JPanel {
 
     // **************** //
     // -- Attributes -- //
@@ -93,9 +93,9 @@ public class MyPanel extends javax.swing.JPanel {
     // ****************** //
 
     /**
-     * Creates a new {@link MyPanel}
+     * Creates a new {@link MyPanelTutor}
      */
-    public MyPanel() {
+    public MyPanelTutor() {
         super();
         setOpaque(true);
         setBackground(Color.BLACK);

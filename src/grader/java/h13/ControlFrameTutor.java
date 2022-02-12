@@ -15,78 +15,78 @@ import javax.swing.JFrame;
  *
  * @author Ruben Deisenroth
  */
-public class ControlFrame extends JFrame {
+public class ControlFrameTutor extends JFrame {
     /**
      * The Main Frame to control
      */
-    public MainFrame mf;
+    public MainFrameTutor mf;
     /**
-     * A button that calls {@link MyPanel#addGreenEllipse()} when clicked
+     * A button that calls {@link MyPanelTutor#addGreenEllipse()} when clicked
      */
     public JButton addEllipseButton = new JButton("Add ellipse");
     /**
-     * A button that calls {@link MyPanel#addYellowRectangle()} when clicked
+     * A button that calls {@link MyPanelTutor#addYellowRectangle()} when clicked
      */
     public JButton addRectangleButton = new JButton("Add rectangle");
     /**
-     * A button that calls {@link MyPanel#addBlueString()} when clicked
+     * A button that calls {@link MyPanelTutor#addBlueString()} when clicked
      *
      */
     public JButton addStringButton = new JButton("Add string");
     /**
-     * A button that calls {@link MyPanel#removeGreenEllipse()} when clicked
+     * A button that calls {@link MyPanelTutor#removeGreenEllipse()} when clicked
      */
     public JButton removeEllipseButton = new JButton("Remove ellipse");
     /**
-     * A button that calls {@link MyPanel#removeYellowRectangle()} when clicked
+     * A button that calls {@link MyPanelTutor#removeYellowRectangle()} when clicked
      */
     public JButton removeRectangleButton = new JButton("Remove rectangle");
     /**
-     * A button that calls {@link MyPanel#removeBlueString()} when clicked
+     * A button that calls {@link MyPanelTutor#removeBlueString()} when clicked
      */
     public JButton removeStringButton = new JButton("Remove string");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * transparency via {@link MyPanel#setAlpha(float)} when clicked
+     * A button that opens a {@link PropertyChangeDialogueTutor} that controls the
+     * transparency via {@link MyPanelTutor#setAlpha(float)} when clicked
      */
     public JButton changeTransparencyButton = new JButton("Change transparency");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setSaturation(float)} when clicked
+     * A button that opens a {@link PropertyChangeDialogueTutor} that controls the
+     * saturation via {@link MyPanelTutor#setSaturation(float)} when clicked
      */
     public JButton changeSaturationButton = new JButton("Change saturation");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setBorderWidth(int)} when clicked
+     * A button that opens a {@link PropertyChangeDialogueTutor} that controls the
+     * saturation via {@link MyPanelTutor#setBorderWidth(int)} when clicked
      */
     public JButton changeBorderWidthButton = new JButton("Change border width");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * font via {@link MyPanel#setFont(java.awt.Font)} when clicked
+     * A button that opens a {@link PropertyChangeDialogueTutor} that controls the
+     * font via {@link MyPanelTutor#setFont(java.awt.Font)} when clicked
      */
     public JButton changeFontButton = new JButton("Change font");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that controls the
-     * saturation via {@link MyPanel#setZoom(double)} when clicked
+     * A button that opens a {@link PropertyChangeDialogueTutor} that controls the
+     * saturation via {@link MyPanelTutor#setZoom(double)} when clicked
      */
     public JButton changeZoomButton = new JButton("Change zoom");
     /**
-     * A button that opens a {@link PropertyChangeDialogue} that exits the Program
+     * A button that opens a {@link PropertyChangeDialogueTutor} that exits the Program
      * when clicked
      */
     public JButton exitButton = new JButton("Exit");
     /**
-     * The {@link PropertyChangeDialogue} that pops up when a Property needs to be
+     * The {@link PropertyChangeDialogueTutor} that pops up when a Property needs to be
      * changed and updates the property in real Time
      */
-    public final PropertyChangeDialogue pcd = new PropertyChangeDialogue();
+    public final PropertyChangeDialogueTutor pcd = new PropertyChangeDialogueTutor();
 
     /**
-     * Creates a new {@link ControlFrame}-Instance
+     * Creates a new {@link ControlFrameTutor}-Instance
      *
      * @param mf The Main Drawing Frame
      */
-    public ControlFrame(MainFrame mf) {
+    public ControlFrameTutor(MainFrameTutor mf) {
         super("Steuerungsfenster");
         this.mf = mf;
     }
@@ -114,7 +114,7 @@ public class ControlFrame extends JFrame {
         add(exitButton);
 
         // Add Listeners
-        MyPanel mp = mf.getPanel();
+        MyPanelTutor mp = mf.getPanel();
 
         addEllipseButton.addActionListener(new ActionListener() {
             @Override

@@ -1,6 +1,7 @@
 plugins {
     java
     application
+    eclipse
     id("org.sourcegrade.style") version "1.2.0"
 }
 
