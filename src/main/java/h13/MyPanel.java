@@ -8,11 +8,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
+import java.awt.geom.Rectangle2D.Double;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -349,9 +351,9 @@ public class MyPanel extends javax.swing.JPanel {
      * @return the generated Color
      */
     public Color colorWithSaturation(Color c, float saturation) {
-        var alpha = c.getAlpha();
+        int alpha = c.getAlpha();
         float[] hsb = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
-        var colorWithBrightness = Color.getHSBColor(hsb[0], saturation, hsb[2]);
+        Color colorWithBrightness = Color.getHSBColor(hsb[0], saturation, hsb[2]);
         return colorWithAlpha(colorWithBrightness, alpha);
     }
 
@@ -393,8 +395,8 @@ public class MyPanel extends javax.swing.JPanel {
      */
     public void fillDraw(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth, Shape s) {
         // Store current g2d Configuration
-        var oldColor = g2d.getColor();
-        var oldStroke = g2d.getStroke();
+        Color oldColor = g2d.getColor();
+        Stroke oldStroke = g2d.getStroke();
 
         // Fill the shape
         g2d.setColor(interiorColor);
@@ -460,30 +462,30 @@ public class MyPanel extends javax.swing.JPanel {
         Rectangle bounds = getBounds();
 
         // Store current g2d Configuration
-        var oldFont = g2d.getFont();
+        Font oldFont = g2d.getFont();
 
         // graphics configuration
         g2d.setFont(f);
 
-        var tl = new TextLayout(text, f, g2d.getFontRenderContext());
-        var fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
+        TextLayout tl = new TextLayout(text, f, g2d.getFontRenderContext());
+        Rectangle2D fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
                 text).getVisualBounds();
 
         // Calculate scale Factor
-        var factor = (width - borderWidth) / fontBounds.getWidth();
+        double factor = (width - borderWidth) / fontBounds.getWidth();
 
         // Calculate new Font Bounds for easy centering
-        var fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factor) / 2,
+        Double fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factor) / 2,
                 fontBounds.getY() - (borderWidth / factor) / 2,
                 fontBounds.getWidth() + (borderWidth / factor),
                 fontBounds.getHeight() + (borderWidth / factor));
 
         // Transform
-        var tf = g2d.getTransform();
+        AffineTransform tf = g2d.getTransform();
         tf.scale(factor, factor);
         tf.translate((bounds.getCenterX() / factor) - (fontBoundsWithBorder.getCenterX()),
                 (bounds.getCenterY() / factor) - (fontBoundsWithBorder.getCenterY()));
-        var outline = tl.getOutline(tf);
+        Shape outline = tl.getOutline(tf);
 
         // Restore graphics configuration
         g2d.setFont(oldFont);
@@ -504,7 +506,7 @@ public class MyPanel extends javax.swing.JPanel {
     public void drawColoredString(Graphics2D g2d, Color interiorColor, Color borderColor, int borderWidth,
             String text, Font f, double width) {
         // Get a drawable Shape of the Text
-        var outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
+        Shape outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
         fillDraw(g2d, interiorColor, borderColor, borderWidth, outline);
     }
 
@@ -516,8 +518,8 @@ public class MyPanel extends javax.swing.JPanel {
     @SuppressWarnings("unused")
     public void drawGrid(Graphics2D g2d) {
         // save g2d configuration
-        var oldColor = g2d.getColor();
-        var oldStroke = g2d.getStroke();
+        Color oldColor = g2d.getColor();
+        Stroke oldStroke = g2d.getStroke();
 
         // Get current size
         Rectangle bounds = getBounds();

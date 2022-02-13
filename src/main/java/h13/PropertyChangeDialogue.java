@@ -2,6 +2,7 @@ package h13;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -105,7 +106,7 @@ public class PropertyChangeDialogue extends JDialog {
         add(okButton, BorderLayout.SOUTH);
 
         // Listeners
-        for (var al : okButton.getActionListeners()) {
+        for (ActionListener al : okButton.getActionListeners()) {
             okButton.removeActionListener(al);
         }
         okButton.addActionListener(new ActionListener() {
@@ -114,7 +115,7 @@ public class PropertyChangeDialogue extends JDialog {
                 setVisible(false);
             }
         });
-        for (var al : optionsComboBox.getActionListeners()) {
+        for (ActionListener al : optionsComboBox.getActionListeners()) {
             optionsComboBox.removeActionListener(al);
         }
         optionsComboBox.addActionListener(new ActionListener() {
@@ -128,8 +129,8 @@ public class PropertyChangeDialogue extends JDialog {
         setModal(true);
         pack();
         setMinimumSize(new Dimension(300, 300));
-        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        var insets = getInsets();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = getInsets();
         setSize((int) screenSize.getWidth() / 2, (int) (screenSize.getHeight() / 2));
         setLocation((int) (screenSize.getWidth() / 2 + insets.left), (int) (screenSize.getHeight() / 2 + insets.top));
         // setLocationRelativeTo(null);
@@ -194,7 +195,7 @@ public class PropertyChangeDialogue extends JDialog {
         add(okButton, BorderLayout.SOUTH);
 
         // Add Listeners
-        for (var al : okButton.getActionListeners()) {
+        for (ActionListener al : okButton.getActionListeners()) {
             okButton.removeActionListener(al);
         }
         okButton.addActionListener(new ActionListener() {
@@ -203,7 +204,7 @@ public class PropertyChangeDialogue extends JDialog {
                 setVisible(false);
             }
         });
-        for (var al : valueControlJSlider.getChangeListeners()) {
+        for (ChangeListener al : valueControlJSlider.getChangeListeners()) {
             valueControlJSlider.removeChangeListener(al);
         }
         valueControlJSlider.addChangeListener(new ChangeListener() {
@@ -218,7 +219,7 @@ public class PropertyChangeDialogue extends JDialog {
         // setMinimumSize(new Dimension(300, 300));
         // setLocationRelativeTo(null);
         pack();
-        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         // var insets = getInsets();
         setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
         setLocation((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));

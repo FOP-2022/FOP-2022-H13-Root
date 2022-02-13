@@ -1,7 +1,9 @@
 package h13;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -249,8 +251,8 @@ public class ControlFrame extends JFrame {
 
         // Set Dimension and Position
         pack();
-        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        var insets = getInsets();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = getInsets();
         setSize((int) screenSize.getWidth() / 2, (int) (screenSize.getHeight() / 2));
         setLocation(0, (int) (screenSize.getHeight() / 2 + insets.top));
 

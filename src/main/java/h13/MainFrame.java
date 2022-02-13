@@ -3,6 +3,7 @@ package h13;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -72,8 +73,8 @@ public class MainFrame extends JFrame {
         // Set Dimension and Position
         pack();
         // setLocationRelativeTo(null);
-        var screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        var insets = getInsets();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = getInsets();
         System.out.println(insets.left);
         setLocation(0, 0);
         setSize((int) screenSize.getWidth(), (int) (screenSize.getHeight() / 2));
