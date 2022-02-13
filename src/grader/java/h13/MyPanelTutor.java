@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
@@ -108,7 +109,7 @@ public class MyPanelTutor extends javax.swing.JPanel {
      *
      * @return the value of the {@link #alpha}-Field
      */
-    public double getAlpha() {
+    public float getAlpha() {
         return this.alpha;
     }
 
@@ -133,7 +134,7 @@ public class MyPanelTutor extends javax.swing.JPanel {
      *
      * @return the value of the {@link #saturation}-Field
      */
-    public double getSaturation() {
+    public float getSaturation() {
         return this.saturation;
     }
 
@@ -467,17 +468,18 @@ public class MyPanelTutor extends javax.swing.JPanel {
         var tl = new TextLayout(text, f, g2d.getFontRenderContext());
         var fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
                 text).getVisualBounds();
-        var factorNoBorder = width / fontBounds.getWidth();
 
-        // Account for border
-        var fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factorNoBorder) / 2,
-                fontBounds.getY() - (borderWidth / factorNoBorder) / 2,
-                fontBounds.getWidth() + (borderWidth / factorNoBorder),
-                fontBounds.getHeight() + (borderWidth / factorNoBorder));
+        // Calculate scale Factor
+        var factor = (width - borderWidth) / fontBounds.getWidth();
+
+        // Calculate new Font Bounds for easy centering
+        var fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factor) / 2,
+                fontBounds.getY() - (borderWidth / factor) / 2,
+                fontBounds.getWidth() + (borderWidth / factor),
+                fontBounds.getHeight() + (borderWidth / factor));
 
         // Transform
         var tf = g2d.getTransform();
-        var factor = width / fontBoundsWithBorder.getWidth();
         tf.scale(factor, factor);
         tf.translate((bounds.getCenterX() / factor) - (fontBoundsWithBorder.getCenterX()),
                 (bounds.getCenterY() / factor) - (fontBoundsWithBorder.getCenterY()));
