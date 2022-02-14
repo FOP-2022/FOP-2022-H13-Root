@@ -71,4 +71,46 @@ public class Tutor_Test_H1_1 {
                     Collections.rotate(mptStandartFigs, 1);
                 });
     }
+
+    @Test
+    void testRemoveShapeMethods() {
+        var mp = new MyPanel();
+        var mpt = new MyPanelTutor();
+        List<MyPanel.Figure> mpStandartFigs = new ArrayList<>(List.of(
+                MyPanel.Figure.BLUE_STRING,
+                MyPanel.Figure.YELLOW_RECTANGLE,
+                MyPanel.Figure.GREEN_ELLIPSE));
+        List<MyPanelTutor.Figure> mptStandartFigs = new ArrayList<>(List.of(
+                MyPanelTutor.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.YELLOW_RECTANGLE,
+                MyPanelTutor.Figure.GREEN_ELLIPSE));
+
+        Stream.of(
+                new Runnable[] {
+                        () -> {
+                            mp.removeBlueString();
+                            mpt.removeBlueString();
+                        },
+                        () -> {
+                            mp.removeYellowRectangle();
+                            mpt.removeYellowRectangle();
+                        },
+                        () -> {
+                            mp.removeGreenEllipse();
+                            mpt.removeGreenEllipse();
+                        }
+                })
+                .forEach(removeMethods -> {
+                    // Remove Figures
+                    mp.figuresToDisplay = new ArrayList<>(mpStandartFigs);
+                    mpt.figuresToDisplay = new ArrayList<>(mptStandartFigs);
+                    removeMethods.run();
+                    assertEquals(mp.figuresToDisplay.size(), mpt.figuresToDisplay.size());
+                    assertEquals(mp.figuresToDisplay.get(0).name(), mpt.figuresToDisplay.get(0).name());
+                    assertEquals(mp.figuresToDisplay.get(1).name(), mpt.figuresToDisplay.get(1).name());
+
+                    // Collections.rotate(mpStandartFigs, 1);
+                    // Collections.rotate(mptStandartFigs, 1);
+                });
+    }
 }
