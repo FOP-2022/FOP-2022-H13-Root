@@ -2,7 +2,10 @@ package h13;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
@@ -34,5 +37,49 @@ public class TestUtils {
             chars[i] = (char) random.nextInt('a', 'z' + 1);
         }
         return new String(chars);
+    }
+
+    public static void assertShapesEqual(Shape expected, Shape actual, boolean ignorePositioning) {
+        // Bounds
+        assertEquals(expected.getBounds(), actual.getBounds());
+
+        var img = new BufferedImage(
+                (int) expected.getBounds().getWidth(),
+                (int) expected.getBounds().getHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+        var g2d = img.createGraphics();
+        var g2dTutor = imgTutor.createGraphics();
+
+        if (ignorePositioning) {
+            // Center Shapes
+            var at = new AffineTransform();
+            at.translate(actual.getBounds().getX(), actual.getBounds().getY());
+            actual = at.createTransformedShape(actual);
+
+            var atTutor = new AffineTransform();
+            atTutor.translate(expected.getBounds().getX(), expected.getBounds().getY());
+            expected = atTutor.createTransformedShape(expected);
+        }
+
+        // Draw Shapes
+        var outlineColor = Color.RED;
+        var fillColor = new Color(0, 255, 0, 100);
+
+        g2d.setStroke(new BasicStroke(2));
+        g2d.setColor(fillColor);
+        g2d.fill(actual);
+        g2d.setColor(outlineColor);
+        g2d.draw(actual);
+
+        g2dTutor.setStroke(new BasicStroke(2));
+        g2dTutor.setColor(fillColor);
+        g2dTutor.fill(expected);
+        g2dTutor.setColor(outlineColor);
+        g2dTutor.draw(expected);
+
+        // Compare
+        assertImagesEqual(imgTutor, img);
     }
 }

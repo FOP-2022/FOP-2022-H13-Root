@@ -38,11 +38,13 @@ public class Tutor_Test_H1_2 {
     public void testCenterShape_noChanges() {
         MyPanel mp = new MyPanel();
         MyPanelTutor mpt = new MyPanelTutor();
-        mp.setSize(1920, 1080);
-        mpt.setSize(1920, 1080);
+        mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
+        mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Clean
-        var actualShape = mp.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), 1, 1, 0);
-        var expectedShape = mpt.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), 1, 1, 0);
+        var actualShape = mp.centerShape(
+                new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()), 1, 1, 0);
+        var expectedShape = mpt.centerShape(
+                new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()), 1, 1, 0);
         assertEquals(expectedShape, actualShape);
     }
 
@@ -50,22 +52,30 @@ public class Tutor_Test_H1_2 {
     public void testCenterShape_Centering() {
         MyPanel mp = new MyPanel();
         MyPanelTutor mpt = new MyPanelTutor();
-        mp.setSize(1920, 1080);
-        mpt.setSize(1920, 1080);
+        mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
+        mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Resizing needed
-        assertEquals(mp.centerShape(new Rectangle2D.Double(-420, 1337, 1920, 1080), 1, 1, 42),
-                mpt.centerShape(new Rectangle2D.Double(-420, 1337, 1920, 1080), 1, 1, 42));
+        assertEquals(
+                mp.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
+                        TestConstants.getScreenHeight()), 1, 1, 42),
+                mpt.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
+                        TestConstants.getScreenHeight()), 1, 1, 42));
     }
 
     @Test
     public void testCenterShape_Resize() {
         MyPanel mp = new MyPanel();
         MyPanelTutor mpt = new MyPanelTutor();
-        mp.setSize(1920, 1080);
-        mpt.setSize(1920, 1080);
+        mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
+        mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Scaling
-        assertEquals(mp.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), .5, .5, 0),
-                mpt.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), .5, .5, 0));
+        assertEquals(
+                mp.centerShape(
+                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
+                        .5, .5, 0),
+                mpt.centerShape(
+                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
+                        .5, .5, 0));
         // Scaling 2
         assertEquals(mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
                 mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0));
@@ -75,22 +85,27 @@ public class Tutor_Test_H1_2 {
     public void testCenterShape_Border() {
         MyPanel mp = new MyPanel();
         MyPanelTutor mpt = new MyPanelTutor();
-        mp.setSize(1920, 1080);
-        mpt.setSize(1920, 1080);
+        mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
+        mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // No Resizing needed
         assertEquals(mp.centerShape(new Rectangle2D.Double(21, 21, 1878, 1038), 1, 1, 42),
                 mpt.centerShape(new Rectangle2D.Double(21, 21, 1878, 1038), 1, 1, 42));
         // Resizing needed for border
-        assertEquals(mp.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), 1, 1, 42),
-                mpt.centerShape(new Rectangle2D.Double(0, 0, 1920, 1080), 1, 1, 42));
+        assertEquals(
+                mp.centerShape(
+                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
+                        1, 1, 42),
+                mpt.centerShape(
+                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
+                        1, 1, 42));
     }
 
     @Test
     public void testCenterShape_All() {
         MyPanel mp = new MyPanel();
         MyPanelTutor mpt = new MyPanelTutor();
-        mp.setSize(1920, 1080);
-        mpt.setSize(1920, 1080);
+        mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
+        mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Scaling+Border+Resize
         assertEquals(mp.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 123),
                 mpt.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 123));
@@ -98,7 +113,8 @@ public class Tutor_Test_H1_2 {
 
     @Test
     public void testFillDraw_NoBorder() {
-        var img = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+        var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
+                BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         var g2d = img.createGraphics();
@@ -128,7 +144,8 @@ public class Tutor_Test_H1_2 {
 
     @Test
     public void testFillDraw_Border() {
-        var img = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+        var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
+                BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         var g2d = img.createGraphics();
@@ -156,7 +173,8 @@ public class Tutor_Test_H1_2 {
 
     @Test
     public void testFillDraw_ALL() {
-        var img = new BufferedImage(1920, 1080, BufferedImage.TYPE_INT_ARGB);
+        var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
+                BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
         var g2d = img.createGraphics();
