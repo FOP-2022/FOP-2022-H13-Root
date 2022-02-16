@@ -86,13 +86,12 @@ public class MainFrame extends JFrame {
                     // Save Screenshot
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
                     File outputfile = new File("screenshots/FOP-H13-" + dateFormat.format(new Date()) + ".png");
-                    System.out.println(outputfile.getAbsolutePath());
+                    System.out.println("Saving Screenshot to: " + outputfile.getAbsolutePath());
                     try {
-                        var outdir = Files.createDirectories(outputfile.getParentFile().toPath());
                         try {
                             Files.createDirectories(outputfile.toPath());
-
                         } catch (FileAlreadyExistsException e2) {
+                            // Directory Already Exists
                         }
                         if (!outputfile.exists()) {
                             outputfile.createNewFile();
