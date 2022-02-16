@@ -21,6 +21,10 @@ public class TestUtils {
         // The Images have different sizes
         assertEquals(expected.getRaster().getBounds(), actual.getRaster().getBounds(), "Wrong Image Bounds.");
         // Loop over all Pixels
+        // TODO: Optimize
+        // var expectedRGBs = expected.getRGB(0, 0, expected.getWidth(), expected.getHeight(), null, 0,
+        //         expected.getWidth());
+        // var actualRGBs = actual.getRGB(0, 0, actual.getWidth(), actual.getHeight(), null, 0, actual.getWidth());
         for (int y = 0; y < expected.getHeight(); y++) {
             for (int x = 0; x < expected.getWidth(); x++) {
                 assertEquals(new Color(expected.getRGB(x, y), true),
@@ -41,7 +45,8 @@ public class TestUtils {
 
     public static void assertShapesEqual(Shape expected, Shape actual, boolean ignorePositioning) {
         // Bounds
-        assertEquals(expected.getBounds(), actual.getBounds());
+        // assertEquals(expected.getBounds.getWidth(), actual.getWidth());
+        // assertEquals(expected.getBounds(), actual.getBounds());
 
         var img = new BufferedImage(
                 (int) expected.getBounds().getWidth(),

@@ -358,14 +358,16 @@ public class MyPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Centers a rectangular Shape
+     * Centers a rectangular Shape and scales it with the given factors
      *
      * @param <T>         The Dynamic Type of the RectangularShape
      * @param s           the RectangularShape
-     * @param scaleX      how much horizontal screen space the shape will take
-     *                    (1.0d -> full screen)
-     * @param scaleY      how much vertical screen space the shape will take
-     *                    (1.0d -> full screen)
+     * @param scaleX      how much horizontal space of the current
+     *                    {@link MyPanel}-instance the shape will take after scaling
+     *                    (1.0d -> full width)
+     * @param scaleY      how much vertical space of the current
+     *                    {@link MyPanel}-instance the shape will take after scaling
+     *                    (1.0d -> full height)
      * @param borderWidth the Border width to consider
      * @return the centered Shape (for convenience)
      */
@@ -579,8 +581,8 @@ public class MyPanel extends javax.swing.JPanel {
         // drawGrid(g2d);
 
         // Antialiasing
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        //         RenderingHints.VALUE_ANTIALIAS_ON);
 
         Rectangle bounds = getBounds();
 
