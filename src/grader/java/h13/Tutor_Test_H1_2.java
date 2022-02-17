@@ -12,7 +12,9 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h13")
 public class Tutor_Test_H1_2 {
     @Test
     public void testColorWithAlpha() {

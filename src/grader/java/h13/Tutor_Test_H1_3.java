@@ -17,7 +17,9 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h13")
 public class Tutor_Test_H1_3 {
     @Test
     public void testScaleTextToWidth_No_Tf_Needed() {

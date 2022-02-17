@@ -1,8 +1,11 @@
+import org.sourcegrade.submitter.submit
+
 plugins {
     java
     application
     eclipse
     id("org.sourcegrade.style") version "1.2.0"
+    id("org.sourcegrade.submitter") version "0.4.0"
 }
 
 version = "0.1.0-SNAPSHOT"
@@ -13,15 +16,23 @@ repositories {
 }
 
 val grader: SourceSet by sourceSets.creating {
-    compileClasspath += sourceSets.test.get().compileClasspath
-    runtimeClasspath += output + compileClasspath
+    val test = sourceSets.test.get()
+    compileClasspath += test.compileClasspath + test.output
+    runtimeClasspath += output + compileClasspath + test.runtimeClasspath
+}
+
+submit {
+    assignmentId = "h13"
+    studentId = "ab12cdef"
+    firstName = "sol_first"
+    lastName = "sol_last"
 }
 
 dependencies {
     "graderImplementation"("org.sourcegrade:jagr-launcher:0.4.0-SNAPSHOT")
     implementation("com.formdev:flatlaf:2.0.1")
     implementation("com.google.guava:guava:31.0.1-jre")
-    implementation("org.mockito:mockito-core:4.2.0")
+    "graderImplementation"("org.mockito:mockito-core:4.2.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 

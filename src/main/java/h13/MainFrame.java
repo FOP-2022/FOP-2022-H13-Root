@@ -9,12 +9,10 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -70,7 +68,7 @@ public class MainFrame extends JFrame {
                             getExtendedState() == Frame.MAXIMIZED_BOTH ? Frame.NORMAL
                                     : Frame.MAXIMIZED_BOTH);
                 } else if (e.getKeyCode() == KeyEvent.VK_F12) {
-                    var screenshot_size = new Rectangle(7680, 4320);
+                    var screenshot_size = new Rectangle(1920, 1080);
                     BufferedImage screenShot = new BufferedImage((int) screenshot_size.getWidth(),
                             (int) screenshot_size.getHeight(), BufferedImage.TYPE_INT_ARGB);
                     // Store original size
@@ -102,7 +100,9 @@ public class MainFrame extends JFrame {
                     }
                 } else if (e.getKeyCode() == KeyEvent.VK_PLUS) {
                     System.out.println("plus");
-                    panel.setZoom(Math.min(panel.getZoom() + 0.2, 1));
+                    System.out.println(e.toString());
+                    System.out.println(".");
+                    panel.setZoom(Math.min(panel.getZoom() + 0.2, 2));
                     panel.repaint();
                 } else if (e.getKeyCode() == KeyEvent.VK_MINUS) {
                     System.out.println("minus");

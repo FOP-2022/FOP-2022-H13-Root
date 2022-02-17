@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
+@TestForSubmission("h13")
 public class Tutor_Test_H1_1 {
     @Test
     void testDefaultValues() {

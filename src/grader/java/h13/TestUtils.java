@@ -4,9 +4,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class TestUtils {
@@ -86,5 +90,18 @@ public class TestUtils {
 
         // Compare
         assertImagesEqual(imgTutor, img);
+    }
+
+    // https://stackoverflow.com/questions/6495769/how-to-get-all-elements-inside-a-jframe
+    // This seems to fix the H2 Tests somehow
+    public static List<Component> getAllComponents(final Container c) {
+        Component[] comps = c.getComponents();
+        List<Component> compList = new ArrayList<Component>();
+        for (Component comp : comps) {
+            compList.add(comp);
+            if (comp instanceof Container)
+                compList.addAll(getAllComponents((Container) comp));
+        }
+        return compList;
     }
 }
