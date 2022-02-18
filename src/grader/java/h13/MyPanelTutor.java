@@ -12,7 +12,6 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.Rectangle2D.Double;
 import java.awt.geom.RectangularShape;
 import java.util.ArrayList;
 import java.util.List;
@@ -468,6 +467,7 @@ public class MyPanelTutor extends javax.swing.JPanel {
         // graphics configuration
         g2d.setFont(f);
 
+        // Prepare Shape creation
         TextLayout tl = new TextLayout(text, f, g2d.getFontRenderContext());
         Rectangle2D fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
                 text).getVisualBounds();
@@ -475,18 +475,61 @@ public class MyPanelTutor extends javax.swing.JPanel {
         // Calculate scale Factor
         double factor = (width - borderWidth) / fontBounds.getWidth();
 
-        // Calculate new Font Bounds for easy centering
-        Double fontBoundsWithBorder = new Rectangle2D.Double(fontBounds.getX() - (borderWidth / factor) / 2,
-                fontBounds.getY() - (borderWidth / factor) / 2,
-                fontBounds.getWidth() + (borderWidth / factor),
-                fontBounds.getHeight() + (borderWidth / factor));
+        // Transform
+        AffineTransform tf = new AffineTransform();
+        tf.scale(factor, factor);
+
+        // Get Scaled Font Bounds for centering
+        Shape scaledFont = tl.getOutline(tf);
+        var scaledFontBounds = scaledFont.getBounds2D();
+
+        // Center
+        tf.translate((bounds.getCenterX() - scaledFontBounds.getCenterX()) / factor,
+                (bounds.getCenterY() - scaledFontBounds.getCenterY()) / factor);
+        Shape outline = tl.getOutline(tf);
+
+        // Restore graphics configuration
+        g2d.setFont(oldFont);
+        return outline;
+    }
+
+    /**
+     * Create A shape with the desired Text and the desired width
+     *
+     * @param g2d         the specified Graphics context to draw the font with
+     * @param width       the desired text width
+     * @param borderWidth the border width to account for
+     * @param text        the string to display
+     * @param f           the font used for drawing the string
+     * @return The Shape of the outline
+     */
+    public Shape scaleTextToWidth_alt1(Graphics2D g2d, double width, float borderWidth, String text, Font f) {
+        // Get current size
+        Rectangle bounds = getBounds();
+
+        // Store current g2d Configuration
+        Font oldFont = g2d.getFont();
+
+        // graphics configuration
+        g2d.setFont(f);
+
+        // Calculate scale Factor
+        double factor = (width - borderWidth) / f.createGlyphVector(g2d.getFontRenderContext(),
+                text).getVisualBounds().getWidth();
 
         // Transform
-        AffineTransform tf = g2d.getTransform();
-        tf.scale(factor, factor);
-        tf.translate((bounds.getCenterX() / factor) - (fontBoundsWithBorder.getCenterX()),
-                (bounds.getCenterY() / factor) - (fontBoundsWithBorder.getCenterY()));
-        Shape outline = tl.getOutline(tf);
+        AffineTransform scaleTf = new AffineTransform();
+        scaleTf.scale(factor, factor);
+
+        // Get Scaled Font Bounds for centering
+        Shape scaledFont = new TextLayout(text, f, g2d.getFontRenderContext()).getOutline(scaleTf);
+        var scaledFontBounds = scaledFont.getBounds2D();
+
+        // Center
+        AffineTransform centerTf = new AffineTransform();
+        centerTf.translate((bounds.getCenterX() - scaledFontBounds.getCenterX()),
+                (bounds.getCenterY() - scaledFontBounds.getCenterY()));
+        Shape outline = centerTf.createTransformedShape(scaledFont);
 
         // Restore graphics configuration
         g2d.setFont(oldFont);
@@ -509,6 +552,9 @@ public class MyPanelTutor extends javax.swing.JPanel {
         // Get a drawable Shape of the Text
         Shape outline = scaleTextToWidth(g2d, width, borderWidth, text, f);
         fillDraw(g2d, interiorColor, borderColor, borderWidth, outline);
+
+        // Optional Hitbox of the Font for testing
+        // fillDraw(g2d, new Color(0, 0, 0, 0), Color.red, 2, outline.getBounds2D());
     }
 
     /**
@@ -581,7 +627,7 @@ public class MyPanelTutor extends javax.swing.JPanel {
 
         // Antialiasing
         // g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-        //         RenderingHints.VALUE_ANTIALIAS_ON);
+        // RenderingHints.VALUE_ANTIALIAS_ON);
 
         Rectangle bounds = getBounds();
 
