@@ -479,14 +479,20 @@ public class MyPanelTutor extends javax.swing.JPanel {
         AffineTransform tf = new AffineTransform();
         tf.scale(factor, factor);
 
-        // Get Scaled Font Bounds for centering
+        // Center
+        tf.translate(bounds.getCenterX() / factor - fontBounds.getCenterX(),
+                bounds.getCenterY() / factor - fontBounds.getCenterY());
+
+        /* Alternatively:
+        / Get Scaled Font Bounds for centering
         Shape scaledFont = tl.getOutline(tf);
         var scaledFontBounds = scaledFont.getBounds2D();
 
         // Center
         tf.translate((bounds.getCenterX() - scaledFontBounds.getCenterX()) / factor,
                 (bounds.getCenterY() - scaledFontBounds.getCenterY()) / factor);
-        Shape outline = tl.getOutline(tf);
+        */
+                Shape outline = tl.getOutline(tf);
 
         // Restore graphics configuration
         g2d.setFont(oldFont);

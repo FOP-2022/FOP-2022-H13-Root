@@ -218,7 +218,7 @@ public class ControlFrameTutor extends JFrame {
                         "Change Font",
                         "Font",
                         0,
-                        new String[] { "Default", "Arial" },
+                        new String[] { "Default", "Arial", "Dialog", "Monospaced", "SansSerief" },
                         (n) -> {
                             mp.setFont(new Font(n, Font.PLAIN, 16));
                         });

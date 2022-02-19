@@ -72,7 +72,57 @@ public class PropertyChangeDialogueTutor extends JDialog {
             int max,
             int current,
             IntConsumer updateValue) {
-        showNumberChangeDialog(title, propertyName, min, max, current, false, 1, 1, updateValue);
+        // Frame Properties
+        setTitle(title);
+        propertyJLabel.setText(propertyName);
+        valueControlJSlider.setMinimum(min);
+        valueControlJSlider.setMaximum(max);
+        valueControlJSlider.setValue(current);
+        valueInputField.setText("" + current);
+
+        remove(optionsComboBox);
+
+        setLayout(new BorderLayout());
+        // Clear previous Components
+        // Add Components
+        add(propertyJLabel, BorderLayout.NORTH);
+        add(valueControlJSlider, BorderLayout.CENTER);
+        add(valueInputField, BorderLayout.EAST);
+        add(okButton, BorderLayout.SOUTH);
+
+        // Add Listeners
+        for (ActionListener al : okButton.getActionListeners()) {
+            okButton.removeActionListener(al);
+        }
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+            }
+        });
+        for (ChangeListener al : valueControlJSlider.getChangeListeners()) {
+            valueControlJSlider.removeChangeListener(al);
+        }
+        valueControlJSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                valueInputField.setText("" + valueControlJSlider.getValue());
+                updateValue.accept(valueControlJSlider.getValue());
+            }
+        });
+
+        // Set Dimension and Position
+        // setMinimumSize(new Dimension(300, 300));
+        // setLocationRelativeTo(null);
+        pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        // var insets = getInsets();
+        setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
+        setLocation((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
+
+        // Show Frame
+        setModal(true);
+        setVisible(true);
     }
 
     /**
@@ -140,17 +190,6 @@ public class PropertyChangeDialogueTutor extends JDialog {
     /**
      * Initializes the Dialog
      *
-     * @param title        the Dialog Title
-     * @param propertyName the Property Name
-     * @param min          the minimum Value of the Property
-     * @param max          the Maximum Value of the Property
-     * @param current      the current Value of the Property
-     * @param updateValue  a consumer that is executed every time the value changes
-     */
-
-    /**
-     * Initializes the Dialog
-     *
      * @param title         the Dialog Title
      * @param propertyName  the Property Name
      * @param min           the minimum Value of the Property
@@ -171,61 +210,11 @@ public class PropertyChangeDialogueTutor extends JDialog {
             int minorTickSize,
             int majorTickSize,
             IntConsumer updateValue) {
-        // Frame Properties
-        setTitle(title);
-        propertyJLabel.setText(propertyName);
-        valueControlJSlider.setMinimum(min);
-        valueControlJSlider.setMaximum(max);
-        valueControlJSlider.setValue(current);
         valueControlJSlider.setMinorTickSpacing(minorTickSize);
         valueControlJSlider.setMajorTickSpacing(majorTickSize);
         // valueControlJSlider.setSnapToTicks(showTicks);
         valueControlJSlider.setPaintTicks(showTicks);
         valueControlJSlider.setPaintLabels(showTicks);
-        valueInputField.setText("" + current);
-
-        remove(optionsComboBox);
-
-        setLayout(new BorderLayout());
-        // Clear previous Components
-        // Add Components
-        add(propertyJLabel, BorderLayout.NORTH);
-        add(valueControlJSlider, BorderLayout.CENTER);
-        add(valueInputField, BorderLayout.EAST);
-        add(okButton, BorderLayout.SOUTH);
-
-        // Add Listeners
-        for (ActionListener al : okButton.getActionListeners()) {
-            okButton.removeActionListener(al);
-        }
-        okButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-            }
-        });
-        for (ChangeListener al : valueControlJSlider.getChangeListeners()) {
-            valueControlJSlider.removeChangeListener(al);
-        }
-        valueControlJSlider.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                valueInputField.setText("" + valueControlJSlider.getValue());
-                updateValue.accept(valueControlJSlider.getValue());
-            }
-        });
-
-        // Set Dimension and Position
-        // setMinimumSize(new Dimension(300, 300));
-        // setLocationRelativeTo(null);
-        pack();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        // var insets = getInsets();
-        setSize((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
-        setLocation((int) (screenSize.getWidth() / 2), (int) (screenSize.getHeight() / 2));
-
-        // Show Frame
-        setModal(true);
-        setVisible(true);
+        showNumberChangeDialog(title, propertyName, min, max, current, updateValue);
     }
 }
