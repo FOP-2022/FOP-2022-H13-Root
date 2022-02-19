@@ -47,10 +47,12 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testLayout() throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
-        var cf = new ControlFrame(mf);
         cf.init();
 
         var layout = cf.getContentPane().getLayout();
@@ -62,10 +64,12 @@ public class Tutor_Test_H2_2 {
 
     @Test
     public void testComponents() throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
-        var cf = new ControlFrame(mf);
         cf.init();
         var layout = cf.getContentPane().getLayout();
         assertInstanceOf(GridLayout.class, layout);
@@ -101,11 +105,10 @@ public class Tutor_Test_H2_2 {
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         // Modifier
         var mp = spy(new MyPanel());
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
         try {
             mf.init();
             cf.init();
@@ -154,8 +157,10 @@ public class Tutor_Test_H2_2 {
     public void testRemoveButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var mp = spy(new MyPanel());
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
 
         try {
             mf.init();
@@ -189,9 +194,11 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeSaturationButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
 
         var pcdField = cf.getClass().getDeclaredField("pcd");
         pcdField.setAccessible(true);
@@ -237,9 +244,11 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeAlphaButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
 
         var pcdField = cf.getClass().getDeclaredField("pcd");
         pcdField.setAccessible(true);
@@ -294,9 +303,11 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeZoomButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
 
         var pcdField = cf.getClass().getDeclaredField("pcd");
         pcdField.setAccessible(true);
@@ -349,9 +360,11 @@ public class Tutor_Test_H2_2 {
     @SuppressWarnings("unchecked")
     public void testChangeFontButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
 
         var pcdField = cf.getClass().getDeclaredField("pcd");
         pcdField.setAccessible(true);
@@ -401,8 +414,10 @@ public class Tutor_Test_H2_2 {
     public void testExitButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var mp = spy(new MyPanel());
-        var mf = new MainFrame(mp);
-        var cf = new ControlFrame(mf);
+        var mf = spy(new MainFrame(mp));
+        var cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
         var componentField = Container.class.getDeclaredField("component");
         componentField.setAccessible(true);
         componentField.set(mf, new ArrayList<Component>());

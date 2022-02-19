@@ -74,11 +74,21 @@ public class TestUtils {
      *                 exactly
      */
     public static void saveImageDiff(BufferedImage expected, BufferedImage actual) {
-        BufferedImage screenShot = imageDiff(expected, actual);
+        saveImage(imageDiff(expected, actual), "FOP-H13-Diff");
+    }
 
+    /**
+     * Saves a given BufferedImage to the screnshots directory
+     *
+     * @param img        the Image to save
+     * @param namePrefix the Image Name Prefix
+     */
+    public static void saveImage(BufferedImage img, String namePrefix) {
         // Save Screenshot
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        File outputfile = new File("screenshots/FOP-H13-DIFF-" + dateFormat.format(new Date()) + ".png");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss.SSS");
+        File outputfile = new File(
+                "screenshots/" + (namePrefix != null && namePrefix.length() > 0 ? namePrefix + "-" : "")
+                        + dateFormat.format(new Date()) + ".png");
         System.out.println("Saving DIFF to: " + outputfile.getAbsolutePath());
         try {
             try {
@@ -89,10 +99,19 @@ public class TestUtils {
             if (!outputfile.exists()) {
                 outputfile.createNewFile();
             }
-            ImageIO.write(screenShot, "png", outputfile);
+            ImageIO.write(img, "png", outputfile);
         } catch (IOException e1) {
             e1.printStackTrace();
         }
+    }
+
+    /**
+     * Saves a given BufferedImage to the screnshots directory
+     *
+     * @param img the Image to save
+     */
+    public static void saveImage(BufferedImage img) {
+        saveImage(img, (String) null);
     }
 
     /**
@@ -122,7 +141,8 @@ public class TestUtils {
                     if (requiredSimilarity >= 1) {
                         assertEquals(expectedColor,
                                 actualColor,
-                                String.format("Wrong Color at (%s,%s).", x, y));
+                                String.format("Wrong Color at (%s,%s). (expected alpha: %s, actual alpha: %s)", x, y,
+                                        expectedColor.getAlpha(), actualColor.getAlpha()));
                     } else {
                         unequal++;
                     }
@@ -332,7 +352,7 @@ public class TestUtils {
     public static List<Component> getAllComponents(final Container c) {
         Component[] comps = c.getComponents();
         List<Component> compList = new ArrayList<Component>();
-        if(comps == null){
+        if (comps == null) {
             return compList;
         }
         for (Component comp : comps) {
