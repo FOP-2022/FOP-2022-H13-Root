@@ -332,6 +332,9 @@ public class TestUtils {
     public static List<Component> getAllComponents(final Container c) {
         Component[] comps = c.getComponents();
         List<Component> compList = new ArrayList<Component>();
+        if(comps == null){
+            return compList;
+        }
         for (Component comp : comps) {
             compList.add(comp);
             if (comp instanceof Container)

@@ -18,6 +18,9 @@ import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.AbstractDocument;
 
 /**
  * A Property Change Dialogue for changing Values
@@ -110,6 +113,27 @@ public class PropertyChangeDialogue extends JDialog {
                 updateValue.accept(valueControlJSlider.getValue());
             }
         });
+        // for (var al : ((AbstractDocument) valueInputField.getDocument()).getDocumentListeners()) {
+        //     valueInputField.getDocument().removeDocumentListener(al);
+        // }
+        // valueInputField.getDocument().addDocumentListener(
+        //         new DocumentListener() {
+
+        //             @Override
+        //             public void insertUpdate(DocumentEvent e) {
+        //                 valueControlJSlider.setValue(Integer.valueOf(valueInputField.getText()));
+        //             }
+
+        //             @Override
+        //             public void removeUpdate(DocumentEvent e) {
+        //                 valueControlJSlider.setValue(Integer.valueOf(valueInputField.getText()));
+        //             }
+
+        //             @Override
+        //             public void changedUpdate(DocumentEvent e) {
+        //                 valueControlJSlider.setValue(Integer.valueOf(valueInputField.getText()));
+        //             }
+        //         });
 
         // Set Dimension and Position
         // setMinimumSize(new Dimension(300, 300));

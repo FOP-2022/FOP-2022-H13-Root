@@ -32,7 +32,7 @@ dependencies {
     "graderImplementation"("org.sourcegrade:jagr-launcher:0.4.0-SNAPSHOT")
     implementation("com.formdev:flatlaf:2.0.1")
     implementation("com.google.guava:guava:31.0.1-jre")
-    "graderImplementation"("org.mockito:mockito-core:4.2.0")
+    "graderImplementation"("org.mockito:mockito-inline:4.3.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
 }
 
