@@ -408,25 +408,217 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .build())
             .build();
 
+    // --H2--//
+    // H2.1
+    public static final Criterion H2_1 = Criterion.builder()
+            .shortDescription("H2.1 Zeichenfenster")
+            .addChildCriteria(
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die aktuelle My-Panel instanz wird beim initialisieren hinzugefügt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                            "testMainFrameComponents")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die aktuelle My-Panel instanz wird beim initialisieren dem MainFrame hinzugefügt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                            "testMainFrameComponents")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Der Listener für das hereinzoomen (+) ist korrekt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                            "testMainFrameKeyListeners_Plus")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Der Listener für das herauszooomen (-) ist korrekt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                            "testMainFrameKeyListeners_Minus")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build())
+            .build();
+
+    // H2.2
+    public static final Criterion H2_2 = Criterion.builder()
+            .shortDescription("H2.2 Steuerungsfenster mit GridLayout ")
+            .addChildCriteria(
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Das GridLayout wurde verwendet und hat die geforderten Zeilen und Spalten.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testLayout")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Knöpfe wurden an der korrekten Position hinzugefügt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testLayout")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Add-Knöpfe funktionieren korrekt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testAddButtons")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Remove-Knöpfe funktionieren korrekt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testRemoveButtons")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Knöpfe zum Verändern vom Sättigung, Alpha und Zoom funktionieren korrekt.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(and(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testChangeSaturationButtons")),
+                                                    ofMethod(
+                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                                    "testChangeAlphaButton")),
+                                                    ofMethod(
+                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                                    "testChangeZoomButtons"))))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Der Knopf zum Verändern der Schriftart funktioniert korrekt und bietet mindestens fünf unterschiedliche Auswahlmöglichkeiten.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                            "testChangeFontButton")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Der Exit-Button beendet das Programm.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(or(
+                                                    ofMethod(
+                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                                    "testExitButton")),
+                                                    ofMethod(
+                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                                    "testExitButton_alt"))))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build())
+            .build();
+
+    // H2.3
+    public static final Criterion H2_3 = Criterion.builder()
+            .shortDescription("H2.3 Der Änderungsdialog PropertyChangeDialogue")
+            .addChildCriteria(
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Methode showNumberChangeDialog erfüllt die notwendigen Anforderungen der Aufgabenstellung.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_3.class.getMethod(
+                                                            "testShowNumberChangeDialog")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build(),
+                    Criterion.builder()
+                            .shortDescription(
+                                    "Die Methode showEnumChangeDialogue erfüllt die notwendigen Anforderungen der Aufgabenstellung.")
+                            .grader(
+                                    Grader.testAwareBuilder()
+                                            .requirePass(ofMethod(
+                                                    () -> Tutor_Test_H2_3.class.getMethod(
+                                                            "testShowEnumChangeDialogue")))
+                                            .pointsPassedMax()
+                                            .pointsFailedMin()
+                                            .build())
+                            .build())
+            .build();
+
     // Tasks:
 
     public static final Criterion H1 = Criterion.builder()
             .shortDescription("H1 Eigene JPanel-Klasse")
             .addChildCriteria(
                     H1_1,
-                    H1_2
-            // H1_3,
-            // H1_4,
-            )
+                    H1_2,
+                    H1_3,
+                    H1_4)
+            .build();
+
+    public static final Criterion H2 = Criterion.builder()
+            .shortDescription("H2 Programm mit zwei Fenstern")
+            .addChildCriteria(
+                    H2_1,
+                    H2_2,
+                    H2_3)
             .build();
 
     @Override
     public Rubric getRubric() {
         return Rubric.builder()
                 .title("h13")
-                .addChildCriteria(H1
-                // H2,
-                )
+                .addChildCriteria(
+                        H1,
+                        H2)
                 .build();
     }
 
