@@ -426,25 +426,48 @@ public class Tutor_Test_H2_2 {
             // Try anyways
         }
 
-        var oldSM = System.getSecurityManager();
-        SecurityManager sm = new SecurityManager() {
-            @Override
-            public void checkExit(int status) {
-                throw new IllegalAccessError();
-            }
-
-            @Override
-            public void checkPermission(Permission perm) {
-            }
-        };
-        System.setSecurityManager(sm);
-
-        // Green Ellipse
-        assertThrows(IllegalAccessError.class, () -> cf.exitButton.doClick());
-
-        // Reset Security Manager
-        System.setSecurityManager(oldSM);
+        assertTrue(TutorSystem.exitCalled);
     }
+
+//    @Test
+    // @SuppressWarnings("deprecation")
+//    @ExtendWith(JagrExecutionCondition.class)
+//    public void testExitButton_junit()
+//            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+//        var mp = spy(new MyPanel());
+//        var mf = spy(new MainFrame(mp));
+//        var cf = spy(new ControlFrame(mf));
+//        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+//        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
+//        var componentField = Container.class.getDeclaredField("component");
+//        componentField.setAccessible(true);
+//        componentField.set(mf, new ArrayList<Component>());
+//        try {
+//            mf.init();
+//            cf.init();
+//        } catch (Exception e) {
+//            // Try anyways
+//        }
+//
+//        var oldSM = System.getSecurityManager();
+//        SecurityManager sm = new SecurityManager() {
+//            @Override
+//            public void checkExit(int status) {
+//                throw new IllegalAccessError();
+//            }
+//
+//            @Override
+//            public void checkPermission(Permission perm) {
+//            }
+//        };
+//        System.setSecurityManager(sm);
+//
+//        // Green Ellipse
+//        assertThrows(IllegalAccessError.class, () -> cf.exitButton.doClick());
+//
+//        // Reset Security Manager
+//        System.setSecurityManager(oldSM);
+//    }
 
     @Test
     @ExtendWith(JagrExecutionCondition.class)

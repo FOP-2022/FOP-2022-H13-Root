@@ -15,18 +15,18 @@ repositories {
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
-val grader: SourceSet by sourceSets.creating {
-    val test = sourceSets.test.get()
-    compileClasspath += test.compileClasspath + test.output
-    runtimeClasspath += output + compileClasspath + test.runtimeClasspath
-}
-
 submit {
     assignmentId = "h13"
     studentId = "ab12cdef"
     firstName = "sol_first"
     lastName = "sol_last"
     requireTests= false
+}
+
+val grader: SourceSet by sourceSets.creating {
+    val test = sourceSets.test.get()
+    compileClasspath += test.compileClasspath + test.output
+    runtimeClasspath += output + compileClasspath + test.runtimeClasspath
 }
 
 dependencies {
