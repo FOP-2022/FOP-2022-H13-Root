@@ -1,6 +1,8 @@
 package h13;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.spy;
 
 import java.awt.AWTException;
 import java.awt.event.KeyEvent;
@@ -9,14 +11,16 @@ import java.util.Date;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_1 {
     @Test
     public void testMainFrameComponents() {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
         var components = TestUtils.getAllComponents(mf);
         assertTrue(components.contains(mf.panel));
@@ -24,8 +28,9 @@ public class Tutor_Test_H2_1 {
 
     @Test
     public void testMainFrameKeyListeners_Plus() throws AWTException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
 
         assertTrue(
@@ -65,8 +70,9 @@ public class Tutor_Test_H2_1 {
 
     @Test
     public void testMainFrameKeyListeners_Minus() throws AWTException {
-        var mp = new MyPanel();
-        var mf = new MainFrame(mp);
+        var mp = spy(new MyPanel());
+        var mf = spy(new MainFrame(mp));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
 
         assertTrue(

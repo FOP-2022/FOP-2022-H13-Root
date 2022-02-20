@@ -8,26 +8,20 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockConstruction;
-import static org.mockito.Mockito.mockConstructionWithAnswer;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.withSettings;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Window;
 import java.lang.reflect.InvocationTargetException;
 import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.ResourceBundle.Control;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import java.util.stream.Collectors;
@@ -35,10 +29,7 @@ import java.util.stream.Collectors;
 import javax.swing.JButton;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Answers;
 import org.mockito.ArgumentMatchers;
-import org.mockito.MockSettings;
-import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
@@ -63,7 +54,8 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
-    public void testComponents() throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException {
+    public void testComponents()
+            throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException {
         var mp = spy(new MyPanel());
         var mf = spy(new MainFrame(mp));
         var cf = spy(new ControlFrame(mf));
@@ -226,11 +218,11 @@ public class Tutor_Test_H2_2 {
                 .forEach(
                         x -> {
                             var params = x.getArguments();
-                            String title = (String) params[0];
-                            String propertyName = (String) params[1];
+                            // String title = (String) params[0];
+                            // String propertyName = (String) params[1];
                             int min = (int) params[2];
                             int max = (int) params[3];
-                            int current = (int) params[4];
+                            // int current = (int) params[4];
                             IntConsumer updateValue = (IntConsumer) params[5];
                             assertTrue(min <= max, "min ist kleiner als max");
                             assertTrue(min >= 0, "min muss >= 0 sein.");
@@ -285,11 +277,11 @@ public class Tutor_Test_H2_2 {
                 .forEach(
                         x -> {
                             var params = x.getArguments();
-                            String title = (String) params[0];
-                            String propertyName = (String) params[1];
+                            // String title = (String) params[0];
+                            // String propertyName = (String) params[1];
                             int min = (int) params[2];
                             int max = (int) params[3];
-                            int current = (int) params[4];
+                            // int current = (int) params[4];
                             IntConsumer updateValue = (IntConsumer) params[5];
                             assertTrue(min <= max, "min ist kleiner als max");
                             assertTrue(min >= 0, "min muss >= 0 sein.");
@@ -340,11 +332,11 @@ public class Tutor_Test_H2_2 {
                 .forEach(
                         x -> {
                             var params = x.getArguments();
-                            String title = (String) params[0];
-                            String propertyName = (String) params[1];
+                            // String title = (String) params[0];
+                            // String propertyName = (String) params[1];
                             int min = (int) params[2];
                             int max = (int) params[3];
-                            int current = (int) params[4];
+                            // int current = (int) params[4];
                             IntConsumer updateValue = (IntConsumer) params[5];
                             assertTrue(min <= max, "min ist kleiner als max");
                             assertTrue(min > 0, "min muss > 0 sein");
@@ -369,7 +361,9 @@ public class Tutor_Test_H2_2 {
         var pcdField = cf.getClass().getDeclaredField("pcd");
         pcdField.setAccessible(true);
         pcdField.set(cf, spy(cf.pcd));
-        doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.any());
+        doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
+                ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
+                ArgumentMatchers.any());
         doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt(), ArgumentMatchers.any(), ArgumentMatchers.any());
@@ -395,9 +389,9 @@ public class Tutor_Test_H2_2 {
                 .forEach(
                         x -> {
                             var params = x.getArguments();
-                            String title = (String) params[0];
-                            String propertyName = (String) params[1];
-                            int current = (int) params[2];
+                            // String title = (String) params[0];
+                            // String propertyName = (String) params[1];
+                            // int current = (int) params[2];
                             String[] options = (String[]) params[3];
                             Consumer<String> updateValue = (Consumer<String>) params[4];
                             assertNotNull(options, "keine Optionen gegeben.");
@@ -411,6 +405,7 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
+    // @SuppressWarnings("deprecation")
     public void testExitButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var mp = spy(new MyPanel());

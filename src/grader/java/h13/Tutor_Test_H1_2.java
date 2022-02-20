@@ -47,6 +47,7 @@ public class Tutor_Test_H1_2 {
                 new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()), 1, 1, 0);
         var expectedShape = mpt.centerShape(
                 new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()), 1, 1, 0);
+        // Since this is not that hard, we don't use Bound Tolerance here
         assertEquals(expectedShape, actualShape);
     }
 
@@ -57,11 +58,10 @@ public class Tutor_Test_H1_2 {
         mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Resizing needed
-        assertEquals(
-                mp.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
-                        TestConstants.getScreenHeight()), 1, 1, 42),
-                mpt.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
-                        TestConstants.getScreenHeight()), 1, 1, 42));
+        TestUtils.assertShapeCentered(mp.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
+                TestConstants.getScreenHeight()), 1, 1, 42),
+                TestConstants.screenResolution,
+                TestConstants.BOUND_TOLERANCE);
     }
 
     @Test
@@ -79,8 +79,10 @@ public class Tutor_Test_H1_2 {
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         .5, .5, 0));
         // Scaling 2
-        assertEquals(mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
-                mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0));
+        TestUtils.assertBoundsEqualInRange(mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
+                mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
+                TestConstants.BOUND_TOLERANCE,
+                true);
     }
 
     @Test
@@ -89,17 +91,16 @@ public class Tutor_Test_H1_2 {
         MyPanelTutor mpt = new MyPanelTutor();
         mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
-        // No Resizing needed
-        assertEquals(mp.centerShape(new Rectangle2D.Double(21, 21, 1878, 1038), 1, 1, 42),
-                mpt.centerShape(new Rectangle2D.Double(21, 21, 1878, 1038), 1, 1, 42));
         // Resizing needed for border
-        assertEquals(
+        TestUtils.assertBoundsEqualInRange(
                 mp.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         1, 1, 42),
                 mpt.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
-                        1, 1, 42));
+                        1, 1, 42),
+                TestConstants.BOUND_TOLERANCE,
+                true);
     }
 
     @Test

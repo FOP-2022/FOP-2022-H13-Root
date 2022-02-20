@@ -197,7 +197,7 @@ public class MyPanel extends javax.swing.JPanel {
      * @param text the new Value of the {@link #text}-Field
      */
     public void setText(String text) throws IllegalArgumentException {
-        if (text == null || text == "") {
+        if (text == null || text == "" || text.length() > 20) {
             throw new IllegalArgumentException("IInvalid Text.");
         }
         this.text = text;
@@ -247,7 +247,7 @@ public class MyPanel extends javax.swing.JPanel {
      * @param borderWidth the new Value of the {@link #borderWidth}-Field
      */
     public void setBorderWidth(int borderWidth) {
-        if (saturation < 1 || saturation > 100) {
+        if (borderWidth < 1 || borderWidth > 20) {
             throw new IllegalArgumentException("Saturation must be in range [0..1]");
         }
         this.borderWidth = borderWidth;
@@ -265,6 +265,16 @@ public class MyPanel extends javax.swing.JPanel {
     public void addGreenEllipse() {
         figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
         figuresToDisplay.add(Figure.GREEN_ELLIPSE);
+        this.repaint();
+    }
+
+    /**
+     * Displays the green ellipse if it is not already displayed.
+     * If it is already displayed, it will be moved to the end.
+     */
+    public void addGreenEllipse_alt() {
+        figuresToDisplay.remove(Figure.GREEN_ELLIPSE);
+        figuresToDisplay.add(0, Figure.GREEN_ELLIPSE);
         this.repaint();
     }
 
@@ -288,6 +298,16 @@ public class MyPanel extends javax.swing.JPanel {
     }
 
     /**
+     * Displays the yellow rectangle if it is not already displayed.
+     * If it is already displayed, it will be moved to the end.
+     */
+    public void addYellowRectangle_alt() {
+        figuresToDisplay.remove(Figure.YELLOW_RECTANGLE);
+        figuresToDisplay.add(0, Figure.YELLOW_RECTANGLE);
+        this.repaint();
+    }
+
+    /**
      * Removes the yellow rectangle from the Panel.
      * If it is already hidden, the method will do nothing.
      */
@@ -303,6 +323,16 @@ public class MyPanel extends javax.swing.JPanel {
     public void addBlueString() {
         figuresToDisplay.remove(Figure.BLUE_STRING);
         figuresToDisplay.add(Figure.BLUE_STRING);
+        this.repaint();
+    }
+
+    /**
+     * Displays the blue string if it is not already displayed.
+     * If it is already displayed, it will be moved to the end.
+     */
+    public void addBlueString_alt() {
+        figuresToDisplay.remove(Figure.BLUE_STRING);
+        figuresToDisplay.add(0, Figure.BLUE_STRING);
         this.repaint();
     }
 
@@ -483,16 +513,17 @@ public class MyPanel extends javax.swing.JPanel {
         tf.translate(bounds.getCenterX() / factor - fontBounds.getCenterX(),
                 bounds.getCenterY() / factor - fontBounds.getCenterY());
 
-        /* Alternatively:
-        / Get Scaled Font Bounds for centering
-        Shape scaledFont = tl.getOutline(tf);
-        var scaledFontBounds = scaledFont.getBounds2D();
-
-        // Center
-        tf.translate((bounds.getCenterX() - scaledFontBounds.getCenterX()) / factor,
-                (bounds.getCenterY() - scaledFontBounds.getCenterY()) / factor);
-        */
-                Shape outline = tl.getOutline(tf);
+        /*
+         * Alternatively:
+         * / Get Scaled Font Bounds for centering
+         * Shape scaledFont = tl.getOutline(tf);
+         * var scaledFontBounds = scaledFont.getBounds2D();
+         *
+         * // Center
+         * tf.translate((bounds.getCenterX() - scaledFontBounds.getCenterX()) / factor,
+         * (bounds.getCenterY() - scaledFontBounds.getCenterY()) / factor);
+         */
+        Shape outline = tl.getOutline(tf);
 
         // Restore graphics configuration
         g2d.setFont(oldFont);

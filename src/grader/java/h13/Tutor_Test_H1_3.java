@@ -342,7 +342,7 @@ public class Tutor_Test_H1_3 {
         }
         mpt.setBounds(imgTutor.getRaster().getBounds());
 
-        var r = new Random(694201337);
+        // var r = new Random(694201337);
         Rectangle2D fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
                 "FOP-2022").getVisualBounds();
 
@@ -403,7 +403,7 @@ public class Tutor_Test_H1_3 {
         }
         mpt.setBounds(imgTutor.getRaster().getBounds());
 
-        var r = new Random(694201337);
+        // var r = new Random(694201337);
         Rectangle2D fontBounds = f.createGlyphVector(g2d.getFontRenderContext(),
                 "FOP-2022").getVisualBounds();
 
@@ -484,7 +484,7 @@ public class Tutor_Test_H1_3 {
                 .when(mpSpy).scaleTextToWidth(
                         ArgumentMatchers.any(),
                         ArgumentMatchers.anyDouble(),
-                        ArgumentMatchers.anyFloat(),
+                        (int) ArgumentMatchers.anyFloat(),
                         ArgumentMatchers.anyString(),
                         ArgumentMatchers.any(Font.class));
         mpSpy.drawColoredString(g2d,

@@ -1,51 +1,26 @@
 package h13;
 
 import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import java.awt.image.BufferedImage;
+import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 
 /**
  * @author Ruben Deisenroth
  */
 public class Tutor_Test_H1_4 {
-    @Test
-    public void testBlank() {
-        var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
-                BufferedImage.TYPE_INT_ARGB);
-        var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-        var g2d = img.createGraphics();
-        var g2dTutor = imgTutor.createGraphics();
-
-        MyPanel mp = new MyPanel();
-        MyPanelTutor mpt = new MyPanelTutor();
-
-        mp.setBounds(img.getRaster().getBounds());
-        mpt.setBounds(imgTutor.getRaster().getBounds());
-
-        try {
-            mp.removeYellowRectangle();
-            mp.removeGreenEllipse();
-            mp.removeBlueString();
-        } catch (Exception e) {
-        }
-        mp.figuresToDisplay.clear();
-        mpt.figuresToDisplay.clear();
-
-        mp.paint(g2d);
-        mpt.paint(g2dTutor);
-        TestUtils.assertImagesEqual(imgTutor, img);
-    }
-
-    @Test
-    public void testYellowRectangle() {
+    /**
+     * Tests the paint() method with the given Figures
+     *
+     * @param figuresToTest The Figures to test
+     * @param altAddMethod  whether to rely on students add Methods
+     */
+    public void testFigures(Map<MyPanelTutor.Figure, MyPanel.Figure> figuresToTest, boolean altAddMethod) {
         var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -114,9 +89,46 @@ public class Tutor_Test_H1_4 {
         }
         mp.figuresToDisplay.clear();
         mpt.figuresToDisplay.clear();
-
-        mp.figuresToDisplay.add(MyPanel.Figure.YELLOW_RECTANGLE);
-        mpt.figuresToDisplay.add(MyPanelTutor.Figure.YELLOW_RECTANGLE);
+        if (figuresToTest != null && !figuresToTest.isEmpty()) {
+            for (var f : figuresToTest.entrySet()) {
+                var figure = f.getValue();
+                var tutorFigure = f.getKey();
+                if (figure != null) {
+                    if (altAddMethod) {
+                        switch (figure) {
+                            case YELLOW_RECTANGLE:
+                                mp.addYellowRectangle();
+                                break;
+                            case GREEN_ELLIPSE:
+                                mp.addGreenEllipse();
+                                break;
+                            case BLUE_STRING:
+                                mp.addBlueString();
+                                break;
+                        }
+                    } else {
+                        mp.figuresToDisplay.add(figure);
+                    }
+                }
+                if (tutorFigure != null) {
+                    if (altAddMethod) {
+                        switch (tutorFigure) {
+                            case YELLOW_RECTANGLE:
+                                mpt.addYellowRectangle();
+                                break;
+                            case GREEN_ELLIPSE:
+                                mpt.addGreenEllipse();
+                                break;
+                            case BLUE_STRING:
+                                mpt.addBlueString();
+                                break;
+                        }
+                    } else {
+                        mpt.figuresToDisplay.add(tutorFigure);
+                    }
+                }
+            }
+        }
 
         mp.paint(g2d);
         mpt.paint(g2dTutor);
@@ -124,5 +136,58 @@ public class Tutor_Test_H1_4 {
         // TestUtils.saveImage(img);
         // TestUtils.saveImageDiff(imgTutor, img);
         TestUtils.assertImagesEqual(imgTutor, img);
+    }
+
+    @Test
+    public void testBlank() {
+        testFigures(null, false);
+    }
+
+    @Test
+    public void testYellowRectangle() {
+        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), false);
+    }
+
+    @Test
+    public void testYellowRectangle_alt() {
+        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), true);
+    }
+
+    @Test
+    public void testGreenEllipse() {
+        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), false);
+    }
+
+    @Test
+    public void testGreenEllipse_alt() {
+        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), true);
+    }
+
+    @Test
+    public void testBlueString() {
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), false);
+    }
+
+    @Test
+    public void testBlueString_alt() {
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), true);
+    }
+
+    @Test
+    public void testThreeFigures() {
+        testFigures(Map.of(
+                MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE,
+                MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE),
+                false);
+    }
+
+    @Test
+    public void testThreeFigures_alt() {
+        testFigures(Map.of(
+                MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE,
+                MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE),
+                true);
     }
 }
