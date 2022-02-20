@@ -7,11 +7,15 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
+import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 
 /**
  * @author Ruben Deisenroth
  */
+@TestForSubmission("h13")
 public class Tutor_Test_H1_4 {
 
     /**
@@ -144,36 +148,43 @@ public class Tutor_Test_H1_4 {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testYellowRectangle() {
         testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), false);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testYellowRectangle_alt() {
         testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), true);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testGreenEllipse() {
         testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), false);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testGreenEllipse_alt() {
         testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), true);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testBlueString() {
         testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), false);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testBlueString_alt() {
         testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), true);
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testThreeFigures() {
         testFigures(Map.of(
                 MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
@@ -183,6 +194,7 @@ public class Tutor_Test_H1_4 {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testThreeFigures_alt() {
         testFigures(Map.of(
                 MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,

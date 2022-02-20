@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H1_1 {
@@ -65,6 +67,7 @@ public class Tutor_Test_H1_1 {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     void testAddShapeMethods() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
@@ -115,6 +118,7 @@ public class Tutor_Test_H1_1 {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     void testAddShapeMethods_alt() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();

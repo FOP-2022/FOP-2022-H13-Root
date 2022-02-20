@@ -29,9 +29,11 @@ import java.util.stream.Collectors;
 import javax.swing.JButton;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
+import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
@@ -55,7 +57,7 @@ public class Tutor_Test_H2_2 {
 
     @Test
     public void testComponents()
-            throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException {
+            throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException, Throwable {
         var mp = spy(new MyPanel());
         var mf = spy(new MainFrame(mp));
         var cf = spy(new ControlFrame(mf));
@@ -235,7 +237,7 @@ public class Tutor_Test_H2_2 {
 
     @Test
     public void testChangeAlphaButton()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, Throwable {
         var mp = spy(new MyPanel());
         var mf = spy(new MainFrame(mp));
         var cf = spy(new ControlFrame(mf));
@@ -406,6 +408,7 @@ public class Tutor_Test_H2_2 {
 
     @Test
     // @SuppressWarnings("deprecation")
+    @ExtendWith(JagrExecutionCondition.class)
     public void testExitButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         var mp = spy(new MyPanel());
@@ -444,6 +447,7 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
+    @ExtendWith(JagrExecutionCondition.class)
     public void testExitButton_alt()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
 
