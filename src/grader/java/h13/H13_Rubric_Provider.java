@@ -27,7 +27,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             Grader.testAwareBuilder()
                                     .requirePass(
                                             ofMethod(
-                                                    () -> Tutor_Test_H1_1.class.getMethod(
+                                                    () -> Tutor_Test_H1_1.class.getDeclaredMethod(
                                                             "testDefaultValues")))
                                     .pointsPassedMax()
                                     .pointsFailedMin()
@@ -40,7 +40,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                                     Grader.testAwareBuilder()
                                             .requirePass(
                                                     ofMethod(
-                                                            () -> Tutor_Test_H1_1.class.getMethod(
+                                                            () -> Tutor_Test_H1_1.class.getDeclaredMethod(
                                                                     "testSetters")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -54,13 +54,13 @@ public class H13_Rubric_Provider implements RubricProvider {
                                             .requirePass(and(
                                                     or(
                                                             ofMethod(
-                                                                    () -> Tutor_Test_H1_1.class.getMethod(
+                                                                    () -> Tutor_Test_H1_1.class.getDeclaredMethod(
                                                                             "testAddShapeMethods")),
                                                             ofMethod(
-                                                                    () -> Tutor_Test_H1_1.class.getMethod(
+                                                                    () -> Tutor_Test_H1_1.class.getDeclaredMethod(
                                                                             "testAddShapeMethods_alt"))),
                                                     ofMethod(
-                                                            () -> Tutor_Test_H1_1.class.getMethod(
+                                                            () -> Tutor_Test_H1_1.class.getDeclaredMethod(
                                                                     "testRemoveShapeMethods"))))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -79,7 +79,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testColorWithAlpha")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -91,7 +91,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testColorWithSaturation")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -103,7 +103,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testCenterShape_noChanges")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -115,7 +115,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testCenterShape_Centering")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -127,7 +127,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testCenterShape_Resize")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -139,7 +139,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testCenterShape_Border")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -151,7 +151,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                                             "testCenterShape_All")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -161,7 +161,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .shortDescription(
                                     "Die FillDraw liefert ein korrektes Ergebnis, wenn ein Rahmen gezeichnet werden muss.")
                             .grader(Grader.testAwareBuilder().requirePass(ofMethod(
-                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                             "testFillDraw_Border")))
                                     .pointsPassedMax()
                                     .pointsFailedMin()
@@ -171,7 +171,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .shortDescription(
                                     "Die FillDraw liefert ein korrektes Ergebnis, wenn kein ein Rahmen in einer anderen Farbe als die Füllung gezeichnet werden muss.")
                             .grader(Grader.testAwareBuilder().requirePass(ofMethod(
-                                    () -> Tutor_Test_H1_2.class.getMethod(
+                                    () -> Tutor_Test_H1_2.class.getDeclaredMethod(
                                             "testFillDraw_ALL")))
                                     .pointsPassedMax()
                                     .pointsFailedMin()
@@ -189,7 +189,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_No_Tf_Needed")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -201,7 +201,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_CenterOnly")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -213,7 +213,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleOnly_NoBorder")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -225,7 +225,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleOnly_FullWidth")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -237,7 +237,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleOnly")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -249,7 +249,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleAndCenter_NoBorder")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -261,7 +261,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleAndCenter")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -273,7 +273,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -286,7 +286,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testDrawColoredString_NoBorder")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -298,7 +298,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testDrawColoredString_NoBorder")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -310,7 +310,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testDrawColoredString_Border")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -322,7 +322,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testDrawColoredString_TextFontColor")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -334,7 +334,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_3.class.getDeclaredMethod(
                                                             "testDrawColoredString_All")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -352,7 +352,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H1_3.class.getMethod(
+                                                    () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                             "testBlank")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -367,24 +367,24 @@ public class H13_Rubric_Provider implements RubricProvider {
                                                     and(
                                                             or(
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testYellowRectangle")),
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testYellowRectangle_alt"))),
                                                             or(
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testGreenEllipse")),
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testGreenEllipse_alt"))),
                                                             or(
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testBlueString")),
                                                                     ofMethod(
-                                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                                     "testBlueString_alt")))))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -397,10 +397,10 @@ public class H13_Rubric_Provider implements RubricProvider {
                                     Grader.testAwareBuilder()
                                             .requirePass(or(
                                                     ofMethod(
-                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                     "testThreeFigures")),
                                                     ofMethod(
-                                                            () -> Tutor_Test_H1_3.class.getMethod(
+                                                            () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                                                     "testThreeFigures_alt"))))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -419,7 +419,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                    () -> Tutor_Test_H2_1.class.getDeclaredMethod(
                                                             "testMainFrameComponents")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -431,7 +431,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                    () -> Tutor_Test_H2_1.class.getDeclaredMethod(
                                                             "testMainFrameComponents")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -443,7 +443,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                    () -> Tutor_Test_H2_1.class.getDeclaredMethod(
                                                             "testMainFrameKeyListeners_Plus")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -455,7 +455,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_1.class.getMethod(
+                                                    () -> Tutor_Test_H2_1.class.getDeclaredMethod(
                                                             "testMainFrameKeyListeners_Minus")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -473,7 +473,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testLayout")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -485,7 +485,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testLayout")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -497,7 +497,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testAddButtons")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -509,7 +509,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testRemoveButtons")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -521,13 +521,13 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(and(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testChangeSaturationButtons")),
                                                     ofMethod(
-                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                            () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                                     "testChangeAlphaButton")),
                                                     ofMethod(
-                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                            () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                                     "testChangeZoomButtons"))))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -539,7 +539,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_2.class.getMethod(
+                                                    () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                             "testChangeFontButton")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -552,10 +552,10 @@ public class H13_Rubric_Provider implements RubricProvider {
                                     Grader.testAwareBuilder()
                                             .requirePass(or(
                                                     ofMethod(
-                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                            () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                                     "testExitButton")),
                                                     ofMethod(
-                                                            () -> Tutor_Test_H2_2.class.getMethod(
+                                                            () -> Tutor_Test_H2_2.class.getDeclaredMethod(
                                                                     "testExitButton_alt"))))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -573,7 +573,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_3.class.getMethod(
+                                                    () -> Tutor_Test_H2_3.class.getDeclaredMethod(
                                                             "testShowNumberChangeDialog")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()
@@ -585,7 +585,7 @@ public class H13_Rubric_Provider implements RubricProvider {
                             .grader(
                                     Grader.testAwareBuilder()
                                             .requirePass(ofMethod(
-                                                    () -> Tutor_Test_H2_3.class.getMethod(
+                                                    () -> Tutor_Test_H2_3.class.getDeclaredMethod(
                                                             "testShowEnumChangeDialogue")))
                                             .pointsPassedMax()
                                             .pointsFailedMin()

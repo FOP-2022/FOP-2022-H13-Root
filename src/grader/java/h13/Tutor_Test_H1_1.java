@@ -18,7 +18,7 @@ import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 @TestForSubmission("h13")
 public class Tutor_Test_H1_1 {
     @Test
-    void testDefaultValues() {
+    public void testDefaultValues() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
         assertEquals(mp.getAlpha(), mpt.getAlpha());
@@ -30,7 +30,7 @@ public class Tutor_Test_H1_1 {
     }
 
     @Test
-    void testSetters() {
+    public void testSetters() {
         var mp = new MyPanel();
 
         // Set Alpha
@@ -68,7 +68,7 @@ public class Tutor_Test_H1_1 {
 
     @Test
     @ExtendWith(JagrExecutionCondition.class)
-    void testAddShapeMethods() {
+    public void testAddShapeMethods() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
         List<MyPanel.Figure> mpStandartFigs = new ArrayList<>(List.of(
@@ -119,7 +119,7 @@ public class Tutor_Test_H1_1 {
 
     @Test
     @ExtendWith(JagrExecutionCondition.class)
-    void testAddShapeMethods_alt() {
+    public void testAddShapeMethods_alt() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
         List<MyPanel.Figure> mpStandartFigs = new ArrayList<>(List.of(
@@ -169,7 +169,7 @@ public class Tutor_Test_H1_1 {
     }
 
     @Test
-    void testRemoveShapeMethods() {
+    public void testRemoveShapeMethods() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
         List<MyPanel.Figure> mpStandartFigs = new ArrayList<>(List.of(
