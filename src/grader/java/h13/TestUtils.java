@@ -32,7 +32,7 @@ import org.opentest4j.AssertionFailedError;
  */
 public class TestUtils {
     /**
-     * Generates the Image Diff
+     * Corporate needs you to find the difference between these two images.
      *
      * @param expected The first image
      * @param actual   The second image
@@ -63,6 +63,9 @@ public class TestUtils {
             }
         }
         System.out.println(unequal);
+        if (unequal == 0) {
+            System.out.println("They're the same picture.");
+        }
         return diff;
     }
 
@@ -78,7 +81,7 @@ public class TestUtils {
     }
 
     /**
-     * Saves a given BufferedImage to the screnshots directory
+     * Saves a given BufferedImage to the screenshots directory
      *
      * @param img        the Image to save
      * @param namePrefix the Image Name Prefix
@@ -155,6 +158,7 @@ public class TestUtils {
         assertTrue(unequal <= maxAllowed,
                 "Too many different Pixels. Expected equal or less than " + (int) maxAllowed
                         + " but was " + unequal);
+        // They're the same picture.
     }
 
     /**
