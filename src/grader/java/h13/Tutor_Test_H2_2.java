@@ -28,8 +28,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
+import org.mockito.invocation.Invocation;
+import org.slf4j.Logger;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
+import org.sourcegrade.jagr.launcher.env.Jagr;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
@@ -161,31 +164,31 @@ public class Tutor_Test_H2_2 {
 
     @Test
     public void testChangeSaturationButtons()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
+            Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
             cf.changeSaturationButton.doClick();
         } catch (Exception e) {
         }
-        mockingDetails.getInvocations().stream()
-                .filter(x -> x.getMethod().getName() == "showNumberChangeDialog" && x.getArguments().length == 6)
-                .forEach(
-                        x -> {
-                            var params = x.getArguments();
-                            // String title = (String) params[0];
-                            // String propertyName = (String) params[1];
-                            int min = (int) params[2];
-                            int max = (int) params[3];
-                            // int current = (int) params[4];
-                            IntConsumer updateValue = (IntConsumer) params[5];
-                            assertTrue(min <= max, "min ist kleiner als max");
-                            assertTrue(min >= 0, "min muss >= 0 sein.");
-                            assertTrue(max <= 100, "max darf nicht > 100 sein");
-                            mp.saturation = 1;
-                            updateValue.accept(10);
-                            TestUtils.assertEqualFloored(mp.saturation, 0.1);
-                        });
+        var x = mockingDetails.getInvocations().stream()
+                .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
+                .findFirst()
+                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+        var params = x.getArguments();
+        // String title = (String) params[0];
+        // String propertyName = (String) params[1];
+        int min = (int) params[2];
+        int max = (int) params[3];
+        // int current = (int) params[4];
+        IntConsumer updateValue = (IntConsumer) params[5];
+        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min >= 0, "min muss >= 0 sein.");
+        assertTrue(max <= 100, "max darf nicht > 100 sein");
+        mp.saturation = 1;
+        updateValue.accept(10);
+        TestUtils.assertEqualInRange(mp.saturation, 0.1f, 0.01);
     }
 
     @Test
@@ -208,84 +211,84 @@ public class Tutor_Test_H2_2 {
                             .doClick();
         } catch (Exception e) {
         }
-        mockingDetails.getInvocations().stream()
-                .filter(x -> x.getMethod().getName() == "showNumberChangeDialog" && x.getArguments().length == 6)
-                .forEach(
-                        x -> {
-                            var params = x.getArguments();
-                            // String title = (String) params[0];
-                            // String propertyName = (String) params[1];
-                            int min = (int) params[2];
-                            int max = (int) params[3];
-                            // int current = (int) params[4];
-                            IntConsumer updateValue = (IntConsumer) params[5];
-                            assertTrue(min <= max, "min ist kleiner als max");
-                            assertTrue(min >= 0, "min muss >= 0 sein.");
-                            assertTrue(max <= 100, "max darf nicht > 100 sein");
-                            mp.alpha = 1;
-                            updateValue.accept(10);
-                            TestUtils.assertEqualFloored(mp.alpha, 0.1);
-                        });
+        var x = mockingDetails.getInvocations().stream()
+                .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
+                .findFirst()
+                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+
+        var params = x.getArguments();
+        // String title = (String) params[0];
+        // String propertyName = (String) params[1];
+        int min = (int) params[2];
+        int max = (int) params[3];
+        // int current = (int) params[4];
+        IntConsumer updateValue = (IntConsumer) params[5];
+        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min >= 0, "min muss >= 0 sein.");
+        assertTrue(max <= 100, "max darf nicht > 100 sein");
+        mp.alpha = 1;
+        updateValue.accept(10);
+        TestUtils.assertEqualInRange(mp.alpha, 0.1f, 0.01);
     }
 
     @Test
     public void testChangeZoomButtons()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
+            Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
             cf.changeZoomButton.doClick();
         } catch (Exception e) {
         }
-        mockingDetails.getInvocations().stream()
-                .filter(x -> x.getMethod().getName() == "showNumberChangeDialog" && x.getArguments().length == 6)
-                .forEach(
-                        x -> {
-                            var params = x.getArguments();
-                            // String title = (String) params[0];
-                            // String propertyName = (String) params[1];
-                            int min = (int) params[2];
-                            int max = (int) params[3];
-                            // int current = (int) params[4];
-                            IntConsumer updateValue = (IntConsumer) params[5];
-                            assertTrue(min <= max, "min ist kleiner als max");
-                            assertTrue(min > 0, "min muss > 0 sein");
-                            // assertTrue(max >= 0);
-                            mp.zoom = 1;
-                            updateValue.accept(10);
-                            TestUtils.assertEqualFloored(mp.zoom, 0.1,
-                                    "Zoomfaktor wurde vom IntConsumer nicht korrekt aktualisiert.");
-                        });
+        var x = mockingDetails.getInvocations().stream()
+                .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
+                .findFirst()
+                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+        var params = x.getArguments();
+        // String title = (String) params[0];
+        // String propertyName = (String) params[1];
+        int min = (int) params[2];
+        int max = (int) params[3];
+        // int current = (int) params[4];
+        IntConsumer updateValue = (IntConsumer) params[5];
+        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min > 0, "min muss > 0 sein");
+        // assertTrue(max >= 0);
+        mp.zoom = 1;
+        updateValue.accept(10);
+        TestUtils.assertEqualInRange(mp.zoom, 0.1f, 0.01,
+                "Zoomfaktor wurde vom IntConsumer nicht korrekt aktualisiert.");
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testChangeFontButton()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+    public void testChangeFontButton() {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
             cf.changeFontButton.doClick();
         } catch (Exception e) {
         }
-        mockingDetails.getInvocations().stream()
-                .filter(x -> x.getMethod().getName() == "showEnumChangeDialogue" && x.getArguments().length == 5)
-                .forEach(
-                        x -> {
-                            var params = x.getArguments();
-                            // String title = (String) params[0];
-                            // String propertyName = (String) params[1];
-                            // int current = (int) params[2];
-                            String[] options = (String[]) params[3];
-                            Consumer<String> updateValue = (Consumer<String>) params[4];
-                            assertNotNull(options, "keine Optionen gegeben.");
-                            assertTrue(Arrays.stream(options).collect(Collectors.toSet()).size() >= 5,
-                                    "zu wenige unterschiedliche Schriftarten gegeben");
-                            var curFont = new Font("Arial", Font.ITALIC, 42);
-                            mp.font = curFont;
-                            updateValue.accept(options[0]);
-                            assertNotEquals(curFont, mp.font);
-                        });
+        Invocation x = null;
+        try {
+            x = mockingDetails.getInvocations().stream()
+                    .filter(y -> y.getMethod().getName() == "showEnumChangeDialogue" && y.getArguments().length == 5)
+                    .findFirst()
+                    .orElse(null);
+        } catch (Exception e) {
+        }
+        assertNotNull(x, "showEnumChangeDialog was not called.");
+        var params = x.getArguments();
+        String[] options = (String[]) params[3];
+        Consumer<String> updateValue = (Consumer<String>) params[4];
+        assertNotNull(options, "keine Optionen gegeben.");
+        assertTrue(Arrays.stream(options).collect(Collectors.toSet()).size() >= 5,
+                "zu wenige unterschiedliche Schriftarten gegeben");
+        var curFont = new Font("Arial", Font.ITALIC, 42);
+        mp.font = curFont;
+        updateValue.accept(options[0]);
+        assertNotEquals(curFont, mp.font);
     }
 
     @Test

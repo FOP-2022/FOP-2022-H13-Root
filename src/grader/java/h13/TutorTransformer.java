@@ -45,7 +45,7 @@ public class TutorTransformer implements ClassTransformer {
 
         @Override
         public void visit(int version, int access, String name, String signature, String superName,
-                          String[] interfaces) {
+                String[] interfaces) {
             this.className = name;
             access &= ~Modifier.PRIVATE;
             access &= ~Modifier.PROTECTED;
@@ -63,19 +63,21 @@ public class TutorTransformer implements ClassTransformer {
 
         @Override
         public MethodVisitor visitMethod(int access, String name, String descriptor, String signature,
-                                         String[] exceptions) {
-
+                String[] exceptions) {
+            access &= ~Modifier.PRIVATE;
+            access &= ~Modifier.PROTECTED;
+            access |= Modifier.PUBLIC;
             return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
 
                 @Override
                 public void visitMethodInsn(int opcode, String owner, String name, String descriptor,
-                                            boolean isInterface) {
+                        boolean isInterface) {
                     var logger = Jagr.Default.getInjector().getInstance(Logger.class);
-                    //logger.warn("BeforeThingsHappen");
+                    // logger.warn("BeforeThingsHappen");
                     if (opcode == Opcodes.INVOKESTATIC
-                        && owner.equals("java/lang/System")
-                        && name.equals("exit")
-                        && descriptor.equals("(I)V")) {
+                            && owner.equals("java/lang/System")
+                            && name.equals("exit")
+                            && descriptor.equals("(I)V")) {
                         logger.warn("BeforeVisit");
                         super.visitMethodInsn(opcode, "h13/TutorSystem", name, descriptor, isInterface);
                         logger.warn("AfterVisit");
@@ -85,7 +87,6 @@ public class TutorTransformer implements ClassTransformer {
                 }
             };
         }
-
 
         @Override
         public FieldVisitor visitField(int access, String name, String descriptor, String signature, Object value) {
