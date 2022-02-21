@@ -29,10 +29,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.Invocation;
-import org.slf4j.Logger;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
@@ -43,6 +41,7 @@ public class Tutor_Test_H2_2 {
 
     @BeforeEach
     void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        PCDReplacementTutor.instances.clear();
         mp = spy(new MyPanel());
         mf = spy(new MainFrame(mp));
         cf = spy(new ControlFrame(mf));
@@ -52,8 +51,7 @@ public class Tutor_Test_H2_2 {
         doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
                 ArgumentMatchers.any());
-        doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyString(),
+        doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt(), ArgumentMatchers.any(), ArgumentMatchers.any());
         try {
             mf.init();
@@ -67,6 +65,10 @@ public class Tutor_Test_H2_2 {
     void closeIt() {
         mf.dispose();
         cf.dispose();
+        for (var pcd : PCDReplacementTutor.instances) {
+            pcd.dispose();
+        }
+        PCDReplacementTutor.instances.clear();
     }
 
     @Test
@@ -95,16 +97,13 @@ public class Tutor_Test_H2_2 {
         assertEquals(cf.removeStringButton, cf.getContentPane().getComponent(5));
         assertEquals(cf.changeSaturationButton, cf.getContentPane().getComponent(6));
 
-        assertEquals(((JButton) Arrays
-                .stream(cf.getClass().getDeclaredFields())
-                .filter(x -> x.getName().equals("changeTransparencyButton")
-                        || x.getName().equals("changeAlphaButton"))
-                .peek(x -> System.out.println(x.getName()))
-                .findFirst()
-                .orElseThrow(
-                        () -> fail(
-                                "Change Alpha Button not Found"))
-                .get(cf)), cf.getContentPane().getComponent(7));
+        assertEquals(
+                ((JButton) Arrays.stream(cf.getClass().getDeclaredFields())
+                        .filter(x -> x.getName().equals("changeTransparencyButton")
+                                || x.getName().equals("changeAlphaButton"))
+                        .peek(x -> System.out.println(x.getName())).findFirst()
+                        .orElseThrow(() -> fail("Change Alpha Button not Found")).get(cf)),
+                cf.getContentPane().getComponent(7));
         assertEquals(cf.changeBorderWidthButton, cf.getContentPane().getComponent(8));
         assertEquals(cf.changeFontButton, cf.getContentPane().getComponent(9));
         assertEquals(cf.changeZoomButton, cf.getContentPane().getComponent(10));
@@ -163,9 +162,8 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
-    public void testChangeSaturationButtons()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
-            Throwable {
+    public void testChangeSaturationButtons() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+            IllegalAccessException, Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -174,8 +172,7 @@ public class Tutor_Test_H2_2 {
         }
         var x = mockingDetails.getInvocations().stream()
                 .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
-                .findFirst()
-                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+                .findFirst().orElseThrow(() -> fail("showNumberChangeDialog was not called."));
         var params = x.getArguments();
         // String title = (String) params[0];
         // String propertyName = (String) params[1];
@@ -192,29 +189,21 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
-    public void testChangeAlphaButton()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
-            Throwable {
+    public void testChangeAlphaButton() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+            IllegalAccessException, Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
-            ((JButton) Arrays
-                    .stream(ControlFrame.class.getDeclaredFields())
+            ((JButton) Arrays.stream(ControlFrame.class.getDeclaredFields())
                     .filter(x -> x.getName().equals("changeTransparencyButton")
                             || x.getName().equals("changeAlphaButton"))
-                    .peek(x -> System.out.println(x.getName()))
-                    .findFirst()
-                    .orElseThrow(
-                            () -> fail(
-                                    "Change Alpha Button not Found"))
-                    .get(cf))
-                            .doClick();
+                    .peek(x -> System.out.println(x.getName())).findFirst()
+                    .orElseThrow(() -> fail("Change Alpha Button not Found")).get(cf)).doClick();
         } catch (Exception e) {
         }
         var x = mockingDetails.getInvocations().stream()
                 .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
-                .findFirst()
-                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+                .findFirst().orElseThrow(() -> fail("showNumberChangeDialog was not called."));
 
         var params = x.getArguments();
         // String title = (String) params[0];
@@ -232,9 +221,8 @@ public class Tutor_Test_H2_2 {
     }
 
     @Test
-    public void testChangeZoomButtons()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
-            Throwable {
+    public void testChangeZoomButtons() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
+            IllegalAccessException, Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -243,8 +231,7 @@ public class Tutor_Test_H2_2 {
         }
         var x = mockingDetails.getInvocations().stream()
                 .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
-                .findFirst()
-                .orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+                .findFirst().orElseThrow(() -> fail("showNumberChangeDialog was not called."));
         var params = x.getArguments();
         // String title = (String) params[0];
         // String propertyName = (String) params[1];
@@ -274,8 +261,7 @@ public class Tutor_Test_H2_2 {
         try {
             x = mockingDetails.getInvocations().stream()
                     .filter(y -> y.getMethod().getName() == "showEnumChangeDialogue" && y.getArguments().length == 5)
-                    .findFirst()
-                    .orElse(null);
+                    .findFirst().orElse(null);
         } catch (Exception e) {
         }
         assertNotNull(x, "showEnumChangeDialog was not called.");

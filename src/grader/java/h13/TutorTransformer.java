@@ -1,7 +1,6 @@
 package h13;
 
 import java.lang.reflect.Modifier;
-
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
@@ -68,18 +67,28 @@ public class TutorTransformer implements ClassTransformer {
             access &= ~Modifier.PROTECTED;
             access |= Modifier.PUBLIC;
             return new MethodVisitor(Opcodes.ASM9, super.visitMethod(access, name, descriptor, signature, exceptions)) {
-
                 @Override
                 public void visitMethodInsn(int opcode, String owner, String name, String descriptor,
                         boolean isInterface) {
                     var logger = Jagr.Default.getInjector().getInstance(Logger.class);
                     // logger.warn("BeforeThingsHappen");
-                    if (opcode == Opcodes.INVOKESTATIC
-                            && owner.equals("java/lang/System")
-                            && name.equals("exit")
+                    if (opcode == Opcodes.INVOKESTATIC && owner.equals("java/lang/System") && name.equals("exit")
                             && descriptor.equals("(I)V")) {
                         logger.warn("BeforeVisit");
                         super.visitMethodInsn(opcode, "h13/TutorSystem", name, descriptor, isInterface);
+                        logger.warn("AfterVisit");
+                        return;
+                    }
+                    if ("java/awt/Dialog".equals(owner) || "java/awt/Window".equals(owner) && name.equals("setVisible")
+                            && descriptor.equals("(Z)V")) {
+                        logger.warn("BeforeVisit");
+                        super.visitMethodInsn(opcode, "h13/TutorJFrame", name, descriptor, isInterface);
+                        logger.warn("AfterVisit");
+                        return;
+                    }
+                    if (owner.equals("java/awt/Dialog") && name.equals("setModal") && descriptor.equals("(Z)V")) {
+                        logger.warn("BeforeVisit");
+                        super.visitMethodInsn(opcode, "h13/TutorJFrame", name, descriptor, isInterface);
                         logger.warn("AfterVisit");
                         return;
                     }

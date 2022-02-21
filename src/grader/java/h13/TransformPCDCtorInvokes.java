@@ -15,7 +15,7 @@ public class TransformPCDCtorInvokes implements ClassTransformer {
 
     @Override
     public void transform(ClassReader reader, ClassWriter writer) {
-        if ("h13/ControlFrame".equals(reader.getClassName())) {
+        if ("h13/PropertyChangeDialogue".equals(reader.getClassName())) {
             reader.accept(new CV(writer), 0);
         } else {
             reader.accept(writer, 0);
@@ -29,11 +29,12 @@ public class TransformPCDCtorInvokes implements ClassTransformer {
         }
 
         @Override
-        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-            if ("init".equals(name)) {
-                return super.visitMethod(access, name, descriptor, signature, exceptions);
-            } else {
+        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature,
+                String[] exceptions) {
+            if ("<init>".equals(name)) {
                 return new MV(super.visitMethod(access, name, descriptor, signature, exceptions));
+            } else {
+                return super.visitMethod(access, name, descriptor, signature, exceptions);
             }
         }
 
@@ -43,37 +44,14 @@ public class TransformPCDCtorInvokes implements ClassTransformer {
                 super(Opcodes.ASM9, methodVisitor);
             }
 
-            private boolean lastInsnWasPropertyChangeDialogue = false;
-
-            @Override
-            public void visitTypeInsn(int opcode, String type) {
-                if (opcode == Opcodes.NEW && "h13/PropertyChangeDialogue".equals(type)) {
-                    lastInsnWasPropertyChangeDialogue = true;
-                } else {
-                    super.visitTypeInsn(opcode, type);
-                }
-            }
-
             @Override
             public void visitInsn(int opcode) {
-                // DUP follows NEW so this is a relatively safe assumption to make
-                if (!lastInsnWasPropertyChangeDialogue || opcode != Opcodes.DUP) {
-                    super.visitInsn(opcode);
-                }
-                lastInsnWasPropertyChangeDialogue = false;
-            }
-
-            @Override
-            public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
-                if (opcode == Opcodes.INVOKESPECIAL
-                    && "h13/PropertyChangeDialogue".equals(owner)
-                    && "<init>".equals(name)
-                    && "()V".equals(descriptor)) {
+                if (opcode == Opcodes.RETURN) {
                     super.visitVarInsn(Opcodes.ALOAD, 0);
-                    super.visitFieldInsn(Opcodes.GETFIELD, "h13/ControlFrame", "pcd", "h13/PropertyChangeDialogue");
-                } else {
-                    super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+                    super.visitMethodInsn(Opcodes.INVOKESTATIC, "h13/PCDReplacementTutor", "addPCD",
+                            "(Lh13/PropertyChangeDialogue;)V", false);
                 }
+                super.visitInsn(opcode);
             }
         }
     }

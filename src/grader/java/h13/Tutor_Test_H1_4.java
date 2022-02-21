@@ -1,6 +1,7 @@
 package h13;
 
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.spy;
 
 import java.awt.image.BufferedImage;
@@ -72,6 +73,10 @@ public class Tutor_Test_H1_4 {
                         ArgumentMatchers.any(),
                         ArgumentMatchers.anyDouble(),
                         ArgumentMatchers.anyDouble());
+
+        // if (replacePaintGrid) {
+        doNothing().when(mp).drawGrid(ArgumentMatchers.any());
+        // }
 
         mp.setBounds(img.getRaster().getBounds());
         mpt.setBounds(imgTutor.getRaster().getBounds());

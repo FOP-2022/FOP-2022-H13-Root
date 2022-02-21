@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
     /**
      * The {@link MyPanel}-Object that draws the shapes
      */
-    public final MyPanel panel;
+    public MyPanel panel;
 
     /**
      * Creates a new {@link MainFrame}

@@ -16,7 +16,7 @@
         "h13/TestUtils.java",
         "h13/TwoSimpleWindowsTutor.java",
         "h13/TutorTransformer.java",
-        "h13/TransformPCDCtorInvokes",
+        "h13/TransformPCDCtorInvokes.java",
         "h13/Tutor_Test_H1_2.java",
         "h13/TestConstants.java",
         "h13/PropertyChangeDialogueTutor.java",
@@ -24,7 +24,9 @@
         "h13/Tutor_Test_H1_1.java",
         "h13/MainFrameTutor.java",
         "h13/Tutor_Test_H1_3.java",
-        "h13/TutorSystem.java"
+        "h13/TutorSystem.java",
+        "h13/TutorJFrame.java",
+        "h13/PCDReplacementTutor.java"
       ]
     },
     {
