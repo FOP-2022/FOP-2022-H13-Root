@@ -8,17 +8,31 @@ import static org.mockito.Mockito.spy;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_3 {
-    @Test
-    public void testShowNumberChangeDialog() throws NoSuchMethodException, SecurityException, IllegalAccessException {
-        var pcd = spy(new PropertyChangeDialogue());
+
+    PropertyChangeDialogue pcd;
+
+    @BeforeEach
+    void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        pcd = spy(new PropertyChangeDialogue());
         doNothing().when(pcd).setVisible(ArgumentMatchers.anyBoolean());
         doNothing().when(pcd).setModal(ArgumentMatchers.anyBoolean());
+    }
+
+    @AfterEach
+    void closeIt() {
+        pcd.dispose();
+    }
+
+    @Test
+    public void testShowNumberChangeDialog() throws NoSuchMethodException, SecurityException, IllegalAccessException {
         AtomicInteger modified = new AtomicInteger();
         pcd.showNumberChangeDialog("test", "TestProperty", 2, 150, 42, (x) -> modified.set(x));
 
@@ -40,9 +54,6 @@ public class Tutor_Test_H2_3 {
 
     @Test
     public void testShowEnumChangeDialogue() throws NoSuchMethodException, SecurityException, IllegalAccessException {
-        var pcd = spy(new PropertyChangeDialogue());
-        doNothing().when(pcd).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(pcd).setModal(ArgumentMatchers.anyBoolean());
         AtomicReference<String> modified = new AtomicReference<String>();
         var items = new String[] { "a", "b", "c" };
         pcd.showEnumChangeDialogue("test", "TestProperty", 0, items, (x) -> {

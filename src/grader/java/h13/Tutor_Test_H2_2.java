@@ -5,22 +5,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.lang.reflect.InvocationTargetException;
-import java.security.Permission;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.IntConsumer;
@@ -28,6 +22,8 @@ import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -37,17 +33,42 @@ import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
+
+    MyPanel mp;
+    MainFrame mf;
+    ControlFrame cf;
+
+    @BeforeEach
+    void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        mp = spy(new MyPanel());
+        mf = spy(new MainFrame(mp));
+        cf = spy(new ControlFrame(mf));
+        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
+        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
+        cf.pcd = spy(cf.pcd);
+        doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
+                ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
+                ArgumentMatchers.any());
+        doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(),
+                ArgumentMatchers.anyString(),
+                ArgumentMatchers.anyInt(), ArgumentMatchers.any(), ArgumentMatchers.any());
+        try {
+            mf.init();
+            cf.init();
+        } catch (Exception e) {
+            // Try anyways
+        }
+    }
+
+    @AfterEach
+    void closeIt() {
+        mf.dispose();
+        cf.dispose();
+    }
+
     @Test
     public void testLayout() throws NoSuchMethodException, SecurityException, IllegalAccessException,
             IllegalArgumentException, InvocationTargetException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-        mf.init();
-        cf.init();
-
         var layout = cf.getContentPane().getLayout();
         assertInstanceOf(GridLayout.class, layout);
         var gl = (GridLayout) layout;
@@ -58,13 +79,6 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testComponents()
             throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException, Throwable {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-        mf.init();
-        cf.init();
         var layout = cf.getContentPane().getLayout();
         assertInstanceOf(GridLayout.class, layout);
         var gl = (GridLayout) layout;
@@ -97,34 +111,6 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testAddButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        // Modifier
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-
-        // var buttons = new JButton[] {
-        // cf.addEllipseButton,
-        // cf.addRectangleButton,
-        // cf.addStringButton,
-        // cf.removeEllipseButton,
-        // cf.removeRectangleButton,
-        // cf.removeStringButton,
-        // cf.changeSaturationButton,
-        // cf.changeTransparencyButton,
-        // cf.changeBorderWidthButton,
-        // cf.changeFontButton,
-        // cf.changeZoomButton,
-        // cf.exitButton
-        // };
-
         // Green Ellipse
         try {
             cf.addEllipseButton.doClick();
@@ -150,18 +136,6 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testRemoveButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
 
         // Green Ellipse
         try {
@@ -188,27 +162,6 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeSaturationButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        var pcdField = cf.getClass().getDeclaredField("pcd");
-        pcdField.setAccessible(true);
-        pcdField.set(cf, spy(mock(PropertyChangeDialogue.class)));
-
-        // cf.pcd = spy(cf.pcd);
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
-
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -237,32 +190,13 @@ public class Tutor_Test_H2_2 {
 
     @Test
     public void testChangeAlphaButton()
-            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException, Throwable {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        var pcdField = cf.getClass().getDeclaredField("pcd");
-        pcdField.setAccessible(true);
-        pcdField.set(cf, spy(mock(PropertyChangeDialogue.class)));
-        // cf.pcd = spy(cf.pcd);
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
-
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException,
+            Throwable {
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
             ((JButton) Arrays
-                    .stream(cf.getClass().getDeclaredFields())
+                    .stream(ControlFrame.class.getDeclaredFields())
                     .filter(x -> x.getName().equals("changeTransparencyButton")
                             || x.getName().equals("changeAlphaButton"))
                     .peek(x -> System.out.println(x.getName()))
@@ -297,32 +231,6 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeZoomButtons()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        var pcdField = cf.getClass().getDeclaredField("pcd");
-        pcdField.setAccessible(true);
-        pcdField.set(cf, spy(cf.pcd));
-        doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
-                ArgumentMatchers.any());
-        doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyInt(), ArgumentMatchers.any(), ArgumentMatchers.any());
-        // cf.pcd = spy(cf.pcd);
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
-
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -354,32 +262,6 @@ public class Tutor_Test_H2_2 {
     @SuppressWarnings("unchecked")
     public void testChangeFontButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        var pcdField = cf.getClass().getDeclaredField("pcd");
-        pcdField.setAccessible(true);
-        pcdField.set(cf, spy(cf.pcd));
-        doNothing().when(cf.pcd).showNumberChangeDialog(ArgumentMatchers.anyString(), ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(), ArgumentMatchers.anyInt(),
-                ArgumentMatchers.any());
-        doNothing().when(cf.pcd).showEnumChangeDialogue(ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyString(),
-                ArgumentMatchers.anyInt(), ArgumentMatchers.any(), ArgumentMatchers.any());
-        // cf.pcd = spy(cf.pcd);
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
-
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -411,116 +293,17 @@ public class Tutor_Test_H2_2 {
     @ExtendWith(JagrExecutionCondition.class)
     public void testExitButton()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-        var componentField = Container.class.getDeclaredField("component");
-        componentField.setAccessible(true);
-        componentField.set(mf, new ArrayList<Component>());
         try {
-            mf.init();
-            cf.init();
+            cf.exitButton.doClick();
         } catch (Exception e) {
-            // Try anyways
         }
-
         assertTrue(TutorSystem.exitCalled);
     }
-
-//    @Test
-    // @SuppressWarnings("deprecation")
-//    @ExtendWith(JagrExecutionCondition.class)
-//    public void testExitButton_junit()
-//            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-//        var mp = spy(new MyPanel());
-//        var mf = spy(new MainFrame(mp));
-//        var cf = spy(new ControlFrame(mf));
-//        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-//        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-//        var componentField = Container.class.getDeclaredField("component");
-//        componentField.setAccessible(true);
-//        componentField.set(mf, new ArrayList<Component>());
-//        try {
-//            mf.init();
-//            cf.init();
-//        } catch (Exception e) {
-//            // Try anyways
-//        }
-//
-//        var oldSM = System.getSecurityManager();
-//        SecurityManager sm = new SecurityManager() {
-//            @Override
-//            public void checkExit(int status) {
-//                throw new IllegalAccessError();
-//            }
-//
-//            @Override
-//            public void checkPermission(Permission perm) {
-//            }
-//        };
-//        System.setSecurityManager(sm);
-//
-//        // Green Ellipse
-//        assertThrows(IllegalAccessError.class, () -> cf.exitButton.doClick());
-//
-//        // Reset Security Manager
-//        System.setSecurityManager(oldSM);
-//    }
 
     @Test
     @ExtendWith(JagrExecutionCondition.class)
     public void testExitButton_alt()
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-
-        // try (MockedConstruction<ControlFrame> mc = mockConstruction(
-        // ControlFrame.class,
-        // withSettings().defaultAnswer(
-        // Answers.CALLS_REAL_METHODS),
-        // (mock, context) -> {
-        // doNothing().when(mock).setVisible(ArgumentMatchers.anyBoolean());
-        // })) {
-        // var mp = spy(new MyPanel());
-        // var mf = spy(new MainFrame(mp));
-        // var cf = spy(new ControlFrame(mf));
-        // doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        // doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        // try {
-        // mf.init();
-        // cf.init();
-        // } catch (Exception e) {
-        // // Try anyways
-        // }
-
-        // try {
-        // cf.exitButton.doClick();
-        // } catch (Exception e) {
-        // // TODO: handle exception
-        // }
-
-        // assertTrue(Mockito.mockingDetails(cf).getInvocations().stream().anyMatch(x ->
-        // x.getMethod().getName().equals("setVisible")));
-        // assertFalse(cf.isVisible());
-        // assertFalse(cf.isDisplayable());
-        // // assertFalse(mf.isVisible());
-        // // assertFalse(mf.isDisplayable());
-        // }
-
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        var cf = spy(new ControlFrame(mf));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        doNothing().when(cf).setVisible(ArgumentMatchers.anyBoolean());
-
-        try {
-            mf.init();
-            cf.init();
-        } catch (Exception e) {
-            // Try anyways
-        }
-
         try {
             cf.exitButton.doClick();
         } catch (Exception e) {

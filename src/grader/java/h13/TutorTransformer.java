@@ -1,14 +1,16 @@
 package h13;
 
-import org.objectweb.asm.*;
+import java.lang.reflect.Modifier;
+
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.FieldVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 import org.slf4j.Logger;
 import org.sourcegrade.jagr.api.testing.ClassTransformer;
 import org.sourcegrade.jagr.launcher.env.Jagr;
-
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * The transformer class.

@@ -10,29 +10,38 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_1 {
-    @Test
-    public void testMainFrameComponents() {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
+    MyPanel mp;
+    MainFrame mf;
+
+    @BeforeEach
+    void before() {
+        mp = spy(new MyPanel());
+        mf = spy(new MainFrame(mp));
         doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
         mf.init();
+    }
+
+    @AfterEach
+    void closeIt() {
+        mf.dispose();
+    }
+
+    @Test
+    public void testMainFrameComponents() {
         var components = TestUtils.getAllComponents(mf);
         assertTrue(components.contains(mf.panel));
     }
 
     @Test
     public void testMainFrameKeyListeners_Plus() throws AWTException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        mf.init();
-
         assertTrue(
                 Stream.concat(Stream.of(mf), TestUtils.getAllComponents(mf).stream()).anyMatch(x -> {
                     return Arrays.stream(x.getKeyListeners()).anyMatch(y -> {
@@ -70,11 +79,6 @@ public class Tutor_Test_H2_1 {
 
     @Test
     public void testMainFrameKeyListeners_Minus() throws AWTException {
-        var mp = spy(new MyPanel());
-        var mf = spy(new MainFrame(mp));
-        doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
-        mf.init();
-
         assertTrue(
                 Stream.concat(Stream.of(mf), TestUtils.getAllComponents(mf).stream()).anyMatch(x -> {
                     return Arrays.stream(x.getKeyListeners()).anyMatch(y -> {

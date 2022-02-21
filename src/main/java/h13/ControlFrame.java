@@ -81,7 +81,7 @@ public class ControlFrame extends JFrame {
      * The {@link PropertyChangeDialogue} that pops up when a Property needs to be
      * changed and updates the property in real Time
      */
-    public final PropertyChangeDialogue pcd = new PropertyChangeDialogue();
+    public PropertyChangeDialogue pcd = new PropertyChangeDialogue();
 
     /**
      * Creates a new {@link ControlFrame}-Instance
