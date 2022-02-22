@@ -627,5 +627,7 @@ public class H13_Rubric_Provider implements RubricProvider {
     public void configure(final RubricConfiguration configuration) {
         configuration.addTransformer(new TutorTransformer());
         configuration.addTransformer(new TransformPCDCtorInvokes());
+        configuration.addTransformer(new TransformCFCtorInvokes());
+        configuration.addTransformer(new TransformMFCtorInvokes());
     }
 }

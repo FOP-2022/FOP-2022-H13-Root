@@ -23,6 +23,9 @@ public class Tutor_Test_H2_1 {
 
     @BeforeEach
     void before() {
+        PCDReplacementTutor.mfInstances.clear();
+        PCDReplacementTutor.cfInstances.clear();
+        PCDReplacementTutor.pcdInstances.clear();
         mp = spy(new MyPanel());
         mf = spy(new MainFrame(mp));
         doNothing().when(mf).setVisible(ArgumentMatchers.anyBoolean());
@@ -32,6 +35,18 @@ public class Tutor_Test_H2_1 {
     @AfterEach
     void closeIt() {
         mf.dispose();
+        for (var mf : PCDReplacementTutor.mfInstances) {
+            mf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var cf : PCDReplacementTutor.cfInstances) {
+            cf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var pcd : PCDReplacementTutor.pcdInstances) {
+            pcd.dispose();
+        }
+        PCDReplacementTutor.pcdInstances.clear();
     }
 
     @Test

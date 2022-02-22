@@ -46,7 +46,9 @@ public class Tutor_Test_H2_2 {
 
     @BeforeEach
     void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
-        PCDReplacementTutor.instances.clear();
+        PCDReplacementTutor.mfInstances.clear();
+        PCDReplacementTutor.cfInstances.clear();
+        PCDReplacementTutor.pcdInstances.clear();
         mp = spy(new MyPanel());
         mf = spy(new MainFrame(mp));
         cf = spy(new ControlFrame(mf));
@@ -80,10 +82,18 @@ public class Tutor_Test_H2_2 {
     void closeIt() {
         mf.dispose();
         cf.dispose();
-        for (var pcd : PCDReplacementTutor.instances) {
+        for (var mf : PCDReplacementTutor.mfInstances) {
+            mf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var cf : PCDReplacementTutor.cfInstances) {
+            cf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var pcd : PCDReplacementTutor.pcdInstances) {
             pcd.dispose();
         }
-        PCDReplacementTutor.instances.clear();
+        PCDReplacementTutor.pcdInstances.clear();
     }
 
     @Test

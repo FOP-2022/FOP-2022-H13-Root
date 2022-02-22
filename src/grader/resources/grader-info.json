@@ -17,6 +17,8 @@
         "h13/TwoSimpleWindowsTutor.java",
         "h13/TutorTransformer.java",
         "h13/TransformPCDCtorInvokes.java",
+        "h13/TransformMFCtorInvokes.java",
+        "h13/TransformCFCtorInvokes.java",
         "h13/Tutor_Test_H1_2.java",
         "h13/TestConstants.java",
         "h13/PropertyChangeDialogueTutor.java",

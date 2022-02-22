@@ -11,4 +11,8 @@ public class TutorJFrame {
     public static void setModal(boolean modal) {
         // Do nothing
     }
+
+    public static void show() {
+        // Do nothing
+    }
 }

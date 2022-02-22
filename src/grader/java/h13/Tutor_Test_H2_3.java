@@ -21,6 +21,9 @@ public class Tutor_Test_H2_3 {
 
     @BeforeEach
     void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        PCDReplacementTutor.mfInstances.clear();
+        PCDReplacementTutor.cfInstances.clear();
+        PCDReplacementTutor.pcdInstances.clear();
         pcd = spy(new PropertyChangeDialogue());
         doNothing().when(pcd).setVisible(ArgumentMatchers.anyBoolean());
         doNothing().when(pcd).setModal(ArgumentMatchers.anyBoolean());
@@ -29,6 +32,18 @@ public class Tutor_Test_H2_3 {
     @AfterEach
     void closeIt() {
         pcd.dispose();
+        for (var mf : PCDReplacementTutor.mfInstances) {
+            mf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var cf : PCDReplacementTutor.cfInstances) {
+            cf.dispose();
+        }
+        PCDReplacementTutor.mfInstances.clear();
+        for (var pcd : PCDReplacementTutor.pcdInstances) {
+            pcd.dispose();
+        }
+        PCDReplacementTutor.pcdInstances.clear();
     }
 
     @Test
