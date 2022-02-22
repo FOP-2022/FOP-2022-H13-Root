@@ -29,8 +29,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.Invocation;
+import org.slf4j.Logger;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
+import org.sourcegrade.jagr.launcher.env.Jagr;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
@@ -38,6 +40,8 @@ public class Tutor_Test_H2_2 {
     MyPanel mp;
     MainFrame mf;
     ControlFrame cf;
+    JButton addEllipseButton;
+    JButton removeEllipseButton;
 
     @BeforeEach
     void before() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
@@ -58,6 +62,16 @@ public class Tutor_Test_H2_2 {
             cf.init();
         } catch (Exception e) {
             // Try anyways
+        }
+        try {
+            addEllipseButton = (JButton) ControlFrame.class.getDeclaredField("addEllipseButton").get(cf);
+        } catch (Exception e) {
+            addEllipseButton = (JButton) ControlFrame.class.getDeclaredField("addElipseButton").get(cf);
+        }
+        try {
+            removeEllipseButton = (JButton) ControlFrame.class.getDeclaredField("removeEllipseButton").get(cf);
+        } catch (Exception e) {
+            removeEllipseButton = (JButton) ControlFrame.class.getDeclaredField("removeElipseButton").get(cf);
         }
     }
 
@@ -89,10 +103,10 @@ public class Tutor_Test_H2_2 {
         var gl = (GridLayout) layout;
         assertEquals(4, gl.getRows());
         assertEquals(3, gl.getColumns());
-        assertEquals(cf.addEllipseButton, cf.getContentPane().getComponent(0));
+        assertEquals(addEllipseButton, cf.getContentPane().getComponent(0));
         assertEquals(cf.addRectangleButton, cf.getContentPane().getComponent(1));
         assertEquals(cf.addStringButton, cf.getContentPane().getComponent(2));
-        assertEquals(cf.removeEllipseButton, cf.getContentPane().getComponent(3));
+        assertEquals(removeEllipseButton, cf.getContentPane().getComponent(3));
         assertEquals(cf.removeRectangleButton, cf.getContentPane().getComponent(4));
         assertEquals(cf.removeStringButton, cf.getContentPane().getComponent(5));
         assertEquals(cf.changeSaturationButton, cf.getContentPane().getComponent(6));
@@ -115,7 +129,7 @@ public class Tutor_Test_H2_2 {
             throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         // Green Ellipse
         try {
-            cf.addEllipseButton.doClick();
+            addEllipseButton.doClick();
         } catch (Exception e) {
         }
         verify(mp, times(1)).addGreenEllipse();
@@ -141,7 +155,7 @@ public class Tutor_Test_H2_2 {
 
         // Green Ellipse
         try {
-            cf.removeEllipseButton.doClick();
+            removeEllipseButton.doClick();
         } catch (Exception e) {
         }
         verify(mp, times(1)).removeGreenEllipse();
@@ -191,6 +205,8 @@ public class Tutor_Test_H2_2 {
     @Test
     public void testChangeAlphaButton() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
             IllegalAccessException, Throwable {
+        // var logger = Jagr.Default.getInjector().getInstance(Logger.class);
+        // logger.warn("AM HERE");
         // Green Ellipse
         var mockingDetails = Mockito.mockingDetails(cf.pcd);
         try {
@@ -201,9 +217,11 @@ public class Tutor_Test_H2_2 {
                     .orElseThrow(() -> fail("Change Alpha Button not Found")).get(cf)).doClick();
         } catch (Exception e) {
         }
+        // logger.warn("Here Also");
         var x = mockingDetails.getInvocations().stream()
                 .filter(y -> y.getMethod().getName() == "showNumberChangeDialog" && y.getArguments().length == 6)
                 .findFirst().orElseThrow(() -> fail("showNumberChangeDialog was not called."));
+        // logger.warn("BUT LIKELY NOT HERE");
 
         var params = x.getArguments();
         // String title = (String) params[0];
@@ -218,6 +236,7 @@ public class Tutor_Test_H2_2 {
         mp.alpha = 1;
         updateValue.accept(10);
         TestUtils.assertEqualInRange(mp.alpha, 0.1f, 0.01);
+        // logger.warn("AAAAND IT WORKS SOMEHOW");
     }
 
     @Test

@@ -79,16 +79,12 @@ public class TutorTransformer implements ClassTransformer {
                         logger.warn("AfterVisit");
                         return;
                     }
-                    if ("java/awt/Dialog".equals(owner) || "java/awt/Window".equals(owner) && name.equals("setVisible")
-                            && descriptor.equals("(Z)V")) {
+                    if (opcode == Opcodes.INVOKEVIRTUAL && ("h13/MainFrame".equals(owner)
+                            || "h13/MyPanel".equals(owner)
+                            || "h13/ControlFrame".equals(owner) || "h13/PropertyChangeDialogue".equals(owner))
+                                    && name.equals("setVisible") && descriptor.equals("(Z)V")) {
                         logger.warn("BeforeVisit");
-                        super.visitMethodInsn(opcode, "h13/TutorJFrame", name, descriptor, isInterface);
-                        logger.warn("AfterVisit");
-                        return;
-                    }
-                    if (owner.equals("java/awt/Dialog") && name.equals("setModal") && descriptor.equals("(Z)V")) {
-                        logger.warn("BeforeVisit");
-                        super.visitMethodInsn(opcode, "h13/TutorJFrame", name, descriptor, isInterface);
+                        super.visitMethodInsn(opcode, owner, "setFocusCycleRoot", descriptor, isInterface);
                         logger.warn("AfterVisit");
                         return;
                     }
