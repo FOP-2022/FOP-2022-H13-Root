@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -248,6 +249,9 @@ public class ControlFrame extends JFrame {
                 System.exit(0);
             }
         });
+
+        exitButton.addActionListener(e -> Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new WindowEvent(mf, WindowEvent.WINDOW_CLOSING)));
+        mf.dispatchEvent(new WindowEvent(mf, WindowEvent.WINDOW_CLOSING));
 
         // Set Dimension and Position
         pack();

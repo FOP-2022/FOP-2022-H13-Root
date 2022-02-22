@@ -553,7 +553,10 @@ public class H13_Rubric_Provider implements RubricProvider {
                                     "testExitButton")),
                             ofMethod(
                                 () -> Tutor_Test_H2_2.class.getDeclaredMethod(
-                                    "testExitButton_alt"))))
+                                    "testExitButton_alt")),
+                            ofMethod(
+                                () -> Tutor_Test_H2_2.class.getDeclaredMethod(
+                                    "testExitButton_alt2"))))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())

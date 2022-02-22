@@ -26,7 +26,8 @@
         "h13/Tutor_Test_H1_3.java",
         "h13/TutorSystem.java",
         "h13/TutorJFrame.java",
-        "h13/PCDReplacementTutor.java"
+        "h13/PCDReplacementTutor.java",
+        "h13/EventQueueReplacementTutor.java"
       ]
     },
     {

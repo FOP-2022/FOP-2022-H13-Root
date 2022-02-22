@@ -72,6 +72,8 @@ public class TutorTransformer implements ClassTransformer {
                         boolean isInterface) {
                     var logger = Jagr.Default.getInjector().getInstance(Logger.class);
                     // logger.warn("BeforeThingsHappen");
+
+                    // System.exit(int exitCode)
                     if (opcode == Opcodes.INVOKESTATIC && owner.equals("java/lang/System") && name.equals("exit")
                             && descriptor.equals("(I)V")) {
                         logger.warn("BeforeVisit");
@@ -79,10 +81,25 @@ public class TutorTransformer implements ClassTransformer {
                         logger.warn("AfterVisit");
                         return;
                     }
-                    if (opcode == Opcodes.INVOKEVIRTUAL && ("h13/MainFrame".equals(owner)
-                            || "h13/MyPanel".equals(owner)
-                            || "h13/ControlFrame".equals(owner) || "h13/PropertyChangeDialogue".equals(owner))
-                                    && name.equals("setVisible") && descriptor.equals("(Z)V")) {
+
+                    // EventQueue.postEvent(AWTEvent theEvent)
+                    if (opcode == Opcodes.INVOKEVIRTUAL
+                            && (owner.equals("java/awt/EventQueue") || "java/awt/Component".equals(owner)
+                                    || "h13/MainFrame".equals(owner) || "h13/ControlFrame".equals(owner)
+                                    || "h13/PropertyChangeDialogue".equals(owner))
+                            && (name.equals("postEvent") || name.equals("dispatchEvent")) && descriptor.equals("(Ljava/awt/AWTEvent;)V")) {
+                        // logger.warn("BeforeVisit");
+                        super.visitMethodInsn(opcode, "h13/EventQueueReplacementTutor", name, descriptor, isInterface);
+                        // logger.warn("AfterVisit");
+                        return;
+                    }
+
+                    // setVisible(boolean visible);
+                    if ((opcode == Opcodes.INVOKEVIRTUAL || opcode == Opcodes.INVOKESPECIAL)
+                            && ("h13/MyPanel".equals(owner) || "h13/MainFrame".equals(owner)
+                                    || "h13/ControlFrame".equals(owner) || "h13/PropertyChangeDialogue".equals(owner)
+                                    || "javax/swing/JFrame".equals(owner) || "javax/swing/JDialog".equals(owner))
+                            && name.equals("setVisible") && descriptor.equals("(Z)V")) {
                         logger.warn("BeforeVisit");
                         super.visitMethodInsn(opcode, owner, "setFocusCycleRoot", descriptor, isInterface);
                         logger.warn("AfterVisit");

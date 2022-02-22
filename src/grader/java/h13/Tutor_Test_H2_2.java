@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -305,7 +306,7 @@ public class Tutor_Test_H2_2 {
             cf.exitButton.doClick();
         } catch (Exception e) {
         }
-        assertTrue(TutorSystem.exitCalled);
+        assertTrue(TutorSystem.exitCalled, "System.exit() wurde nicht aufgerufen.");
     }
 
     @Test
@@ -316,9 +317,24 @@ public class Tutor_Test_H2_2 {
             cf.exitButton.doClick();
         } catch (Exception e) {
         }
-        assertFalse(cf.isVisible());
-        assertFalse(cf.isDisplayable());
-        assertFalse(mf.isVisible());
-        assertFalse(mf.isDisplayable());
+        assertFalse(cf.isVisible(), "Die Fenster sind noch sichtbar oder wurden nicht korrekt geschlossen.");
+        assertFalse(cf.isDisplayable(), "Die Fenster sind noch sichtbar oder wurden nicht korrekt geschlossen.");
+        assertFalse(mf.isVisible(), "Die Fenster sind noch sichtbar oder wurden nicht korrekt geschlossen.");
+        assertFalse(mf.isDisplayable(), "Die Fenster sind noch sichtbar oder wurden nicht korrekt geschlossen.");
+    }
+
+    @Test
+    @ExtendWith(JagrExecutionCondition.class)
+    public void testExitButton_alt2()
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
+        EventQueueReplacementTutor.postedEvents.clear();
+        try {
+            cf.exitButton.doClick();
+        } catch (Exception e) {
+        }
+        // assertTrue(EventQueueReplacementTutor.postedEvents.size() > 0);
+        assertTrue(
+                EventQueueReplacementTutor.postedEvents.stream().anyMatch(x -> x.getID() == WindowEvent.WINDOW_CLOSING),
+                "Kein ClosingEvent wurde gefeuert.");
     }
 }
