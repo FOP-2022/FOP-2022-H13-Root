@@ -39,10 +39,7 @@ public class TestUtils {
      * @returns an Image Containing the difference
      */
     public static BufferedImage imageDiff(BufferedImage expected, BufferedImage actual) {
-        var diff = new BufferedImage(
-                expected.getWidth(),
-                expected.getHeight(),
-                expected.getType());
+        var diff = new BufferedImage(expected.getWidth(), expected.getHeight(), expected.getType());
 
         // Loop over all Pixels
         int unequal = 0;
@@ -73,8 +70,7 @@ public class TestUtils {
      * Saves the Diff Image in the screenshots/ directory
      *
      * @param expected The first image
-     * @param actual   The second image
-     *                 exactly
+     * @param actual   The second image exactly
      */
     public static void saveImageDiff(BufferedImage expected, BufferedImage actual) {
         saveImage(imageDiff(expected, actual), "FOP-H13-Diff");
@@ -126,13 +122,11 @@ public class TestUtils {
      *                           exactly
      * @returns an Image Containing the difference
      */
-    public static void assertImagesEqual(BufferedImage expected, BufferedImage actual,
-            double requiredSimilarity) {
+    public static void assertImagesEqual(BufferedImage expected, BufferedImage actual, double requiredSimilarity) {
 
         assertEquals(expected.getColorModel(), actual.getColorModel(), "Wrong ColorModel.");
         // The Images have different sizes
-        assertEquals(expected.getRaster().getBounds(),
-                actual.getRaster().getBounds(), "Wrong Image Bounds.");
+        assertEquals(expected.getRaster().getBounds(), actual.getRaster().getBounds(), "Wrong Image Bounds.");
 
         // Loop over all Pixels
         int unequal = 0;
@@ -142,8 +136,7 @@ public class TestUtils {
                 var actualColor = new Color(actual.getRGB(x, y), true);
                 if (!expectedColor.equals(actualColor)) {
                     if (requiredSimilarity >= 1) {
-                        assertEquals(expectedColor,
-                                actualColor,
+                        assertEquals(expectedColor, actualColor,
                                 String.format("Wrong Color at (%s,%s). (expected alpha: %s, actual alpha: %s)", x, y,
                                         expectedColor.getAlpha(), actualColor.getAlpha()));
                     } else {
@@ -153,11 +146,9 @@ public class TestUtils {
             }
         }
         System.out.println(unequal);
-        var maxAllowed = (1 - requiredSimilarity) * expected.getWidth() *
-                expected.getHeight();
+        var maxAllowed = (1 - requiredSimilarity) * expected.getWidth() * expected.getHeight();
         assertTrue(unequal <= maxAllowed,
-                "Too many different Pixels. Expected equal or less than " + (int) maxAllowed
-                        + " but was " + unequal);
+                "Too many different Pixels. Expected equal or less than " + (int) maxAllowed + " but was " + unequal);
         // They're the same picture.
     }
 
@@ -235,17 +226,16 @@ public class TestUtils {
     public static void assertBoundsEqualInRange(Rectangle2D expected, Rectangle2D actual, double tolerance,
             boolean ignoreCoords) {
         if (!ignoreCoords) {
-            assertEqualInRange(expected.getX(), actual.getX(), tolerance);
-            assertEqualInRange(expected.getY(), actual.getY(), tolerance);
+            assertEqualInRange(expected.getX(), actual.getX(), tolerance, "incorrect X-Coordinate:");
+            assertEqualInRange(expected.getY(), actual.getY(), tolerance, "incorrect Y-Coordinate:");
         }
-        assertEqualInRange(expected.getWidth(), actual.getWidth(), tolerance);
-        assertEqualInRange(expected.getHeight(), actual.getHeight(), tolerance);
+        assertEqualInRange(expected.getWidth(), actual.getWidth(), tolerance, "incorrect width:");
+        assertEqualInRange(expected.getHeight(), actual.getHeight(), tolerance, "incorrect height:");
     }
 
     /**
      * Asserts that the Sizes and Coordinates of two given rectangles are equal
-     * within the given
-     * tolerance
+     * within the given tolerance
      *
      * @param expected  the expected Rectangle
      * @param actual    the Rectangle to verify
@@ -270,9 +260,7 @@ public class TestUtils {
      */
     public static void assertShapesEqual(Shape expected, Shape actual, boolean ignorePositioning, boolean ignoreScale,
             boolean saveDiff) {
-        var img = new BufferedImage(
-                (int) expected.getBounds2D().getWidth(),
-                (int) expected.getBounds2D().getHeight(),
+        var img = new BufferedImage((int) expected.getBounds2D().getWidth(), (int) expected.getBounds2D().getHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
@@ -282,8 +270,7 @@ public class TestUtils {
         if (ignorePositioning) {
             if (ignoreScale) {
                 var scaleTF = new AffineTransform();
-                scaleTF.scale(
-                        expected.getBounds2D().getWidth() / actual.getBounds2D().getWidth(),
+                scaleTF.scale(expected.getBounds2D().getWidth() / actual.getBounds2D().getWidth(),
                         expected.getBounds2D().getHeight() / actual.getBounds2D().getHeight());
                 actual = scaleTF.createTransformedShape(actual);
             }
@@ -420,8 +407,8 @@ public class TestUtils {
         } else {
             if (!equalWithTolerance(expected, actual, tolerance)) {
 
-                throw new AssertionFailedError(
-                        message + String.format("expected number in range: [%f,%f] but was: <%f>", expected - tolerance,
+                throw new AssertionFailedError((message != null && message.length() > 0 ? message + " " : "")
+                        + String.format("expected number in range: [%f,%f] but was: <%f>", expected - tolerance,
                                 expected + tolerance, actual),
                         expected, actual);
             }

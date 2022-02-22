@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -81,7 +82,7 @@ public class ControlFrameTutor extends JFrame {
      * The {@link PropertyChangeDialogueTutor} that pops up when a Property needs to be
      * changed and updates the property in real Time
      */
-    public final PropertyChangeDialogueTutor pcd = new PropertyChangeDialogueTutor();
+    public PropertyChangeDialogueTutor pcd = new PropertyChangeDialogueTutor();
 
     /**
      * Creates a new {@link ControlFrameTutor}-Instance

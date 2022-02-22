@@ -197,7 +197,7 @@ public class MyPanelTutor extends javax.swing.JPanel {
      * @param text the new Value of the {@link #text}-Field
      */
     public void setText(String text) throws IllegalArgumentException {
-        if (text == null || text == "" || text.length() > 20) {
+        if (text == null || text == "" || text.length() > 30) {
             throw new IllegalArgumentException("IInvalid Text.");
         }
         this.text = text;

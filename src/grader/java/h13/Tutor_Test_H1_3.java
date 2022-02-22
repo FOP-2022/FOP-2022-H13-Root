@@ -48,11 +48,11 @@ public class Tutor_Test_H1_3 {
                     String.class, Font.class);
         }
         try {
-            dcsStudent = MyPanel.class.getDeclaredMethod("drawColoredString", Graphics2D.class, Color.class, Color.class,
-                    float.class, String.class, Font.class, double.class);
+            dcsStudent = MyPanel.class.getDeclaredMethod("drawColoredString", Graphics2D.class, Color.class,
+                    Color.class, float.class, String.class, Font.class, double.class);
         } catch (Exception e) {
-            dcsStudent = MyPanel.class.getDeclaredMethod("drawColoredString", Graphics2D.class, Color.class, Color.class, int.class,
-                    String.class, Font.class, double.class);
+            dcsStudent = MyPanel.class.getDeclaredMethod("drawColoredString", Graphics2D.class, Color.class,
+                    Color.class, int.class, String.class, Font.class, double.class);
         }
     }
 
@@ -134,7 +134,7 @@ public class Tutor_Test_H1_3 {
         Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, img.getWidth() / fontBounds.getWidth(), 0, text, f);
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, img.getWidth() / fontBounds.getWidth(), 0, text, f);
 
-        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds());
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
         if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
             TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
         }
@@ -157,12 +157,42 @@ public class Tutor_Test_H1_3 {
     }
 
     @Test
+    public void testScaleTextToWidth_ScaleOnly_NoBorder_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, 1d, 0, text, new Font("Arial", Font.PLAIN, 42));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, img.getWidth(), 0, text, new Font("Arial", Font.PLAIN, 42));
+
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+
+    @Test
     public void testScaleTextToWidth_ScaleOnly_FullWidth()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         var text = TestUtils.createRandomString(r, 5, 10);
 
         Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, img.getWidth(), 5, text,
                 new Font("Arial", Font.PLAIN, 42));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, img.getWidth(), 5, text, new Font("Arial", Font.PLAIN, 42));
+
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+
+    @Test
+    public void testScaleTextToWidth_ScaleOnly_FullWidth_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, 1d, 5, text, new Font("Arial", Font.PLAIN, 42));
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, img.getWidth(), 5, text, new Font("Arial", Font.PLAIN, 42));
 
         TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
@@ -190,6 +220,22 @@ public class Tutor_Test_H1_3 {
     }
 
     @Test
+    public void testScaleTextToWidth_ScaleOnly_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, .34, 5, text, new Font("Arial", Font.PLAIN, 42));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, .34 * img.getWidth(), 5, text,
+                new Font("Arial", Font.PLAIN, 42));
+
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+
+    @Test
     public void testScaleTextToWidth_ScaleAndCenter_NoBorder()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         var text = TestUtils.createRandomString(r, 5, 10);
@@ -198,7 +244,23 @@ public class Tutor_Test_H1_3 {
                 new Font("Arial", Font.PLAIN, 42));
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, .5 * img.getWidth(), 5, text,
                 new Font("Arial", Font.PLAIN, 42));
-        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds());
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+
+    @Test
+    public void testScaleTextToWidth_ScaleAndCenter_NoBorder_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, .5, 5, text, new Font("Arial", Font.PLAIN, 42));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, .5 * img.getWidth(), 5, text,
+                new Font("Arial", Font.PLAIN, 42));
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
         TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
                 TestConstants.BOUND_TOLERANCE, true);
         if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
@@ -216,7 +278,24 @@ public class Tutor_Test_H1_3 {
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, .254 * img.getWidth(), 5, text,
                 new Font("Arial", Font.PLAIN, 42));
 
-        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds());
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+
+    @Test
+    public void testScaleTextToWidth_ScaleAndCenter_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, .254, 5, text, new Font("Arial", Font.PLAIN, 42));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, .254 * img.getWidth(), 5, text,
+                new Font("Arial", Font.PLAIN, 42));
+
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
         TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
                 TestConstants.BOUND_TOLERANCE, true);
         if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
@@ -234,7 +313,24 @@ public class Tutor_Test_H1_3 {
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, 1.2 * img.getWidth(), 5, text,
                 new Font("Arial", Font.PLAIN, 420));
 
-        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds());
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
+        TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
+                TestConstants.BOUND_TOLERANCE, true);
+        if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {
+            TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
+        }
+    }
+    @Test
+    public void testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt()
+            throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        var text = TestUtils.createRandomString(r, 5, 10);
+
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, 1.2, 5, text,
+                new Font("Arial", Font.PLAIN, 420));
+        var tutorShape = mpt.scaleTextToWidth(g2dTutor, 1.2 * img.getWidth(), 5, text,
+                new Font("Arial", Font.PLAIN, 420));
+
+        TestUtils.assertShapeCentered(studentShape, img.getRaster().getBounds(), TestConstants.BOUND_TOLERANCE);
         TestUtils.assertBoundsEqualInRange(tutorShape.getBounds2D(), studentShape.getBounds2D(),
                 TestConstants.BOUND_TOLERANCE, true);
         if (TestConstants.TEST_CORRECT_SHAPES_ON_SCALE_TESTS) {

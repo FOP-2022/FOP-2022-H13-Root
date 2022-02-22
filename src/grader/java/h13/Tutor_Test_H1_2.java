@@ -58,10 +58,10 @@ public class Tutor_Test_H1_2 {
         mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Resizing needed
-        TestUtils.assertShapeCentered(mp.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
-                TestConstants.getScreenHeight()), 1, 1, 42),
-                TestConstants.screenResolution,
-                TestConstants.BOUND_TOLERANCE);
+        TestUtils.assertShapeCentered(
+                mp.centerShape(new Rectangle2D.Double(-420, 1337, TestConstants.getScreenWidth(),
+                        TestConstants.getScreenHeight()), 1, 1, 42),
+                TestConstants.screenResolution, TestConstants.BOUND_TOLERANCE);
     }
 
     @Test
@@ -72,17 +72,15 @@ public class Tutor_Test_H1_2 {
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Scaling
         assertEquals(
-                mp.centerShape(
+                mpt.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         .5, .5, 0),
-                mpt.centerShape(
+                mp.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         .5, .5, 0));
         // Scaling 2
         TestUtils.assertBoundsEqualInRange(mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
-                mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
-                TestConstants.BOUND_TOLERANCE,
-                true);
+                mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0), TestConstants.BOUND_TOLERANCE, true);
     }
 
     @Test
@@ -93,14 +91,13 @@ public class Tutor_Test_H1_2 {
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Resizing needed for border
         TestUtils.assertBoundsEqualInRange(
-                mp.centerShape(
-                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
-                        1, 1, 42),
                 mpt.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         1, 1, 42),
-                TestConstants.BOUND_TOLERANCE,
-                true);
+                mp.centerShape(
+                        new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
+                        1, 1, 42),
+                TestConstants.BOUND_TOLERANCE, true);
     }
 
     @Test
@@ -110,8 +107,10 @@ public class Tutor_Test_H1_2 {
         mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Scaling+Border+Resize
-        assertEquals(mp.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 123),
-                mpt.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 123));
+        TestUtils.assertBoundsEqualInRange(
+                mpt.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 32),
+                mp.centerShape(new Rectangle2D.Double(-69, 420, 1337, 1353), .666, .0815, 32),
+                TestConstants.BOUND_TOLERANCE, false);
     }
 
     @Test
@@ -129,16 +128,8 @@ public class Tutor_Test_H1_2 {
         mp.setBounds(img.getRaster().getBounds());
         mpt.setBounds(imgTutor.getRaster().getBounds());
 
-        mp.fillDraw(
-                g2d,
-                Color.GREEN,
-                Color.GREEN,
-                0,
-                new Ellipse2D.Double(0, 0, img.getWidth(), img.getHeight()));
-        mpt.fillDraw(g2dTutor,
-                Color.GREEN,
-                Color.GREEN,
-                0,
+        mp.fillDraw(g2d, Color.GREEN, Color.GREEN, 0, new Ellipse2D.Double(0, 0, img.getWidth(), img.getHeight()));
+        mpt.fillDraw(g2dTutor, Color.GREEN, Color.GREEN, 0,
                 new Ellipse2D.Double(0, 0, img.getWidth(), img.getHeight()));
 
         // Compare Images
@@ -160,15 +151,8 @@ public class Tutor_Test_H1_2 {
         mp.setBounds(img.getRaster().getBounds());
         mpt.setBounds(imgTutor.getRaster().getBounds());
 
-        mp.fillDraw(g2d, Color.GREEN,
-                Color.GREEN,
-                0,
-                mpt.centerShape(new Ellipse2D.Double(), 1, 1, 20));
-        mpt.fillDraw(g2dTutor,
-                Color.GREEN,
-                Color.GREEN,
-                0,
-                mpt.centerShape(new Ellipse2D.Double(), 1, 1, 20));
+        mp.fillDraw(g2d, Color.GREEN, Color.GREEN, 0, mpt.centerShape(new Ellipse2D.Double(), 1, 1, 20));
+        mpt.fillDraw(g2dTutor, Color.GREEN, Color.GREEN, 0, mpt.centerShape(new Ellipse2D.Double(), 1, 1, 20));
 
         // Compare Images
         TestUtils.assertImagesEqual(imgTutor, img);
@@ -191,48 +175,33 @@ public class Tutor_Test_H1_2 {
 
         var r = new Random(694201337);
         Stream.of(
-                mpt.centerShape(new Ellipse2D.Double(),
-                        r.nextDouble(0.1, 1),
-                        r.nextDouble(0.1, 1),
-                        r.nextInt(1, 100)),
-                mpt.centerShape(new Rectangle2D.Double(),
-                        r.nextDouble(0.1, 1),
-                        r.nextDouble(0.1, 1),
+                mpt.centerShape(new Ellipse2D.Double(), r.nextDouble(0.1, 1), r.nextDouble(0.1, 1), r.nextInt(1, 100)),
+                mpt.centerShape(new Rectangle2D.Double(), r.nextDouble(0.1, 1), r.nextDouble(0.1, 1),
                         r.nextInt(1, 100)),
                 mpt.scaleTextToWidth(g2dTutor, r.nextInt(0, imgTutor.getWidth()), r.nextInt(2, 500),
-                        TestUtils.createRandomString(r, 5, 40),
-                        new Font("Arial", Font.ITALIC, 42)))
-                .forEachOrdered(
-                        s -> {
-                            var interiorColor = mpt.colorWithAlpha(
-                                    new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)), r.nextFloat(0.1f, 1f));
-                            var borderColor = mpt.colorWithSaturation(
-                                    new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)), r.nextFloat(0.1f, 1f));
-                            var borderWidth = r.nextInt(1, 100);
+                        TestUtils.createRandomString(r, 5, 40), new Font("Arial", Font.ITALIC, 42)))
+                .forEachOrdered(s -> {
+                    var interiorColor = mpt.colorWithAlpha(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
+                            r.nextFloat(0.1f, 1f));
+                    var borderColor = mpt.colorWithSaturation(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
+                            r.nextFloat(0.1f, 1f));
+                    var borderWidth = r.nextInt(1, 100);
 
-                            // Modify g2d
-                            var strokeColor = mpt.colorWithAlpha(
-                                    new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)), r.nextFloat(0.1f, 1f));
-                            g2d.setColor(strokeColor);
+                    // Modify g2d
+                    var strokeColor = mpt.colorWithAlpha(new Color(r.nextInt(256), r.nextInt(256), r.nextInt(256)),
+                            r.nextFloat(0.1f, 1f));
+                    g2d.setColor(strokeColor);
 
-                            var stroke = new BasicStroke(r.nextInt(256), BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
-                            g2d.setStroke(stroke);
+                    var stroke = new BasicStroke(r.nextInt(256), BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL);
+                    g2d.setStroke(stroke);
 
-                            mp.fillDraw(g2d,
-                                    interiorColor,
-                                    borderColor,
-                                    borderWidth,
-                                    s);
-                            mpt.fillDraw(g2dTutor,
-                                    interiorColor,
-                                    borderColor,
-                                    borderWidth,
-                                    s);
+                    mp.fillDraw(g2d, interiorColor, borderColor, borderWidth, s);
+                    mpt.fillDraw(g2dTutor, interiorColor, borderColor, borderWidth, s);
 
-                            // Compare Images
-                            TestUtils.assertImagesEqual(imgTutor, img);
-                            assertEquals(strokeColor, g2d.getColor(), "Color of g2d was modified.");
-                            assertEquals(stroke, g2d.getStroke(), "Stroke of g2d was modified.");
-                        });
+                    // Compare Images
+                    TestUtils.assertImagesEqual(imgTutor, img);
+                    assertEquals(strokeColor, g2d.getColor(), "Color of g2d was modified.");
+                    assertEquals(stroke, g2d.getStroke(), "Stroke of g2d was modified.");
+                });
     }
 }

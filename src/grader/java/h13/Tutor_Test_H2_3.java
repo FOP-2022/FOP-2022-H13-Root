@@ -53,15 +53,21 @@ public class Tutor_Test_H2_3 {
 
         // Components
         var components = TestUtils.getAllComponents(pcd);
-        assertTrue(components.contains(pcd.okButton));
-        assertTrue(components.contains(pcd.propertyJLabel));
-        assertTrue(components.contains(pcd.valueControlJSlider));
-        assertTrue(components.contains(pcd.valueInputField));
+        assertTrue(components.contains(pcd.okButton), "Die Komponente \"okButton\" wurde nicht korrekt hinzugefügt.");
+        assertTrue(components.contains(pcd.propertyJLabel),
+                "Die Komponente \"propertyJLabel\" wurde nicht korrekt hinzugefügt.");
+        assertTrue(components.contains(pcd.valueControlJSlider),
+                "Die Komponente \"valueControlJSlider\" wurde nicht korrekt hinzugefügt.");
+        assertTrue(components.contains(pcd.valueInputField),
+                "Die Komponente \"valueInputField\" wurde nicht korrekt hinzugefügt.");
 
         // Values
-        assertEquals(pcd.valueControlJSlider.getMinimum(), 2);
-        assertEquals(pcd.valueControlJSlider.getMaximum(), 150);
-        assertEquals(pcd.valueControlJSlider.getValue(), 42);
+        assertEquals(pcd.valueControlJSlider.getMinimum(), 2,
+                "Das Minimum des valueControlJSliders wird nicht korrekt gesetzt.");
+        assertEquals(pcd.valueControlJSlider.getMaximum(), 150,
+                "Das Maximum des valueControlJSliders wird nicht korrekt gesetzt.");
+        assertEquals(pcd.valueControlJSlider.getValue(), 42,
+                "Der Initialwert des valueControlJSliders wird nicht korrekt gesetzt.");
 
         pcd.valueControlJSlider.setValue(67);
         assertEquals(67, modified.get());
@@ -70,28 +76,32 @@ public class Tutor_Test_H2_3 {
     @Test
     public void testShowEnumChangeDialogue() throws NoSuchMethodException, SecurityException, IllegalAccessException {
         AtomicReference<String> modified = new AtomicReference<String>();
-        var items = new String[] { "a", "b", "c" };
+        var items = new String[] { "a", "b", "c", "d", "e" };
         pcd.showEnumChangeDialogue("test", "TestProperty", 0, items, (x) -> {
             modified.set(x);
         });
 
         // Components
         var components = TestUtils.getAllComponents(pcd);
-        assertTrue(components.contains(pcd.okButton));
-        assertTrue(components.contains(pcd.propertyJLabel));
-        assertTrue(components.contains(pcd.optionsComboBox));
+        assertTrue(components.contains(pcd.okButton), "Die Komponente \"okButton\" wurde nicht korrekt hinzugefügt.");
+        assertTrue(components.contains(pcd.propertyJLabel),
+                "Die Komponente \"propertyJLabel\" wurde nicht korrekt hinzugefügt.");
+        assertTrue(components.contains(pcd.optionsComboBox),
+                "Die Komponente \"optionsComboBox\" wurde nicht korrekt hinzugefügt.");
 
         // Values
-        assertEquals(items.length, pcd.optionsComboBox.getItemCount());
+        assertEquals(items.length, pcd.optionsComboBox.getItemCount(),
+                "Die Anzahl der Angezeigten optionen stimmt nicht mit der Anzahl der gegebenen Optionen überein.");
         for (int i = 0; i < items.length; i++) {
-            assertEquals(items[i], pcd.optionsComboBox.getItemAt(i));
+            assertEquals(items[i], pcd.optionsComboBox.getItemAt(i),
+                    "Die Option an Index <" + i + "> stimmt nicht mit der übergebenen Option überein.");
         }
 
         // assertEquals("a", modified.get());
 
         pcd.optionsComboBox.setSelectedIndex(2);
-        assertEquals("c", modified.get());
+        assertEquals("c", modified.get(), "Der Konsumer wurde nicht korrekt aufgerufen.");
         pcd.optionsComboBox.setSelectedIndex(0);
-        assertEquals("a", modified.get());
+        assertEquals("a", modified.get(), "Der Konsumer wurde nicht korrekt aufgerufen.");
     }
 }

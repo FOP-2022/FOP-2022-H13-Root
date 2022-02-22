@@ -22,10 +22,12 @@ public class Tutor_Test_H1_4 {
     /**
      * Tests the paint() method with the given Figures
      *
-     * @param figuresToTest The Figures to test
-     * @param altAddMethod  whether to rely on students add Methods
+     * @param figuresToTest      The Figures to test
+     * @param originalAddMethods whether to rely on students add Methods
+     * @param originalMethods    whether or not to use the original Methods
      */
-    public void testFigures(Map<MyPanelTutor.Figure, MyPanel.Figure> figuresToTest, boolean altAddMethod) {
+    public void testFigures(Map<MyPanelTutor.Figure, MyPanel.Figure> figuresToTest, boolean originalAddMethods,
+            boolean originalMethods) {
         var img = new BufferedImage(TestConstants.getScreenWidth(), TestConstants.getScreenHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         var imgTutor = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
@@ -35,48 +37,26 @@ public class Tutor_Test_H1_4 {
 
         MyPanel mp = spy(new MyPanel());
         MyPanelTutor mpt = new MyPanelTutor();
-        doAnswer(i -> mpt.colorWithAlpha(i.getArgument(0), i.getArgument(1)))
-                .when(mp).colorWithAlpha(ArgumentMatchers.any(), (int) ArgumentMatchers.anyDouble());
-        doAnswer(i -> mpt.colorWithSaturation(i.getArgument(0), i.getArgument(1)))
-                .when(mp).colorWithSaturation(ArgumentMatchers.any(), (int) ArgumentMatchers.anyDouble());
-        doAnswer(i -> {
-            mpt.fillDraw(
-                    i.getArgument(0),
-                    i.getArgument(1),
-                    i.getArgument(2),
-                    i.getArgument(3),
-                    i.getArgument(4));
-            return null;
-        })
-                .when(mp).fillDraw(
-                        ArgumentMatchers.any(),
-                        ArgumentMatchers.any(),
-                        ArgumentMatchers.any(),
-                        (int) ArgumentMatchers.anyDouble(),
-                        ArgumentMatchers.any());
-        doAnswer(i -> {
-            mpt.fillDrawCentered(
-                    i.getArgument(0),
-                    i.getArgument(1),
-                    i.getArgument(2),
-                    i.getArgument(3),
-                    i.getArgument(4),
-                    i.getArgument(5),
-                    i.getArgument(6));
-            return null;
-        })
-                .when(mp).fillDrawCentered(
-                        ArgumentMatchers.any(),
-                        ArgumentMatchers.any(),
-                        ArgumentMatchers.any(),
-                        (int) ArgumentMatchers.anyDouble(),
-                        ArgumentMatchers.any(),
-                        ArgumentMatchers.anyDouble(),
-                        ArgumentMatchers.anyDouble());
+        if (!originalMethods) {
+            doAnswer(i -> mpt.colorWithAlpha(i.getArgument(0), i.getArgument(1))).when(mp)
+                    .colorWithAlpha(ArgumentMatchers.any(), (int) ArgumentMatchers.anyDouble());
+            doAnswer(i -> mpt.colorWithSaturation(i.getArgument(0), i.getArgument(1))).when(mp)
+                    .colorWithSaturation(ArgumentMatchers.any(), (int) ArgumentMatchers.anyDouble());
+            doAnswer(i -> {
+                mpt.fillDraw(i.getArgument(0), i.getArgument(1), i.getArgument(2), i.getArgument(3), i.getArgument(4));
+                return null;
+            }).when(mp).fillDraw(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
+                    (int) ArgumentMatchers.anyDouble(), ArgumentMatchers.any());
+            doAnswer(i -> {
+                mpt.fillDrawCentered(i.getArgument(0), i.getArgument(1), i.getArgument(2), i.getArgument(3),
+                        i.getArgument(4), i.getArgument(5), i.getArgument(6));
+                return null;
+            }).when(mp).fillDrawCentered(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
+                    (int) ArgumentMatchers.anyDouble(), ArgumentMatchers.any(), ArgumentMatchers.anyDouble(),
+                    ArgumentMatchers.anyDouble());
 
-        // if (replacePaintGrid) {
-        doNothing().when(mp).drawGrid(ArgumentMatchers.any());
-        // }
+            doNothing().when(mp).drawGrid(ArgumentMatchers.any());
+        }
 
         mp.setBounds(img.getRaster().getBounds());
         mpt.setBounds(imgTutor.getRaster().getBounds());
@@ -103,34 +83,34 @@ public class Tutor_Test_H1_4 {
                 var figure = f.getValue();
                 var tutorFigure = f.getKey();
                 if (figure != null) {
-                    if (altAddMethod) {
+                    if (originalAddMethods) {
                         switch (figure) {
-                            case YELLOW_RECTANGLE:
-                                mp.addYellowRectangle();
-                                break;
-                            case GREEN_ELLIPSE:
-                                mp.addGreenEllipse();
-                                break;
-                            case BLUE_STRING:
-                                mp.addBlueString();
-                                break;
+                        case YELLOW_RECTANGLE:
+                            mp.addYellowRectangle();
+                            break;
+                        case GREEN_ELLIPSE:
+                            mp.addGreenEllipse();
+                            break;
+                        case BLUE_STRING:
+                            mp.addBlueString();
+                            break;
                         }
                     } else {
                         mp.figuresToDisplay.add(figure);
                     }
                 }
                 if (tutorFigure != null) {
-                    if (altAddMethod) {
+                    if (originalAddMethods) {
                         switch (tutorFigure) {
-                            case YELLOW_RECTANGLE:
-                                mpt.addYellowRectangle();
-                                break;
-                            case GREEN_ELLIPSE:
-                                mpt.addGreenEllipse();
-                                break;
-                            case BLUE_STRING:
-                                mpt.addBlueString();
-                                break;
+                        case YELLOW_RECTANGLE:
+                            mpt.addYellowRectangle();
+                            break;
+                        case GREEN_ELLIPSE:
+                            mpt.addGreenEllipse();
+                            break;
+                        case BLUE_STRING:
+                            mpt.addBlueString();
+                            break;
                         }
                     } else {
                         mpt.figuresToDisplay.add(tutorFigure);
@@ -144,67 +124,89 @@ public class Tutor_Test_H1_4 {
         // TestUtils.saveImage(imgTutor);
         // TestUtils.saveImage(img);
         // TestUtils.saveImageDiff(imgTutor, img);
-        TestUtils.assertImagesEqual(imgTutor, img);
+        TestUtils.assertImagesEqual(imgTutor, img, TestConstants.MIN_SHAPE_SIMILARITY);
     }
 
     @Test
     public void testBlank() {
-        testFigures(null, false);
+        testFigures(null, false, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testYellowRectangle() {
-        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), false);
+        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), false, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testYellowRectangle_alt() {
-        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), true);
+        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), true, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
+    public void testYellowRectangle_alt2() {
+        testFigures(Map.of(MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE), true, true);
+    }
+
+    @Test
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testGreenEllipse() {
-        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), false);
+        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), false, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testGreenEllipse_alt() {
-        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), true);
+        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), true, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
+    public void testGreenEllipse_alt2() {
+        testFigures(Map.of(MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE), true, true);
+    }
+
+    @Test
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testBlueString() {
-        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), false);
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), false, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testBlueString_alt() {
-        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), true);
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), true, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
+    public void testBlueString_alt2() {
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING), true, true);
+    }
+
+    @Test
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testThreeFigures() {
-        testFigures(Map.of(
-                MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
-                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE,
-                MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE),
-                false);
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE, MyPanelTutor.Figure.YELLOW_RECTANGLE,
+                MyPanel.Figure.YELLOW_RECTANGLE), false, false);
     }
 
     @Test
-    @ExtendWith(JagrExecutionCondition.class)
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
     public void testThreeFigures_alt() {
-        testFigures(Map.of(
-                MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
-                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE,
-                MyPanelTutor.Figure.YELLOW_RECTANGLE, MyPanel.Figure.YELLOW_RECTANGLE),
-                true);
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE, MyPanelTutor.Figure.YELLOW_RECTANGLE,
+                MyPanel.Figure.YELLOW_RECTANGLE), true, false);
+    }
+
+    @Test
+    // testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt
+    public void testThreeFigures_alt2() {
+        testFigures(Map.of(MyPanelTutor.Figure.BLUE_STRING, MyPanel.Figure.BLUE_STRING,
+                MyPanelTutor.Figure.GREEN_ELLIPSE, MyPanel.Figure.GREEN_ELLIPSE, MyPanelTutor.Figure.YELLOW_RECTANGLE,
+                MyPanel.Figure.YELLOW_RECTANGLE), true, false);
     }
 }

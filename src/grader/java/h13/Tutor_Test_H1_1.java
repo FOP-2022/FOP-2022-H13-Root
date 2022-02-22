@@ -21,12 +21,13 @@ public class Tutor_Test_H1_1 {
     public void testDefaultValues() {
         var mp = new MyPanel();
         var mpt = new MyPanelTutor();
-        TestUtils.assertEqualInRange(mp.alpha, mpt.getAlpha(), 0.01);
-        TestUtils.assertEqualInRange(mp.saturation, mpt.getSaturation(), 0.01);
-        assertEquals(mp.getZoom(), mpt.getZoom());
-        assertEquals(mp.getText(), mpt.getText());
-        assertEquals(mp.getFont(), mpt.getFont());
-        assertEquals(mp.getBorderWidth(), mpt.getBorderWidth());
+        TestUtils.assertEqualInRange(mp.alpha, mpt.getAlpha(), 0.01, "Alpha Field has incorrect default value.");
+        TestUtils.assertEqualInRange(mp.saturation, mpt.getSaturation(), 0.01,
+                "Saturation Field has incorrect default value.");
+        assertEquals(mp.getZoom(), mpt.getZoom(), "Zoom Field has incorrect default value.");
+        assertEquals(mp.getText(), mpt.getText(), "Text Field has incorrect default value.");
+        assertEquals(mp.getFont(), mpt.getFont(), "Font Field has incorrect default value.");
+        assertEquals(mp.getBorderWidth(), mpt.getBorderWidth(), "Border-Width Field has incorrect default value.");
     }
 
     @Test
@@ -34,36 +35,36 @@ public class Tutor_Test_H1_1 {
         var mp = new MyPanel();
 
         // Set Alpha
-        assertThrows(IllegalArgumentException.class, () -> mp.setAlpha(-1));
-        assertThrows(IllegalArgumentException.class, () -> mp.setAlpha(2));
-        assertDoesNotThrow(() -> mp.setAlpha(0.5f));
+        assertThrows(IllegalArgumentException.class, () -> mp.setAlpha(-1), "setAlpha(-1)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setAlpha(2), "setAlpha(2)");
+        assertDoesNotThrow(() -> mp.setAlpha(0.5f), "setAlpha(0.5f)");
 
         // Set Saturation
-        assertThrows(IllegalArgumentException.class, () -> mp.setSaturation(-1));
-        assertThrows(IllegalArgumentException.class, () -> mp.setSaturation(2));
-        assertDoesNotThrow(() -> mp.setSaturation(0.5f));
+        assertThrows(IllegalArgumentException.class, () -> mp.setSaturation(-1), "setSaturation(-1)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setSaturation(2), "setSaturation(2)");
+        assertDoesNotThrow(() -> mp.setSaturation(0.5f), "setSaturation(0.5f)");
 
         // Set Zoom
-        assertThrows(IllegalArgumentException.class, () -> mp.setZoom(-1));
-        assertThrows(IllegalArgumentException.class, () -> mp.setZoom(0));
-        assertDoesNotThrow(() -> mp.setZoom(0.01));
-        assertDoesNotThrow(() -> mp.setZoom(10));
+        assertThrows(IllegalArgumentException.class, () -> mp.setZoom(-1), "setZoom(-1)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setZoom(0), "setZoom(0)");
+        assertDoesNotThrow(() -> mp.setZoom(0.01), "setZoom(0.01)");
+        assertDoesNotThrow(() -> mp.setZoom(10), "setZoom(10)");
 
         // Set Text
-        assertThrows(IllegalArgumentException.class, () -> mp.setText(null));
-        assertThrows(IllegalArgumentException.class, () -> mp.setText(""));
-        assertThrows(IllegalArgumentException.class, () -> mp.setText("a".repeat(21)));
-        assertDoesNotThrow(() -> mp.setText("a".repeat(5)));
+        assertThrows(IllegalArgumentException.class, () -> mp.setText(null), "setText(null)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setText(""), "setText(\"\")");
+        assertThrows(IllegalArgumentException.class, () -> mp.setText("a".repeat(31)), "setText(\"a\".repeat(31))");
+        assertDoesNotThrow(() -> mp.setText("a".repeat(5)), "setText(\"a\".repeat(5))");
 
         // Set Font
-        assertThrows(IllegalArgumentException.class, () -> mp.setFont(null));
-        assertDoesNotThrow(() -> mp.setFont(new Font("Arial", Font.ITALIC, 42)));
+        assertThrows(IllegalArgumentException.class, () -> mp.setFont(null), "setFont(null)");
+        assertDoesNotThrow(() -> mp.setFont(new Font("Arial", Font.ITALIC, 42)), "setFont(new Font(\"Arial\", Font.ITALIC, 42))");
 
         // Set BorderWidth
-        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(-1));
-        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(0));
-        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(21));
-        assertDoesNotThrow(() -> mp.setBorderWidth(5));
+        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(-1), "setBorderWidth(-1)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(0), "setBorderWidth(0)");
+        assertThrows(IllegalArgumentException.class, () -> mp.setBorderWidth(21), "setBorderWidth(21)");
+        assertDoesNotThrow(() -> mp.setBorderWidth(5), "setBorderWidth(5)");
     }
 
     @Test

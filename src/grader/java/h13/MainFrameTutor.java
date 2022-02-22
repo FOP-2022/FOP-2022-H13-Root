@@ -28,7 +28,7 @@ public class MainFrameTutor extends JFrame {
     /**
      * The {@link MyPanelTutor}-Object that draws the shapes
      */
-    public final MyPanelTutor panel;
+    public MyPanelTutor panel;
 
     /**
      * Creates a new {@link MainFrameTutor}

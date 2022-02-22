@@ -209,9 +209,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes Ergebnis, wenn keine Zentrierung oder notwendig ist und kein Rahmen beachtet werden muss.")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleOnly_NoBorder")))
+                                "testScaleTextToWidth_ScaleOnly_NoBorder")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleOnly_NoBorder_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -221,9 +226,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes Ergebnis, wenn auf MyPanel-Breite Skaliert werden soll, und ein Rahmen beachtet werden muss.")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleOnly_FullWidth")))
+                                "testScaleTextToWidth_ScaleOnly_FullWidth")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleOnly_FullWidth_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -233,9 +243,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes Ergebnis, wenn auf eine (pseudo-)zufällige MyPanel-Breite Skaliert werden soll, und ein Rahmen beachtet werden muss.")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleOnly")))
+                                "testScaleTextToWidth_ScaleOnly")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleOnly_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -245,9 +260,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes und zentriertes Ergebnis, wenn auf eine (pseudo-)zufällige MyPanel-Breite Skaliert werden soll, und kein Rahmen beachtet werden muss.")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleAndCenter_NoBorder")))
+                                "testScaleTextToWidth_ScaleAndCenter_NoBorder")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleAndCenter_NoBorder_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -257,9 +277,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes und zentriertes Ergebnis, wenn auf eine (pseudo-)zufällige MyPanel-Breite Skaliert werden soll, und ein Rahmen beachtet werden muss.")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleAndCenter")))
+                                "testScaleTextToWidth_ScaleAndCenter")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleAndCenter_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -269,9 +294,14 @@ public class H13_Rubric_Provider implements RubricProvider {
                     "Die Methode scaleTextToWidth liefert ein korrekt skaliertes und zentriertes Ergebnis, wenn auf eine width, die mindestens 2 * MyPanel-Breite ist, skaliert werden soll, und ein Rahmen beachtet werden muss (kleinere Toleranz).")
                 .grader(
                     Grader.testAwareBuilder()
-                        .requirePass(ofMethod(
+                        .requirePass(or(
+                            ofMethod(
                             () -> Tutor_Test_H1_3.class.getDeclaredMethod(
-                                "testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen")))
+                                "testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen")),
+                            ofMethod(
+                            () -> Tutor_Test_H1_3.class.getDeclaredMethod(
+                                "testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt"))
+                                ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -368,21 +398,33 @@ public class H13_Rubric_Provider implements RubricProvider {
                                             "testYellowRectangle")),
                                     ofMethod(
                                         () -> Tutor_Test_H1_4.class.getDeclaredMethod(
-                                            "testYellowRectangle_alt"))),
+                                            "testYellowRectangle_alt")),
+                                    ofMethod(
+                                        () -> Tutor_Test_H1_4.class.getDeclaredMethod(
+                                            "testYellowRectangle_alt2"))
+                                            ),
                                 or(
                                     ofMethod(
                                         () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                             "testGreenEllipse")),
                                     ofMethod(
                                         () -> Tutor_Test_H1_4.class.getDeclaredMethod(
-                                            "testGreenEllipse_alt"))),
+                                            "testGreenEllipse_alt")),
+                                    ofMethod(
+                                        () -> Tutor_Test_H1_4.class.getDeclaredMethod(
+                                            "testGreenEllipse_alt2"))
+                                            ),
                                 or(
                                     ofMethod(
                                         () -> Tutor_Test_H1_4.class.getDeclaredMethod(
                                             "testBlueString")),
                                     ofMethod(
                                         () -> Tutor_Test_H1_4.class.getDeclaredMethod(
-                                            "testBlueString_alt")))))
+                                            "testBlueString_alt")),
+                                    ofMethod(
+                                        () -> Tutor_Test_H1_4.class.getDeclaredMethod(
+                                            "testBlueString_alt2"))
+                                            )))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())
@@ -398,7 +440,11 @@ public class H13_Rubric_Provider implements RubricProvider {
                                     "testThreeFigures")),
                             ofMethod(
                                 () -> Tutor_Test_H1_4.class.getDeclaredMethod(
-                                    "testThreeFigures_alt"))))
+                                    "testThreeFigures_alt")),
+                            ofMethod(
+                                () -> Tutor_Test_H1_4.class.getDeclaredMethod(
+                                    "testThreeFigures_alt2"))
+                                    ))
                         .pointsPassedMax()
                         .pointsFailedMin()
                         .build())

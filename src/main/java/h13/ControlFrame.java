@@ -250,9 +250,6 @@ public class ControlFrame extends JFrame {
             }
         });
 
-        exitButton.addActionListener(e -> Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(new WindowEvent(mf, WindowEvent.WINDOW_CLOSING)));
-        mf.dispatchEvent(new WindowEvent(mf, WindowEvent.WINDOW_CLOSING));
-
         // Set Dimension and Position
         pack();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
