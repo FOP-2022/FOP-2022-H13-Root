@@ -3,7 +3,6 @@ package h13;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -320,13 +319,13 @@ public class Tutor_Test_H1_3 {
             TestUtils.assertShapesEqual(tutorShape, studentShape, true, true);
         }
     }
+
     @Test
     public void testScaleTextToWidth_ScaleAndCenter_BiggerThanScreen_alt()
             throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         var text = TestUtils.createRandomString(r, 5, 10);
 
-        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, 1.2, 5, text,
-                new Font("Arial", Font.PLAIN, 420));
+        Shape studentShape = (Shape) sttwStudent.invoke(mp, g2d, 1.2, 5, text, new Font("Arial", Font.PLAIN, 420));
         var tutorShape = mpt.scaleTextToWidth(g2dTutor, 1.2 * img.getWidth(), 5, text,
                 new Font("Arial", Font.PLAIN, 420));
 
@@ -376,7 +375,7 @@ public class Tutor_Test_H1_3 {
                 img.getWidth() / fontBounds.getWidth());
 
         // Compare Images
-        TestUtils.assertImagesEqual(imgTutor, img);
+        TestUtils.assertImagesEqual(imgTutor, img, TestConstants.MIN_SHAPE_SIMILARITY);
     }
 
     @Test
@@ -417,7 +416,7 @@ public class Tutor_Test_H1_3 {
                 img.getWidth() / fontBounds.getWidth());
 
         // Compare Images
-        TestUtils.assertImagesEqual(imgTutor, img);
+        TestUtils.assertImagesEqual(imgTutor, img, TestConstants.MIN_SHAPE_SIMILARITY);
     }
 
     @Test
@@ -458,7 +457,7 @@ public class Tutor_Test_H1_3 {
         mpt.drawColoredString(g2dTutor, Color.RED, Color.YELLOW, 0, text, f, img.getWidth() / fontBounds.getWidth());
 
         // Compare Images
-        TestUtils.assertImagesEqual(imgTutor, img);
+        TestUtils.assertImagesEqual(imgTutor, img, TestConstants.MIN_SHAPE_SIMILARITY);
     }
 
     @Test
@@ -488,6 +487,6 @@ public class Tutor_Test_H1_3 {
         mpt.drawColoredString(g2dTutor, Color.RED, Color.YELLOW, 4, text, f, .3 * img.getWidth());
 
         // Compare Images
-        TestUtils.assertImagesEqual(imgTutor, img);
+        TestUtils.assertImagesEqual(imgTutor, img, TestConstants.MIN_SHAPE_SIMILARITY);
     }
 }

@@ -52,7 +52,7 @@ public class Tutor_Test_H2_1 {
     @Test
     public void testMainFrameComponents() {
         var components = TestUtils.getAllComponents(mf);
-        assertTrue(components.contains(mf.panel));
+        assertTrue(components.contains(mf.panel), "Die My-Panel Instanz wurde nicht hinzugefügt.");
     }
 
     @Test
@@ -89,7 +89,7 @@ public class Tutor_Test_H2_1 {
                         }
                         return false;
                     });
-                }));
+                }), "Der Listener wurde nicht gefunden oder ist inkorrekt.");
     }
 
     @Test
@@ -126,6 +126,6 @@ public class Tutor_Test_H2_1 {
                         }
                         return false;
                     });
-                }));
+                }), "Der Listener wurde nicht gefunden oder ist inkorrekt.");
     }
 }

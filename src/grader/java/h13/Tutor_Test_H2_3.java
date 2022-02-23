@@ -70,7 +70,8 @@ public class Tutor_Test_H2_3 {
                 "Der Initialwert des valueControlJSliders wird nicht korrekt gesetzt.");
 
         pcd.valueControlJSlider.setValue(67);
-        assertEquals(67, modified.get());
+        assertEquals(67, modified.get(),
+                "Der übergebene IntConsumer \"updateValue\" wird bei einer Änderung gar nicht, oder nicht mit dem korrekten Wert aufgerufen.");
     }
 
     @Test

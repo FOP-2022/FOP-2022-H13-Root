@@ -8,10 +8,8 @@ import java.awt.image.BufferedImage;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
-import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
 
 /**
  * @author Ruben Deisenroth

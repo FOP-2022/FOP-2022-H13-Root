@@ -181,13 +181,17 @@ public class TestUtils {
     public static void assertShapeCentered(Shape s, Rectangle2D bounds, double tolerance) {
         var shapeBounds = s.getBounds2D();
         if (tolerance > 0) {
-            assertEqualInRange(shapeBounds.getX(), bounds.getCenterX() - shapeBounds.getWidth() / 2, tolerance);
-            assertEqualInRange(shapeBounds.getY(), bounds.getCenterY() - shapeBounds.getHeight() / 2, tolerance);
+            assertEqualInRange(shapeBounds.getX(), bounds.getCenterX() - shapeBounds.getWidth() / 2, tolerance,
+                    "Inkorrekte Zentrierung: Falsche X-Koordinate");
+            assertEqualInRange(shapeBounds.getY(), bounds.getCenterY() - shapeBounds.getHeight() / 2, tolerance,
+                    "Inkorrekte Zentrierung: Falsche Y-Koordinate");
         } else {
             // Since this isn't that hard to do exact, we don't use the BoundTolerance here
             // but pixel precision instead
-            assertEqualFloored(shapeBounds.getX(), bounds.getCenterX() - shapeBounds.getWidth() / 2);
-            assertEqualFloored(shapeBounds.getY(), bounds.getCenterY() - shapeBounds.getHeight() / 2);
+            assertEqualFloored(shapeBounds.getX(), bounds.getCenterX() - shapeBounds.getWidth() / 2,
+                    "Inkorrekte Zentrierung: Falsche X-Koordinate");
+            assertEqualFloored(shapeBounds.getY(), bounds.getCenterY() - shapeBounds.getHeight() / 2,
+                    "Inkorrekte Zentrierung: Falsche Y-Koordinate");
         }
     }
 

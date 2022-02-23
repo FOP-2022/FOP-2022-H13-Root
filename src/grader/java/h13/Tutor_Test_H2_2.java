@@ -30,10 +30,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.mockito.invocation.Invocation;
-import org.slf4j.Logger;
 import org.sourcegrade.jagr.api.rubric.TestForSubmission;
 import org.sourcegrade.jagr.api.testing.extension.JagrExecutionCondition;
-import org.sourcegrade.jagr.launcher.env.Jagr;
 
 @TestForSubmission("h13")
 public class Tutor_Test_H2_2 {
@@ -102,7 +100,7 @@ public class Tutor_Test_H2_2 {
         var layout = cf.getContentPane().getLayout();
         assertInstanceOf(GridLayout.class, layout);
         var gl = (GridLayout) layout;
-        assertEquals(4, gl.getRows());
+        assertEquals(4, gl.getRows(), "The Grid Layout was not used as Layout manager.");
         assertEquals(3, gl.getColumns());
     }
 
@@ -110,17 +108,24 @@ public class Tutor_Test_H2_2 {
     public void testComponents()
             throws IllegalArgumentException, IllegalAccessException, SecurityException, RuntimeException, Throwable {
         var layout = cf.getContentPane().getLayout();
-        assertInstanceOf(GridLayout.class, layout);
+        assertInstanceOf(GridLayout.class, layout, "The Grid Layout was not used as Layout manager.");
         var gl = (GridLayout) layout;
-        assertEquals(4, gl.getRows());
-        assertEquals(3, gl.getColumns());
-        assertEquals(addEllipseButton, cf.getContentPane().getComponent(0));
-        assertEquals(cf.addRectangleButton, cf.getContentPane().getComponent(1));
-        assertEquals(cf.addStringButton, cf.getContentPane().getComponent(2));
-        assertEquals(removeEllipseButton, cf.getContentPane().getComponent(3));
-        assertEquals(cf.removeRectangleButton, cf.getContentPane().getComponent(4));
-        assertEquals(cf.removeStringButton, cf.getContentPane().getComponent(5));
-        assertEquals(cf.changeSaturationButton, cf.getContentPane().getComponent(6));
+        assertEquals(4, gl.getRows(), "Inkorrekte Zeilenanzahl des GridLayouts.");
+        assertEquals(3, gl.getColumns(), "Inkorrekte Spaltenanzahl des GridLayouts.");
+        assertEquals(addEllipseButton, cf.getContentPane().getComponent(0),
+                "Die Komponennte addEllipseButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.addRectangleButton, cf.getContentPane().getComponent(1),
+                "Die Komponennte addRectangleButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.addStringButton, cf.getContentPane().getComponent(2),
+                "Die Komponennte addStringButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(removeEllipseButton, cf.getContentPane().getComponent(3),
+                "Die Komponennte removeEllipseButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.removeRectangleButton, cf.getContentPane().getComponent(4),
+                "Die Komponennte removeRectangleButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.removeStringButton, cf.getContentPane().getComponent(5),
+                "Die Komponennte removeStringButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.changeSaturationButton, cf.getContentPane().getComponent(6),
+                "Die Komponennte changeSaturationButton wurde nicht an der korrekten Position hinzugefügt.");
 
         assertEquals(
                 ((JButton) Arrays.stream(cf.getClass().getDeclaredFields())
@@ -128,11 +133,16 @@ public class Tutor_Test_H2_2 {
                                 || x.getName().equals("changeAlphaButton"))
                         .peek(x -> System.out.println(x.getName())).findFirst()
                         .orElseThrow(() -> fail("Change Alpha Button not Found")).get(cf)),
-                cf.getContentPane().getComponent(7));
-        assertEquals(cf.changeBorderWidthButton, cf.getContentPane().getComponent(8));
-        assertEquals(cf.changeFontButton, cf.getContentPane().getComponent(9));
-        assertEquals(cf.changeZoomButton, cf.getContentPane().getComponent(10));
-        assertEquals(cf.exitButton, cf.getContentPane().getComponent(11));
+                cf.getContentPane().getComponent(7),
+                "Die Komponennte changeAlphaButton(bzw changeTransparencyButton bei alter Vorlagenversion) wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.changeBorderWidthButton, cf.getContentPane().getComponent(8),
+                "Die Komponente changeBorderWidthButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.changeFontButton, cf.getContentPane().getComponent(9),
+                "Die Komponente changeFontButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.changeZoomButton, cf.getContentPane().getComponent(10),
+                "Die Komponente changeZoomButton wurde nicht an der korrekten Position hinzugefügt.");
+        assertEquals(cf.exitButton, cf.getContentPane().getComponent(11),
+                "Die Komponente exitButton wurde nicht an der korrekten Position hinzugefügt.");
     }
 
     @Test
@@ -205,12 +215,12 @@ public class Tutor_Test_H2_2 {
         int max = (int) params[3];
         // int current = (int) params[4];
         IntConsumer updateValue = (IntConsumer) params[5];
-        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min <= max, "min muss kleiner als max sein.");
         assertTrue(min >= 0, "min muss >= 0 sein.");
-        assertTrue(max <= 100, "max darf nicht > 100 sein");
+        assertTrue(max <= 100, "max darf nicht > 100 sein.");
         mp.saturation = 1;
         updateValue.accept(10);
-        TestUtils.assertEqualInRange(mp.saturation, 0.1f, 0.01);
+        TestUtils.assertEqualInRange(mp.saturation, 0.1f, 0.01, "Die eingestellte Sättigung wurde nicht übernommen.");
     }
 
     @Test
@@ -241,9 +251,9 @@ public class Tutor_Test_H2_2 {
         int max = (int) params[3];
         // int current = (int) params[4];
         IntConsumer updateValue = (IntConsumer) params[5];
-        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min <= max, "min muss kleiner als max sein.");
         assertTrue(min >= 0, "min muss >= 0 sein.");
-        assertTrue(max <= 100, "max darf nicht > 100 sein");
+        assertTrue(max <= 100, "max darf nicht > 100 sein.");
         mp.alpha = 1;
         updateValue.accept(10);
         TestUtils.assertEqualInRange(mp.alpha, 0.1f, 0.01);
@@ -269,7 +279,7 @@ public class Tutor_Test_H2_2 {
         int max = (int) params[3];
         // int current = (int) params[4];
         IntConsumer updateValue = (IntConsumer) params[5];
-        assertTrue(min <= max, "min ist kleiner als max");
+        assertTrue(min <= max, "min muss kleiner als max sein.");
         assertTrue(min > 0, "min muss > 0 sein");
         // assertTrue(max >= 0);
         mp.zoom = 1;
@@ -304,7 +314,7 @@ public class Tutor_Test_H2_2 {
         var curFont = new Font("Arial", Font.ITALIC, 42);
         mp.font = curFont;
         updateValue.accept(options[0]);
-        assertNotEquals(curFont, mp.font);
+        assertNotEquals(curFont, mp.font, "Die eingestellte Font wurde nicht übernommen.");
     }
 
     @Test

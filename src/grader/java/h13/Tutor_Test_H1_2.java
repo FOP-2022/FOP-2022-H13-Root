@@ -48,7 +48,7 @@ public class Tutor_Test_H1_2 {
         var expectedShape = mpt.centerShape(
                 new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()), 1, 1, 0);
         // Since this is not that hard, we don't use Bound Tolerance here
-        assertEquals(expectedShape, actualShape);
+        TestUtils.assertBoundsEqualInRange(expectedShape, actualShape, TestConstants.BOUND_TOLERANCE);
     }
 
     @Test
@@ -71,16 +71,17 @@ public class Tutor_Test_H1_2 {
         mp.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         mpt.setSize(TestConstants.getScreenWidth(), TestConstants.getScreenHeight());
         // Scaling
-        assertEquals(
+        TestUtils.assertBoundsEqualInRange(
                 mpt.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
                         .5, .5, 0),
                 mp.centerShape(
                         new Rectangle2D.Double(0, 0, TestConstants.getScreenWidth(), TestConstants.getScreenHeight()),
-                        .5, .5, 0));
+                        .5, .5, 0),
+                TestConstants.BOUND_TOLERANCE, true);
         // Scaling 2
-        TestUtils.assertBoundsEqualInRange(mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
-                mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0), TestConstants.BOUND_TOLERANCE, true);
+        TestUtils.assertBoundsEqualInRange(mpt.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0),
+                mp.centerShape(new Rectangle2D.Double(0, 0, 2, 2), .5, .5, 0), TestConstants.BOUND_TOLERANCE, true);
     }
 
     @Test
