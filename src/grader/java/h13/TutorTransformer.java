@@ -114,9 +114,9 @@ public class TutorTransformer implements ClassTransformer {
                                     || "h13/ControlFrame".equals(owner) || "h13/PropertyChangeDialogue".equals(owner)
                                     || "javax/swing/JFrame".equals(owner) || "java/awt/Frame".equals(owner)
                                     || "javax/swing/JDialog".equals(owner) || "java/awt/Window".equals(owner))
-                            && name.equals("show") && descriptor.equals("()V")) {
+                            && (name.equals("show") || name.equals("repaint")) && descriptor.equals("()V")) {
                         logger.warn("BeforeVisit");
-                        super.visitMethodInsn(opcode, owner, "pack", descriptor, isInterface);
+                        super.visitMethodInsn(opcode, owner, "requestFocus", descriptor, isInterface);
                         logger.warn("AfterVisit");
                         return;
                     }

@@ -119,7 +119,7 @@ public class Tutor_Test_H2_1 {
 
                         mp.zoom = 1;
                         y.keyTyped(
-                                new KeyEvent(mf, KeyEvent.KEY_PRESSED, new Date().getTime(), 0, KeyEvent.VK_MINUS, '.',
+                                new KeyEvent(mf, KeyEvent.KEY_PRESSED, new Date().getTime(), 0, KeyEvent.VK_MINUS, '-',
                                         KeyEvent.KEY_LOCATION_STANDARD));
                         if (mp.zoom == 0.8) {
                             return true;
