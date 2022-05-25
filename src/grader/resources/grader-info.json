@@ -1,0 +1,46 @@
+{
+  "name": "FOP-2022-H13",
+  "assignmentIds": [
+    "h13"
+  ],
+  "sourceSets": [
+    {
+      "name": "grader",
+      "files": [
+        "h13/H13_Rubric_Provider.java",
+        "h13/Tutor_Test_H2_3.java",
+        "h13/Tutor_Test_H2_2.java",
+        "h13/MyPanelTutor.java",
+        "h13/Tutor_Test_H2_1.java",
+        "h13/Tutor_Test_H1_4.java",
+        "h13/TestUtils.java",
+        "h13/TwoSimpleWindowsTutor.java",
+        "h13/TutorTransformer.java",
+        "h13/TransformPCDCtorInvokes.java",
+        "h13/TransformMFCtorInvokes.java",
+        "h13/TransformCFCtorInvokes.java",
+        "h13/Tutor_Test_H1_2.java",
+        "h13/TestConstants.java",
+        "h13/PropertyChangeDialogueTutor.java",
+        "h13/ControlFrameTutor.java",
+        "h13/Tutor_Test_H1_1.java",
+        "h13/MainFrameTutor.java",
+        "h13/Tutor_Test_H1_3.java",
+        "h13/TutorSystem.java",
+        "h13/TutorJFrame.java",
+        "h13/PCDReplacementTutor.java",
+        "h13/EventQueueReplacementTutor.java"
+      ]
+    },
+    {
+      "name": "solution",
+      "files": [
+        "h13/TwoSimpleWindows.java",
+        "h13/MainFrame.java",
+        "h13/PropertyChangeDialogue.java",
+        "h13/ControlFrame.java",
+        "h13/MyPanel.java"
+      ]
+    }
+  ]
+}

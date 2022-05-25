@@ -3,7 +3,8 @@ import org.sourcegrade.submitter.submit
 plugins {
     java
     application
-    id("org.sourcegrade.style") version "1.2.0"
+    eclipse
+    //id("org.sourcegrade.style") version "1.2.0"
     id("org.sourcegrade.submitter") version "0.4.0"
 }
 
@@ -19,6 +20,7 @@ submit {
     studentId = "ab12cdef"
     firstName = "sol_first"
     lastName = "sol_last"
+    requireTests= false
 }
 
 val grader: SourceSet by sourceSets.creating {
@@ -34,6 +36,7 @@ dependencies {
     "graderCompileOnly"("org.sourcegrade:jagr-launcher:0.4.0-SNAPSHOT")
     "graderImplementation"("org.ow2.asm:asm-util:9.2")
     "graderImplementation"("com.google.guava:guava:31.0.1-jre")
+    "graderImplementation"("org.mockito:mockito-inline:4.3.1")
 }
 
 application {
@@ -41,17 +44,22 @@ application {
 }
 
 tasks {
+    val runDir = File("build/run")
     test {
         useJUnitPlatform()
     }
     val graderTest by creating(Test::class) {
         group = "verification"
+        doFirst {
+            runDir.mkdirs()
+        }
+        workingDir = runDir
         testClassesDirs = grader.output.classesDirs
         classpath = grader.runtimeClasspath
         useJUnitPlatform()
     }
     named("check") {
-        dependsOn(graderTest)
+       // dependsOn(graderTest)
     }
     val graderJar by creating(Jar::class) {
         group = "build"
